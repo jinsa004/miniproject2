@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.miniproject.domain.employee.EmployeeDao">
+
+	<insert id="insert" parameterType="site.metacoding.miniproject.domain.employee.Employee" useGeneratedKeys="true" keyProperty="employeeId">
+		INSERT INTO employee(employee_name, employee_password, employee_sex, employee_email, employee_username, employee_birth, employee_tel, employee_location)
+		VALUES(#{employeeName}, #{employeePassword}, #{employeeSex}, #{employeeEmail}, #{employeeUsername}, #{employeeBirth}, #{employeeTel}, #{employeeLocation})
+	</insert>
+
+	<select id="findAll" resultType="site.metacoding.miniproject.domain.employee.Employee"></select>
+
+	<select id="findById" resultType="site.metacoding.miniproject.domain.employee.Employee">
+		SELECT * FROM employee WHERE employee_id = #{employeeId}
+	</select>
+
+	<select id="findByEmployeeUsername" resultType="site.metacoding.miniproject.domain.employee.Employee">
+		SELECT *
+		FROM employee
+		WHERE employee_username = #{employeeUsername}
+	</select>
+
+	<select id="findByEmployeePassword" resultType="site.metacoding.miniproject.domain.employee.Employee">
+		SELECT *
+		FROM employee
+		WHERE employee_password = #{employeePassword}
+	</select>
+
+	<select id="findByEmployeeEmail" resultType="site.metacoding.miniproject.domain.employee.Employee">
+		SELECT *
+		FROM employee
+		WHERE employee_email = #{employeeEmail}
+	</select>
+
+	<update id="update">
+		UPDATE employee SET 
+		employee_name=#{employeeName},
+		employee_birth=#{employeeBirth},
+		employee_sex=#{employeeSex},
+		employee_username=#{employeeUsername},
+		employee_password=#{employeePassword},
+		employee_email=#{employeeEmail},
+		employee_location=#{employeeLocation},
+		employee_tel=#{employeeTel}
+		WHERE employee_id=#{employeeId}
+	</update>
+
+	<delete id="deleteById">
+		DELETE FROM employee WHERE employee_id=#{employeeId}
+	</delete>
+
+</mapper>

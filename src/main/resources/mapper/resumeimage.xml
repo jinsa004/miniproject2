@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.miniproject.domain.image.resume.ResumeImageDao">
+
+    <insert id="save" parameterType="site.metacoding.miniproject.domain.image.resume.ResumeImage" useGeneratedKeys="true" keyProperty="resumeImageId">
+        INSERT INTO resume_image(origin_image_name, new_image_name, image_path, created_at)
+		VALUES(#{originImageName}, #{newImageName}, #{imagePath}, NOW())
+    </insert>
+
+
+    <sql id="save"></sql>
+
+</mapper>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.miniproject.domain.image.intro.IntroImageDao">
+
+    <insert id="save" parameterType="site.metacoding.miniproject.domain.image.intro.IntroImage" useGeneratedKeys="true" keyProperty="introImageId">
+        INSERT INTO intro_image(company_id, origin_image_name, new_image_name, image_path, created_at)
+		VALUES(#{companyId}, #{originImageName}, #{newImageName}, #{imagePath}, NOW())
+    </insert>
+
+</mapper>

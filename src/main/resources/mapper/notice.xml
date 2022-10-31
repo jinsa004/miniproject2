@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.miniproject.domain.notice.NoticeDao">
+
+	<insert id="insert">
+		INSERT INTO notice(company_id, notice_title, notice_period, notice_dept, notice_position, notice_task, notice_sal, notice_qual, notice_career, notice_wellfare, job_id)
+        VALUES(#{companyId}, #{noticeTitle}, #{noticePeriod},#{noticeDept},#{noticePosition},#{noticeTask},#{noticeSal},#{noticeQual},#{noticeCareer}, #{noticeWellfare},#{jobId})
+	</insert>
+
+	<select id="findAll" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT n.*, i.new_image_name
+		FROM notice n
+		LEFT OUTER JOIN intro_image i
+		ON n.company_id = i.company_id
+		ORDER BY n.notice_period DESC
+	</select>
+
+	<select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT ni.*
+		FROM (SELECT n.*, i.new_image_name
+		FROM notice n
+		LEFT OUTER JOIN intro_image i
+		ON n.company_id = i.company_id) ni
+		INNER JOIN job j
+		ON ni.job_id = j.job_id
+		WHERE j.job_code = #{jobCode}
+		ORDER BY ni.notice_period DESC
+	</select>
+
+	<select id="findMatchingByJobId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT nec.*, img.new_image_name
+		FROM (SELECT n.*
+		FROM notice n
+		INNER JOIN (SELECT ec.job_id
+		FROM emp_check ec
+		INNER JOIN employee e
+		ON ec.employee_id = e.employee_id
+		WHERE ec.employee_id = #{employeeId}) ec
+		ON n.job_id = ec.job_id) nec
+		LEFT OUTER JOIN intro_image img
+		ON nec.company_id = img.company_id
+		ORDER BY nec.notice_period DESC
+	</select>
+
+	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT *
+		FROM notice
+		WHERE company_id = #{companyId}
+	</select>
+
+	<select id="findById" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT *
+		FROM notice
+		WHERE notice_id = #{noticeId}
+	</select>
+
+	<select id="findSubsByEmployeeId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT ns.*, img.new_image_name
+		FROM (SELECT n.*
+		FROM notice n
+		INNER JOIN subscribe s
+		ON n.company_id = s.company_id
+		WHERE s.employee_id = #{employeeId}) ns
+		LEFT OUTER JOIN intro_image img
+		ON ns.company_id = img.company_id
+		ORDER BY ns.notice_period DESC
+	</select>
+
+	<select id="findByNoticeIdToNoticeDetail" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT nj.*, ii.intro_id, ii.intro_coname, ii.intro_birth, ii.intro_task, ii.intro_sal, ii.intro_wellfare, ii.intro_content, ii.intro_location, ii.new_image_name
+		FROM (SELECT n.*,j.job_name
+		FROM notice n
+		INNER JOIN job j
+		ON n.job_id = j.job_id) nj
+		INNER JOIN (
+		SELECT i.*, img.new_image_name
+		FROM intro i
+		LEFT OUTER JOIN intro_image img
+		ON i.intro_image_id = img.intro_image_id) ii
+		ON nj.company_id = ii.company_id
+		WHERE nj.notice_id = #{noticeId}
+	</select>
+
+	<update id="update">
+		UPDATE notice SET
+        notice_title = #{noticeTitle}, 
+        notice_period = #{noticePeriod}, 
+        notice_dept = #{noticeDept}, 
+        notice_position = #{noticePosition}, 
+        notice_task = #{noticeTask}, 
+        notice_sal = #{noticeSal}, 
+        notice_qual = #{noticeQual}, 
+        notice_career = #{noticeCareer}, 
+        notice_wellfare = #{noticeWellfare}, 
+        job_id = #{jobId}
+        WHERE notice_id = #{noticeId}
+	</update>
+
+	<delete id="deleteById">
+		DELETE FROM notice WHERE notice_id = #{noticeId}
+	</delete>
+
+
+</mapper>

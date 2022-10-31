@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.miniproject.domain.application.ApplicationDao">
+
+  <insert id="insert">
+          insert into application(resume_id, notice_id, created_at) 
+          VALUES(#{resumeId}, #{noticeId}, NOW())
+    </insert>
+
+</mapper>

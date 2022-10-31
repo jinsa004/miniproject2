@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.miniproject.domain.check.employee.EmpCheckDao">
+
+	<insert id="insert">
+		INSERT INTO emp_check(employee_id, job_id)
+		VALUES(#{employeeId}, #{jobId})
+	</insert>
+
+	<select id="findAll" resultType="site.metacoding.miniproject.domain.check.employee.EmpCheck">
+        select c.employee_id, c.job_id, j.job_name, j.job_code
+        FROM emp_check c
+		INNER JOIN job j
+		ON c.job_id = j.job_id
+		WHERE employee_id = #{employeeId}
+    </select>
+
+	<delete id="deleteById">
+		DELETE FROM emp_check WHERE employee_id=#{employeeId}
+	</delete>
+
+</mapper>

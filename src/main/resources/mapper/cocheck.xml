@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.miniproject.domain.check.company.CoCheckDao">
+
+	<insert id="insert">
+		INSERT INTO co_check(company_id, job_id)
+		VALUES(#{companyId}, #{jobId})
+	</insert>
+
+	<delete id="deleteById">
+		DELETE FROM co_check WHERE company_id=#{companyId}
+	</delete>
+
+</mapper>
