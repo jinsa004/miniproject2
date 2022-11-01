@@ -65,10 +65,7 @@ public class EmployeeService {
         for (Integer jobId : empJoinReqDto.getJobIds()) {
             empCheckDao.insert(employee.getEmployeeId(), jobId);
         }
-    }
-
-    public Employee employeeUpdate(Integer employeeId) {
-        return null;
+        List<EmpCheckRespDto> jobCheckList = empCheckDao.findAll(employee.getEmployeeId());
     }
 
     // =========================== 유효성체크 ======================================
