@@ -39,7 +39,7 @@ public class EmpReqDto {
 
     @Setter
     @Getter
-    public class EmpLoginDto {
+    public class EmpLoginReqDto {
         private String employeeUsername;
         private String employeePassword;
         private boolean remember;

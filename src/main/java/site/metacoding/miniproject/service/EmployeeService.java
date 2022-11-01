@@ -13,7 +13,7 @@ import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
-import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
 import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpUpdateRespDto;
 
@@ -47,7 +47,7 @@ public class EmployeeService {
         return new EmpUpdateRespDto(employeePS, jobCheckList);
     }
 
-    public Employee 로그인(EmpLoginDto loginDto) {
+    public Employee 로그인(EmpLoginReqDto loginDto) {
         Employee employeePS = employeeDao.findByEmployeeUsername(loginDto.getEmployeeUsername());
 
         // if (employeePS.getEmployeePassword().equals(loginDto.getEmployeePassword()))
