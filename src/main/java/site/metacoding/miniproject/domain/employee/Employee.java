@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.miniproject.dto.employee.EmployeeJoinDto;
-import site.metacoding.miniproject.dto.employee.EmployeeUpdateDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
 
 @NoArgsConstructor
 @Setter
@@ -32,15 +32,15 @@ public class Employee implements Serializable {
 		this.employeeLocation = employeeJoinDto.getEmployeeLocation();
 	}
 
-	public void update(EmployeeUpdateDto employeeUpdateDto) {
-		this.employeeName = employeeUpdateDto.getEmployeeName();
-		this.employeeBirth = employeeUpdateDto.getEmployeeBirth();
-		this.employeeSex = employeeUpdateDto.getEmployeeSex();
-		this.employeeUsername = employeeUpdateDto.getEmployeeUsername();
-		this.employeePassword = employeeUpdateDto.getEmployeePassword();
-		this.employeeEmail = employeeUpdateDto.getEmployeeEmail();
-		this.employeeLocation = employeeUpdateDto.getEmployeeLocation();
-		this.employeeTel = employeeUpdateDto.getEmployeeTel();
+	public void update(EmpUpdateReqDto empUpdateDto) {
+		this.employeeName = empUpdateDto.getEmployeeName();
+		this.employeeBirth = empUpdateDto.getEmployeeBirth();
+		this.employeeSex = empUpdateDto.getEmployeeSex();
+		this.employeeUsername = empUpdateDto.getEmployeeUsername();
+		this.employeePassword = empUpdateDto.getEmployeePassword();
+		this.employeeEmail = empUpdateDto.getEmployeeEmail();
+		this.employeeLocation = empUpdateDto.getEmployeeLocation();
+		this.employeeTel = empUpdateDto.getEmployeeTel();
 	}
 
 	// 엔티티 필드 아님
