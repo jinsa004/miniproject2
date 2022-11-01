@@ -7,9 +7,12 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.domain.check.company.CoCheckDao;
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.company.CompanyDao;
-import site.metacoding.miniproject.dto.company.CompanyJoinDto;
-import site.metacoding.miniproject.dto.company.CompanyLoginDto;
-import site.metacoding.miniproject.dto.company.CompanyUpdateDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
+import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
+import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 
 @Service
 @RequiredArgsConstructor
@@ -18,41 +21,43 @@ public class CompanyService {
   private final CompanyDao companyDao;
   private final CoCheckDao coCheckDao;
 
-  public Company 로그인(CompanyLoginDto loginDto) {
-    Company companyPS = companyDao.findByCompanyUsername(loginDto.getCompanyUsername());
+  public CompanySessionUser 로그인(CompanyLoginReqDto companyLoginReqDto) {
+    Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
 
-    if (companyPS != null && companyPS.getCompanyPassword().equals(loginDto.getCompanyPassword())) {
-      return companyPS;
+    if (companyPS != null && companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword())) {
+      return new CompanySessionUser(companyPS);
     }
     return null;
   }
 
   @Transactional
-  public void 회원가입(CompanyJoinDto companyJoinDto) {
-    Company company = companyJoinDto.toEntity(companyJoinDto);
-    companyDao.insert(company);
+  public void 회원가입(CompanyJoinReqDto companyJoinReqDto) {
+    Company companyPS = companyJoinReqDto.toEntity();
+    companyDao.insert(companyPS);
 
-    for (Integer jobId : companyJoinDto.getJobIds()) {
-      coCheckDao.insert(company.getCompanyId(), jobId);
+    for (Integer jobId : companyJoinReqDto.getJobIds()) {
+      coCheckDao.insert(companyPS.getCompanyId(), jobId);
     }
   }
 
-  public Company 기업소개하나보기(Integer companyId) {
-    return companyDao.findById(companyId);
+  public CompanyDetailRespDto 기업소개하나보기(Integer companyId) {
+    Company companyPS = companyDao.findById(companyId);
+    CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS);
+    return companyDetailRespDto;
   }
 
-  public Company 기업회원정보수정(Integer companyId, CompanyUpdateDto companyUpdateDto) {
+  public CompanyUpdateRespDto 기업회원정보수정(Integer companyId, CompanyUpdateReqDto companyUpdateReqDto) {
     // emp_check 값 업데이트
     coCheckDao.deleteById(companyId);
-    for (Integer jobId : companyUpdateDto.getJobIds()) {
+    for (Integer jobId : companyUpdateReqDto.getJobIds()) {
       coCheckDao.insert(companyId, jobId);
     }
 
     // 회원정보 업데이트
     Company companyPS = companyDao.findById(companyId);
-    companyPS.update(companyUpdateDto);
+    companyPS.update(companyUpdateReqDto);
     companyDao.update(companyPS);
-    return companyPS;
+    return new CompanyUpdateRespDto(companyPS);
   }
 
   public void 기업회원탈퇴(Integer companyId) {
