@@ -2,7 +2,6 @@ package site.metacoding.miniproject.dto.intro;
 
 import lombok.Getter;
 import lombok.Setter;
-import site.metacoding.miniproject.domain.intro.Intro;
 
 public class IntroRespDto {
 

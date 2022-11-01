@@ -22,7 +22,6 @@ import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.intro.UpdateDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 import site.metacoding.miniproject.service.IntroService;

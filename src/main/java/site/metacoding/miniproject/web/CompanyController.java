@@ -25,8 +25,6 @@ import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
-import site.metacoding.miniproject.dto.intro.IntroInsertDto;
-import site.metacoding.miniproject.dto.intro.UpdateDto;
 import site.metacoding.miniproject.service.CompanyService;
 import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
@@ -98,11 +96,12 @@ public class CompanyController {
         return "company/coIntroInsert";
     }
 
-    @PostMapping("/coapi/cs/co/companyIntroInsert")
-    public @ResponseBody ResponseDto<?> 기업소개등록(IntroInsertDto introInsertDto) throws Exception {
-        introService.기업소개등록(introInsertDto);
-        return new ResponseDto<>(1, "기업소개 등록 성공", null);
-    }
+    // @PostMapping("/coapi/cs/co/companyIntroInsert")
+    // public @ResponseBody ResponseDto<?> 기업소개등록(IntroInsertDto introInsertDto)
+    // throws Exception {
+    // introService.기업소개등록(introInsertDto);
+    // return new ResponseDto<>(1, "기업소개 등록 성공", null);
+    // }
 
     @GetMapping("/cs/co/companyIntroDetail/{companyId}")
     public String 기업소개상세(@PathVariable Integer companyId, Model model) {// 기업소개 상세보기 intro 테이블
@@ -123,12 +122,13 @@ public class CompanyController {
         return "company/coIntroUpdate";
     }
 
-    @PutMapping("/coapi/cs/co/companyIntroUpdate/{companyId}/update")
-    public @ResponseBody ResponseDto<?> putIntroUpdate(@PathVariable Integer companyId,
-            @RequestBody UpdateDto updateDto) {
-        introService.기업소개수정하기(companyId, updateDto);
-        return new ResponseDto<>(1, "수정성공", null);
-    }
+    // @PutMapping("/coapi/cs/co/companyIntroUpdate/{companyId}/update")
+    // public @ResponseBody ResponseDto<?> putIntroUpdate(@PathVariable Integer
+    // companyId,
+    // @RequestBody UpdateDto updateDto) {
+    // introService.기업소개수정하기(companyId, updateDto);
+    // return new ResponseDto<>(1, "수정성공", null);
+    // }
 
     @PostMapping("/co/join")
     public @ResponseBody ResponseDto<?> companyJoin(@RequestBody CompanyJoinReqDto companyJoinReqDto) {
