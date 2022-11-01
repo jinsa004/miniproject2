@@ -51,7 +51,7 @@ public class IntroService {
 
     public void 기업소개수정하기(Integer companyId, UpdateDto updateDto) {
         Intro introPS = introDao.findById(companyId);
-        introPS.Update(updateDto);
+        // introPS.Update(updateDto);
         System.out.println(introPS.getJobId());
         introDao.update(introPS);
     }
