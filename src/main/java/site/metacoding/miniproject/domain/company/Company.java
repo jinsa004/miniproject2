@@ -2,11 +2,12 @@ package site.metacoding.miniproject.domain.company;
 
 import java.io.Serializable;
 import java.util.List;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import site.metacoding.miniproject.dto.company.CompanyJoinDto;
-import site.metacoding.miniproject.dto.company.CompanyUpdateDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 
 @NoArgsConstructor
 @Setter
@@ -39,23 +40,27 @@ public class Company implements Serializable {
 	// this.jobId = jobId;
 	// }
 
-	public Company(CompanyJoinDto companyJoinDto) {
-		this.companyNumber = companyJoinDto.getCompanyNumber();
-		this.companyName = companyJoinDto.getCompanyName();
-		this.companyEmail = companyJoinDto.getCompanyEmail();
-		this.companyTel = companyJoinDto.getCompanyTel();
-		this.companyLocation = companyJoinDto.getCompanyLocation();
-		this.companyUsername = companyJoinDto.getCompanyUsername();
-		this.companyPassword = companyJoinDto.getCompanyPassword();
+	@Builder
+	public Company(Integer companyId, Integer companyNumber, String companyName, String companyEmail, String companyTel,
+			String companyLocation, String companyUsername, String companyPassword, List<Integer> jobIds) {
+		this.companyId = companyId;
+		this.companyNumber = companyNumber;
+		this.companyName = companyName;
+		this.companyEmail = companyEmail;
+		this.companyTel = companyTel;
+		this.companyLocation = companyLocation;
+		this.companyUsername = companyUsername;
+		this.companyPassword = companyPassword;
+		this.jobIds = jobIds;
 	}
 
-	public void update(CompanyUpdateDto companyupdateDto) {
-		this.companyNumber = companyupdateDto.getCompanyNumber();
-		this.companyName = companyupdateDto.getCompanyName();
-		this.companyEmail = companyupdateDto.getCompanyEmail();
-		this.companyTel = companyupdateDto.getCompanyTel();
-		this.companyLocation = companyupdateDto.getCompanyLocation();
-		this.companyUsername = companyupdateDto.getCompanyUsername();
-		this.companyPassword = companyupdateDto.getCompanyPassword();
+	public void update(CompanyUpdateReqDto companyupdateReqDto) {
+		this.companyNumber = companyupdateReqDto.getCompanyNumber();
+		this.companyName = companyupdateReqDto.getCompanyName();
+		this.companyEmail = companyupdateReqDto.getCompanyEmail();
+		this.companyTel = companyupdateReqDto.getCompanyTel();
+		this.companyLocation = companyupdateReqDto.getCompanyLocation();
+		this.companyUsername = companyupdateReqDto.getCompanyUsername();
+		this.companyPassword = companyupdateReqDto.getCompanyPassword();
 	}
 }
