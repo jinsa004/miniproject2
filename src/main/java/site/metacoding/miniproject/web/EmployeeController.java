@@ -25,9 +25,10 @@ import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.employee.EmployeeJoinDto;
-import site.metacoding.miniproject.dto.employee.EmployeeLoginDto;
-import site.metacoding.miniproject.dto.employee.EmployeeUpdateDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
+import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpUpdateRespDto;
 import site.metacoding.miniproject.service.EmployeeService;
 import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
@@ -44,9 +45,9 @@ public class EmployeeController {
     private final HttpSession session;
 
     @PostMapping("/emp/login")
-    public @ResponseBody ResponseDto<?> login(@RequestBody EmployeeLoginDto loginDto, HttpServletResponse response) {
+    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginDto empLoginDto, HttpServletResponse response) {
         System.out.println("===============");
-        System.out.println(loginDto.isRemember());
+        System.out.println(empLoginDto.isRemember());
         System.out.println("===============");
 
         // if (loginDto.isRemember() == true) {
@@ -61,7 +62,7 @@ public class EmployeeController {
         // response.addCookie(cookie);
         // }
 
-        Employee principal = employeeService.로그인(loginDto);
+        Employee principal = employeeService.로그인(empLoginDto);
         if (principal == null) {
             return new ResponseDto<>(-1, "로그인실패", null);
         }
@@ -148,15 +149,15 @@ public class EmployeeController {
 
     @PutMapping("/empapi/es/emp/employeeInfo/{employeeId}")
     public @ResponseBody ResponseDto<?> 회원정보수정(@PathVariable Integer employeeId,
-            @RequestBody EmployeeUpdateDto employeeUpdateDto) {
-        Employee employeePS = employeeService.employeeUpdate(employeeId,
-                employeeUpdateDto);
-        session.setAttribute("empprincipal", employeePS);
+            @RequestBody EmpUpdateReqDto empUpdateReqDto) {
+        EmpUpdateRespDto empUpdateRespDtoPS = employeeService.employeeUpdate(employeeId,
+                empUpdateReqDto);
+        session.setAttribute("empprincipal", empUpdateRespDtoPS);
         return new ResponseDto<>(1, "회원수정성공", null);
     }
 
     @PostMapping("/emp/join")
-    public @ResponseBody ResponseDto<?> 회원가입(@RequestBody EmployeeJoinDto employeeJoinDto) {
+    public @ResponseBody ResponseDto<?> 회원가입(@RequestBody EmpJoinReqDto employeeJoinDto) {
         employeeService.employeeJoin(employeeJoinDto);
         return new ResponseDto<>(1, "회원가입성공", null);
     }
