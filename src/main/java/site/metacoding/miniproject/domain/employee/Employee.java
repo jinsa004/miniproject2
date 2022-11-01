@@ -1,10 +1,11 @@
 package site.metacoding.miniproject.domain.employee;
 
 import java.io.Serializable;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import site.metacoding.miniproject.dto.employee.EmployeeJoinDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
 
 @NoArgsConstructor
@@ -21,15 +22,19 @@ public class Employee implements Serializable {
 	private String employeeLocation;
 	private String employeeTel;
 
-	public Employee(EmployeeJoinDto employeeJoinDto) {
-		this.employeeName = employeeJoinDto.getEmployeeName();
-		this.employeeBirth = employeeJoinDto.getEmployeeBirth();
-		this.employeeSex = employeeJoinDto.getEmployeeSex();
-		this.employeeUsername = employeeJoinDto.getEmployeeUsername();
-		this.employeePassword = employeeJoinDto.getEmployeePassword();
-		this.employeeEmail = employeeJoinDto.getEmployeeEmail();
-		this.employeeTel = employeeJoinDto.getEmployeeTel();
-		this.employeeLocation = employeeJoinDto.getEmployeeLocation();
+	@Builder
+	public Employee(Integer employeeId, String employeeName, String employeeBirth, String employeeSex,
+			String employeeUsername, String employeePassword, String employeeEmail, String employeeLocation,
+			String employeeTel) {
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeBirth = employeeBirth;
+		this.employeeSex = employeeSex;
+		this.employeeUsername = employeeUsername;
+		this.employeePassword = employeePassword;
+		this.employeeEmail = employeeEmail;
+		this.employeeLocation = employeeLocation;
+		this.employeeTel = employeeTel;
 	}
 
 	public void update(EmpUpdateReqDto empUpdateDto) {

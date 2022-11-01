@@ -25,7 +25,7 @@ import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.employee.EmployeeJoinDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
 import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpUpdateRespDto;
@@ -157,7 +157,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/emp/join")
-    public @ResponseBody ResponseDto<?> 회원가입(@RequestBody EmployeeJoinDto employeeJoinDto) {
+    public @ResponseBody ResponseDto<?> 회원가입(@RequestBody EmpJoinReqDto employeeJoinDto) {
         employeeService.employeeJoin(employeeJoinDto);
         return new ResponseDto<>(1, "회원가입성공", null);
     }

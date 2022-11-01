@@ -12,7 +12,7 @@ import site.metacoding.miniproject.domain.check.employee.EmpCheckDao;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto;
-import site.metacoding.miniproject.dto.employee.EmployeeJoinDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
 import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpUpdateRespDto;
@@ -58,11 +58,11 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void employeeJoin(EmployeeJoinDto employeeJoinDto) {
-        Employee employee = employeeJoinDto.toEntity(employeeJoinDto);
+    public void employeeJoin(EmpJoinReqDto empJoinReqDto) {
+        Employee employee = empJoinReqDto.toEmpEntity();
         employeeDao.insert(employee);
 
-        for (Integer jobId : employeeJoinDto.getJobIds()) {
+        for (Integer jobId : empJoinReqDto.getJobIds()) {
             empCheckDao.insert(employee.getEmployeeId(), jobId);
         }
     }
