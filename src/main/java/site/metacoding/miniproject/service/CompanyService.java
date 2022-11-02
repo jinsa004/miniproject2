@@ -73,9 +73,8 @@ public class CompanyService {
     coCheckDao.deleteById(companyId);
   }
 
-  public boolean 회사유저네임중복확인(String companyUsername) {
+  public boolean usernameSameCheck(String companyUsername) {
     Company companyPS = companyDao.findByIdCompanyUsername(companyUsername);
-
     if (companyPS == null) {
       return false;
     } else {
@@ -83,12 +82,18 @@ public class CompanyService {
     }
   }
 
-  public boolean 회사비밀번호2차체크(String companyPassword) {
-    companyDao.findByCompanyPassword(companyPassword);
-    return true;
+  public boolean passwordCheck(String companyPassword, String companyPasswordSame) {
+    // companyDao.findByCompanyPassword(companyPassword);
+    System.out.println("값1=" + companyPassword);
+    System.out.println("값2=" + companyPasswordSame);
+    if (companyPassword.equals(companyPasswordSame)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  public boolean 회사이메일형식체크(String companyEmail) {
+  public boolean emailCheck(String companyEmail) {
     Company companyPS = companyDao.findByCompanyEmail(companyEmail);
     if (companyPS == null)
       return false;
