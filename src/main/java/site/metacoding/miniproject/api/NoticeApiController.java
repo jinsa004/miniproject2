@@ -37,14 +37,14 @@ public class NoticeApiController {
 
     @GetMapping({ "/emp/main", "emp", "/" }) // ({ "emp/", "emp/notice" }) 로 두 개 걸어주는 것 불가 (쿼리스트링시 매핑 주소 "notice"가 중복되기
                                              // 때문)
-    public ResponseDto<?> getAllNoticeList(Model model) {
+    public ResponseDto<?> getAllNoticeList() {
         // List<Job> jobPS = jobService.관심직무보기();
         // model.addAttribute("jobPS", jobPS);
         return new ResponseDto<>(1, "성공", noticeService.findNoticeAllList());
     }
 
     @GetMapping("/emp/notice")
-    public ResponseDto<?> getJobNoticeList(@RequestParam("jobCode") Integer jobCode, Model model) {
+    public ResponseDto<?> getJobNoticeList(@RequestParam("jobCode") Integer jobCode) {
         return new ResponseDto<>(1, "성공", noticeService.findByJobCodeToNoticeList(jobCode));
     }
 
@@ -60,11 +60,9 @@ public class NoticeApiController {
         return "employee/noticeDetail";
     }
 
-    @GetMapping("/es/emp/matchingNotice/{employeeId}")
-    public String matchingList(@PathVariable Integer employeeId, Model model) {
-        List<Notice> matchingNotice = noticeService.구직자매칭리스트보기(employeeId);
-        model.addAttribute("matchingNotice", matchingNotice);
-        return "employee/matchingNotice";
+    @GetMapping("emp/matchingNotice/{employeeId}")
+    public ResponseDto<?> matchingNoticeList(@PathVariable Integer employeeId) {
+        return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
     }
 
     @GetMapping("/es/emp/subscribeNotice/{employeeId}")

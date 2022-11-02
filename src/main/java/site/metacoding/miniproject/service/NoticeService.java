@@ -51,8 +51,9 @@ public class NoticeService {
                 .collect(Collectors.toList());
     }
 
-    public List<Notice> 구직자매칭리스트보기(Integer employeeId) {
-        return noticeDao.findMatchingByJobId(employeeId);
+    public List<NoticeAllRespDto> findMachingNoticeList(Integer employeeId) {
+        return noticeDao.findMatchingByJobId(employeeId).stream().map((notice) -> new NoticeAllRespDto(notice))
+                .collect(Collectors.toList());
     }
 
     public List<Notice> 내공고목록보기(Integer companyId) {
