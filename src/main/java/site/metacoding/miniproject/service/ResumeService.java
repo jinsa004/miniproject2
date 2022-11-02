@@ -1,6 +1,7 @@
 package site.metacoding.miniproject.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.resume.ResumeDao;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeRespDto.ResumeAllRespDto;
 
 @RequiredArgsConstructor
 @Service
@@ -27,8 +29,8 @@ public class ResumeService {
         resumeDao.updateMain(resumeId);
     }
 
-    public List<Resume> 이력서목록보기() {
-        return resumeDao.findAll();
+    public List<ResumeAllRespDto> findResumeAllList() {
+        return resumeDao.findAll().stream().map((resume) -> new ResumeAllRespDto(resume)).collect(Collectors.toList());
     }
 
     public List<Resume> 이력서분야별목록보기(Integer jobCode) {
