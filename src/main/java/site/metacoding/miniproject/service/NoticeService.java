@@ -1,12 +1,15 @@
 package site.metacoding.miniproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.notice.NoticeDao;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeAllRespDto;
 
 @Service
 @RequiredArgsConstructor
@@ -31,16 +34,26 @@ public class NoticeService {
         noticeDao.deleteById(noticePS.getNoticeId());
     }
 
-    public List<Notice> 채용공고전체목록보기() {
-        return noticeDao.findAll();
+    public List<NoticeAllRespDto> findNoticeAllList() {
+        // List<Notice> noticeList = noticeDao.findAll();
+
+        // List<NoticeAllRespDto> noticeAllRespDtoList = new ArrayList<>();
+        // for (Notice notice : noticeList) {
+        // noticeAllRespDtoList.add(new NoticeAllRespDto(notice));
+        // }
+        // return noticeAllRespDtoList;
+
+        return noticeDao.findAll().stream().map((notice) -> new NoticeAllRespDto(notice)).collect(Collectors.toList());
     }
 
-    public List<Notice> 채용공고분야별목록보기(Integer jobCode) {
-        return noticeDao.findByJobCodeToNotice(jobCode);
+    public List<NoticeAllRespDto> findByJobCodeToNoticeList(Integer jobCode) {
+        return noticeDao.findByJobCodeToNotice(jobCode).stream().map((notice) -> new NoticeAllRespDto(notice))
+                .collect(Collectors.toList());
     }
 
-    public List<Notice> 구직자매칭리스트보기(Integer employeeId) {
-        return noticeDao.findMatchingByJobId(employeeId);
+    public List<NoticeAllRespDto> findMachingNoticeList(Integer employeeId) {
+        return noticeDao.findMatchingByJobId(employeeId).stream().map((notice) -> new NoticeAllRespDto(notice))
+                .collect(Collectors.toList());
     }
 
     public List<Notice> 내공고목록보기(Integer companyId) {

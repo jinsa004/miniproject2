@@ -29,6 +29,7 @@ public class MyBatisConfig {
 
         config.setMapUnderscoreToCamelCase(true);
         sessionFactory.setConfiguration(config);
+
         return sessionFactory.getObject();
     }
 
