@@ -16,11 +16,8 @@ import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespD
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
 import site.metacoding.miniproject.service.CompanyService;
-import site.metacoding.miniproject.service.JobService;
-import site.metacoding.miniproject.dto.intro.IntroResDto.IntroSaveReqDto;
-import site.metacoding.miniproject.dto.intro.IntroResDto.IntroUpdateReqDto;
-import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
 import site.metacoding.miniproject.service.IntroService;
+import site.metacoding.miniproject.service.JobService;
 
 @RequiredArgsConstructor
 @RestController
@@ -54,6 +51,11 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "수정성공", companyUpdateRespDto);
     }
 
+    @GetMapping("/cs/co/companyIntroDetail/{companyId}")
+    public ResponseDto<?> findByCompanyId(@PathVariable Integer companyId) {// 기업에서 기업소개 상세보기
+        return new ResponseDto<>(1, "성공", introService.findByCompanyId(companyId));
+    }
+
     // ================= 유효성 체크 ================
     @GetMapping("/co/usernameSameCheck")
     public ResponseDto<?> usernameSameCheck(String companyUsername) {
@@ -80,11 +82,6 @@ public class CompanyApiController {
             return new ResponseDto<Boolean>(-1, "실패", isSame);
         }
         return new ResponseDto<>(1, "성공", isSame);
-    }
-
-    @GetMapping("/cs/co/companyIntroDetail/{companyId}")
-    public ResponseDto<?> findByCompanyId(@PathVariable Integer companyId) {// 기업에서 기업소개 상세보기
-        return new ResponseDto<>(1, "성공", introService.findByCompanyId(companyId));
     }
 
     // @PostMapping("/api/cs/co/companyIntroInsert")

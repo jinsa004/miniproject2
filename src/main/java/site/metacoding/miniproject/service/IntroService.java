@@ -13,12 +13,9 @@ import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
 import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.domain.subscribe.SubscribeDao;
-import site.metacoding.miniproject.dto.intro.IntroResDto.IntroSaveReqDto;
-import site.metacoding.miniproject.dto.intro.IntroResDto.IntroUpdateReqDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroAllRespDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroFindByCompanyIdRespDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroFindByDetailRespDto;
-import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
 
 @RequiredArgsConstructor
 @Service

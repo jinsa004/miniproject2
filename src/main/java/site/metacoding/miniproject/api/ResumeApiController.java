@@ -1,30 +1,14 @@
 package site.metacoding.miniproject.api;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.miniproject.domain.application.Application;
-import site.metacoding.miniproject.domain.company.Company;
-import site.metacoding.miniproject.domain.intro.Intro;
-import site.metacoding.miniproject.domain.job.Job;
-import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
-import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
 import site.metacoding.miniproject.service.ResumeService;

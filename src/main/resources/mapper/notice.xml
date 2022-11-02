@@ -5,7 +5,7 @@
 	<!-- <insert id="insert">
 		INSERT INTO notice(company_id, notice_title, notice_period, notice_dept, notice_position, notice_task, notice_sal, notice_qual, notice_career, notice_wellfare, job_id)
         VALUES(#{companyId}, #{noticeTitle}, #{noticePeriod},#{noticeDept},#{noticePosition},#{noticeTask},#{noticeSal},#{noticeQual},#{noticeCareer}, #{noticeWellfare},#{jobId})
-	</insert> -->
+	</insert>
 
 	<select id="findAll" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT n.*, i.new_image_name
@@ -39,7 +39,7 @@
 		ORDER BY n.notice_period DESC
 	</select>
 
-	<!-- <select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT *
 		FROM notice
 		WHERE company_id = #{companyId}
@@ -96,6 +96,5 @@
 	<delete id="deleteById">
 		DELETE FROM notice WHERE notice_id = #{noticeId}
 	</delete> -->
-
 
 </mapper>
