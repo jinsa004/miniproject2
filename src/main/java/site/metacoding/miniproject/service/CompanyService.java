@@ -46,14 +46,15 @@ public class CompanyService {
     return new CompanyJoinRespDto(companyPS, coCheckList);
   }
 
-  public CompanyDetailRespDto 기업소개하나보기(Integer companyId) {
+  public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {
     Company companyPS = companyDao.findById(companyId);
     List<CoCheckRespDto> coCheckList = coCheckDao.findAll(companyPS.getCompanyId());
     CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS, coCheckList);
     return companyDetailRespDto;
   }
 
-  public CompanyUpdateRespDto 기업회원정보수정(Integer companyId, CompanyUpdateReqDto companyUpdateReqDto) {
+  public CompanyUpdateRespDto updateCompany(Integer companyId, CompanyUpdateReqDto companyUpdateReqDto) {
+
     // emp_check 값 업데이트
     coCheckDao.deleteById(companyId);
     for (Integer jobId : companyUpdateReqDto.getJobIds()) {
