@@ -13,7 +13,6 @@ import site.metacoding.miniproject.dto.check.company.CoCheckRespDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
-import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
 
@@ -24,9 +23,8 @@ public class CompanyService {
   private final CompanyDao companyDao;
   private final CoCheckDao coCheckDao;
 
-  public CompanySessionUser 로그인(CompanyLoginReqDto companyLoginReqDto) {
+  public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
     Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
-
     if (companyPS != null && companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword())) {
       return new CompanySessionUser(companyPS);
     }
@@ -34,14 +32,15 @@ public class CompanyService {
   }
 
   @Transactional
-  public void 회원가입(CompanyJoinReqDto companyJoinReqDto) {
+  public void join(CompanyJoinReqDto companyJoinReqDto) {
     Company companyPS = companyJoinReqDto.toEntity();
     companyDao.insert(companyPS);
 
     for (Integer jobId : companyJoinReqDto.getJobIds()) {
       coCheckDao.insert(companyPS.getCompanyId(), jobId);
     }
-    List<CoCheckRespDto> coCheckList = coCheckDao.findAll(companyPS.getCompanyId());
+    // List<CoCheckRespDto> coCheckList =
+    // coCheckDao.findAll(companyPS.getCompanyId());
   }
 
   // public CompanyDetailRespDto 기업소개하나보기(Integer companyId) {

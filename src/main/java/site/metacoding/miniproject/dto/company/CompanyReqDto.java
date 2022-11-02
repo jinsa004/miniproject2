@@ -3,6 +3,7 @@ package site.metacoding.miniproject.dto.company;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.company.Company;
 
@@ -18,9 +19,10 @@ public class CompanyReqDto {
   private String companyPassword;
   private List<Integer> jobIds;
 
+  @NoArgsConstructor
   @Setter
   @Getter
-  public class CompanyJoinReqDto {
+  public static class CompanyJoinReqDto {
     private Integer companyNumber;
     private String companyName;
     private String companyEmail;
@@ -38,18 +40,20 @@ public class CompanyReqDto {
     }
   }
 
+  @NoArgsConstructor
   @Setter
   @Getter
-  public class CompanyLoginReqDto {
+  public static class CompanyLoginReqDto {
     private String companyUsername;
     private String companyPassword;
     private boolean remember;
 
   }
 
+  @NoArgsConstructor
   @Setter
   @Getter
-  public class CompanyUpdateReqDto {
+  public static class CompanyUpdateReqDto {
     private Integer companyNumber;
     private String companyName;
     private String companyEmail;

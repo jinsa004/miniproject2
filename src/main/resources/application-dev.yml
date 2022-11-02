@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/greendb
+    url: jdbc:mariadb://127.0.0.1:3306/jobsite
     driver-class-name: org.mariadb.jdbc.Driver
     username: green
     password: green1234
@@ -14,12 +14,12 @@ spring:
     hibernate:
       ddl-auto: create
     properties:
-      '[hibernate.format_sql]': true    
+      "[hibernate.format_sql]": true
   output:
     ansi:
       enabled: always
 
 logging:
   level:
-    '[org.hibernate.SQL]': DEBUG
-    '[site.metacoding.white]': DEBUG
+    "[org.hibernate.SQL]": DEBUG
+    "[site.metacoding.white]": DEBUG
