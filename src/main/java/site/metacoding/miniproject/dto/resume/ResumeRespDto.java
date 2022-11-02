@@ -111,6 +111,7 @@ public class ResumeRespDto {
 	@Setter
 	@Getter
 	public static class ResumeSaveRespDto {
+		private Integer resumeId;
 		private String resumeTitle;
 		private Integer employeeId;
 		private String highschoolName;
@@ -130,6 +131,7 @@ public class ResumeRespDto {
 		private Integer jobId;
 
 		public ResumeSaveRespDto(Resume resume) {
+			this.resumeId = resume.getResumeId();
 			this.resumeTitle = resume.getResumeTitle();
 			this.employeeId = resume.getEmployeeId();
 			this.highschoolName = resume.getHighschoolName();

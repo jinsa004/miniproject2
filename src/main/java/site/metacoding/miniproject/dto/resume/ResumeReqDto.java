@@ -1,6 +1,7 @@
 package site.metacoding.miniproject.dto.resume;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.resume.Resume;
 
@@ -28,6 +29,7 @@ public class ResumeReqDto {
 	@Setter
 	@Getter
 	public static class ResumeSaveReqDto {
+		private Integer resumeId;
 		private String resumeTitle;
 		private Integer employeeId;
 		private String highschoolName;
@@ -48,6 +50,7 @@ public class ResumeReqDto {
 
 		public Resume toEntity() {
 			return Resume.builder()
+					.resumeId(resumeId)
 					.resumeTitle(resumeTitle)
 					.employeeId(employeeId)
 					.highschoolName(highschoolName)

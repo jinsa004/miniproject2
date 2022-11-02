@@ -2,8 +2,11 @@ package site.metacoding.miniproject.domain.resume;
 
 import java.util.List;
 
+import site.metacoding.miniproject.dto.resume.ResumeRespDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeRespDto.ResumeSaveRespDto;
+import site.metacoding.miniproject.dto.resume.ResumeRespDto.ResumeUpdateRespDto;
 
 public interface ResumeDao {
     public List<Resume> findAll();
@@ -16,7 +19,7 @@ public interface ResumeDao {
 
     public List<Resume> findByEmployeeId(Integer employeeId);
 
-    public void insert(ResumeSaveReqDto resumeSaveReqDto);
+    public void insert(ResumeSaveReqDto resumesSaveReqDto);
 
     public void deleteById(Integer resumeId);
 
