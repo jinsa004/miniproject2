@@ -3,11 +3,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.resume.ResumeDao">
 
-	<insert id="insert">
+	<!-- <insert id="insert">
 		insert into resume(resume_title, employee_id, resume_image_id, highschool_name, highschool_startdate, highschool_enddate, highschool_major, 
 		univ_name, univ_startdate, univ_enddate, univ_major, univ_grades, prev_co, career_period, career_position, career_department, career_task, job_id, is_main, created_at) 
 		VALUES(#{resumeTitle}, #{employeeId}, #{resumeImageId}, #{highschoolName}, #{highschoolStartdate}, #{highschoolEnddate},  #{highschoolMajor}, #{univName}, #{univStartdate}, #{univEnddate}, #{univMajor}, #{univGrades}, #{prevCo}, #{careerPeriod}, #{careerPosition}, #{careerDepartment}, #{careerTask}, #{jobId}, false, NOW())
-	</insert>
+	</insert>-->
 
 	<select id="findAll" resultType="site.metacoding.miniproject.domain.resume.Resume">
 		SELECT e.employee_name, r.resume_title, r.career_period, j.job_name, r.resume_id
@@ -46,7 +46,7 @@
 		GROUP BY cj.job_id
 	</select>
 
-	<select id="findById" resultType="site.metacoding.miniproject.domain.resume.Resume">
+	<!--<select id="findById" resultType="site.metacoding.miniproject.domain.resume.Resume">
 		SELECT *
 		FROM resume r
 		LEFT OUTER JOIN employee e
@@ -94,6 +94,6 @@
 		UPDATE resume
 		SET is_main =  case when resume_id=#{resumeId} then 1 ELSE 0 END
 		WHERE employee_id = (select employee_id from resume WHERE resume_id=#{resumeId})
-	</update>
+	</update> -->
 
 </mapper>
