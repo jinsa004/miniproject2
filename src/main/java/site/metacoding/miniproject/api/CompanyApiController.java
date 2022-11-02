@@ -26,38 +26,5 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "회원가입성공", null);
     }
 
-    // @GetMapping("/cs/co/companyInfo/{companyId}")
-    // public @ResponseBody ResponseDto<?> 기업정보관리(@PathVariable In
-    // eger companyId,
-    // del) {
-    //
-    //
-
-    // model.addAttribute("company", companyPS);
-    //
-    //
-
-    // Mapping("/coapi/cs/co/companyUpdate/{companyId}")
-    // public @ResponseBody ResponseDto<?> companyUpdate(@PathVariable Integer
-    // anyId,
-    //
-
-    //
-    // ion.setAttribute("coprincipal", companyPS);
-    //
-
-    //
-    // eteMapping("/coapi/cs/co/companyDelete/{companyId}")
-    // ResponseBody ResponseDto<?> companyDelete(@PathVariable Integer
-    // anyId) {
-    // anyService.기업회원탈퇴(companyId);
-    // ion.invalidate();
-    // r
-
-    // @GetMapping("/co/logout")
-    // public String Companylogout() {
-    // session.invalidate();
-    // return "redirect:/co";
-    // }
-
+   
 }
