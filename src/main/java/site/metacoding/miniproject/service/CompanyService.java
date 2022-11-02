@@ -23,13 +23,16 @@ public class CompanyService {
   private final CompanyDao companyDao;
   private final CoCheckDao coCheckDao;
 
-  public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
-    Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
-    if (companyPS != null && companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword())) {
-      return new CompanySessionUser(companyPS);
-    }
-    return null;
-  }
+  // public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
+  // Company companyPS =
+  // companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
+  // if (companyPS != null &&
+  // companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword()))
+  // {
+  // return new CompanySessionUser(companyPS);
+  // }
+  // return null;
+  // }
 
   @Transactional
   public void join(CompanyJoinReqDto companyJoinReqDto) {

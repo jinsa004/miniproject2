@@ -40,7 +40,6 @@ public class CompanyReqDto {
     }
   }
 
-  @NoArgsConstructor
   @Setter
   @Getter
   public static class CompanyLoginReqDto {
@@ -50,7 +49,6 @@ public class CompanyReqDto {
 
   }
 
-  @NoArgsConstructor
   @Setter
   @Getter
   public static class CompanyUpdateReqDto {
