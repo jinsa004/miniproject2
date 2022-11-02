@@ -11,4 +11,8 @@
 		DELETE FROM co_check WHERE company_id=#{companyId}
 	</delete> -->
 
+	<select id="findAll" resultType="site.metacoding.miniproject.dto.check.company.CoCheckRespDto">
+		select * FROM co_check WHERE company_id = #{companyId}
+	</select>
+
 </mapper>

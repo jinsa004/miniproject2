@@ -14,12 +14,12 @@ spring:
     hibernate:
       ddl-auto: create
     properties:
-      '[hibernate.format_sql]': true    
+      "[hibernate.format_sql]": true
   output:
     ansi:
       enabled: always
 
 logging:
   level:
-    '[org.hibernate.SQL]': DEBUG
-    '[site.metacoding.white]': DEBUG
+    "[org.hibernate.SQL]": DEBUG
+    "[site.metacoding.white]": DEBUG

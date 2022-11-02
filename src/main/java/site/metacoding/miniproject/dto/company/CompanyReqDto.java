@@ -3,6 +3,7 @@ package site.metacoding.miniproject.dto.company;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.company.Company;
 
@@ -18,9 +19,10 @@ public class CompanyReqDto {
   private String companyPassword;
   private List<Integer> jobIds;
 
+  @NoArgsConstructor
   @Setter
   @Getter
-  public class CompanyJoinReqDto {
+  public static class CompanyJoinReqDto {
     private Integer companyNumber;
     private String companyName;
     private String companyEmail;
@@ -34,13 +36,13 @@ public class CompanyReqDto {
       return Company.builder()
           .companyNumber(companyNumber).companyName(companyName).companyEmail(companyEmail).companyTel(companyTel)
           .companyLocation(companyLocation).companyUsername(companyUsername).companyPassword(companyPassword)
-          .jobIds(jobIds).build();
+          .build();
     }
   }
 
   @Setter
   @Getter
-  public class CompanyLoginReqDto {
+  public static class CompanyLoginReqDto {
     private String companyUsername;
     private String companyPassword;
     private boolean remember;
@@ -49,7 +51,7 @@ public class CompanyReqDto {
 
   @Setter
   @Getter
-  public class CompanyUpdateReqDto {
+  public static class CompanyUpdateReqDto {
     private Integer companyNumber;
     private String companyName;
     private String companyEmail;
@@ -57,14 +59,13 @@ public class CompanyReqDto {
     private String companyLocation;
     private String companyUsername;
     private String companyPassword;
-    private Integer jobId;
     private List<Integer> jobIds;
 
     public Company toEntity() {
       return Company.builder()
           .companyNumber(companyNumber).companyName(companyName).companyEmail(companyEmail).companyTel(companyTel)
           .companyLocation(companyLocation).companyUsername(companyUsername).companyPassword(companyPassword)
-          .jobIds(jobIds).build();
+          .build();
     }
   }
 }
