@@ -34,7 +34,7 @@ public class CompanyReqDto {
       return Company.builder()
           .companyNumber(companyNumber).companyName(companyName).companyEmail(companyEmail).companyTel(companyTel)
           .companyLocation(companyLocation).companyUsername(companyUsername).companyPassword(companyPassword)
-          .jobIds(jobIds).build();
+          .build();
     }
   }
 
@@ -57,14 +57,13 @@ public class CompanyReqDto {
     private String companyLocation;
     private String companyUsername;
     private String companyPassword;
-    private Integer jobId;
     private List<Integer> jobIds;
 
     public Company toEntity() {
       return Company.builder()
           .companyNumber(companyNumber).companyName(companyName).companyEmail(companyEmail).companyTel(companyTel)
           .companyLocation(companyLocation).companyUsername(companyUsername).companyPassword(companyPassword)
-          .jobIds(jobIds).build();
+          .build();
     }
   }
 }

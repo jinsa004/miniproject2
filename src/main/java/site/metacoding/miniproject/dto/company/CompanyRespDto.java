@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.company.Company;
+import site.metacoding.miniproject.dto.check.company.CoCheckRespDto;
 
 public class CompanyRespDto {
 
@@ -19,10 +20,9 @@ public class CompanyRespDto {
     private String companyLocation;
     private String companyUsername;
     private String companyPassword;
-    private Integer jobId;
-    private List<Integer> jobIds;
+    private List<CoCheckRespDto> jobCheckList;
 
-    public CompanyUpdateRespDto(Company company) {
+    public CompanyUpdateRespDto(Company company, List<CoCheckRespDto> jobCheckList) {
       this.companyId = company.getCompanyId();
       this.companyNumber = company.getCompanyNumber();
       this.companyName = company.getCompanyName();
@@ -31,7 +31,7 @@ public class CompanyRespDto {
       this.companyLocation = company.getCompanyLocation();
       this.companyUsername = company.getCompanyUsername();
       this.companyPassword = company.getCompanyPassword();
-      this.jobIds = company.getJobIds();
+      this.jobCheckList = jobCheckList;
     }
   }
 
@@ -45,10 +45,9 @@ public class CompanyRespDto {
     private String companyLocation;
     private String companyUsername;
     private String companyPassword;
-    private Integer jobId;
-    private List<Integer> jobIds;
+    private List<CoCheckRespDto> jobCheckList;
 
-    public CompanyDetailRespDto(Company company) {
+    public CompanyDetailRespDto(Company company, List<CoCheckRespDto> jobCheckList) {
       this.companyNumber = company.getCompanyNumber();
       this.companyName = company.getCompanyName();
       this.companyEmail = company.getCompanyEmail();
@@ -56,7 +55,7 @@ public class CompanyRespDto {
       this.companyLocation = company.getCompanyLocation();
       this.companyUsername = company.getCompanyUsername();
       this.companyPassword = company.getCompanyPassword();
-      this.jobIds = company.getJobIds();
+      this.jobCheckList = jobCheckList;
     }
 
   }

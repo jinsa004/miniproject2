@@ -22,8 +22,8 @@ import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.resume.ResumeInsertDto;
-import site.metacoding.miniproject.dto.resume.UpdateDto;
+import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
 import site.metacoding.miniproject.service.ResumeService;
@@ -66,8 +66,8 @@ public class ResumeController {
     }
 
     @PostMapping("/empapi/es/emp/resumeSave")
-    public @ResponseBody ResponseDto<?> insertImage(ResumeInsertDto rid) throws Exception {
-        resumeService.이력서작성(rid);
+    public @ResponseBody ResponseDto<?> insertImage(@RequestBody ResumeSaveReqDto resumeSaveReqDto) throws Exception {
+        resumeService.이력서작성(resumeSaveReqDto);
         return new ResponseDto<>(1, "이력서 등록 성공", null);
     }
 
@@ -82,8 +82,9 @@ public class ResumeController {
     }
 
     @PutMapping("/empapi/es/emp/resumeUpdate/{resumeId}")
-    public @ResponseBody ResponseDto<?> updateResume(@PathVariable Integer resumeId, @RequestBody UpdateDto updateDto) {
-        resumeService.이력서수정(resumeId, updateDto);
+    public @ResponseBody ResponseDto<?> updateResume(@PathVariable Integer resumeId,
+            @RequestBody ResumeUpdateReqDto resumeUpdateReqDto) {
+        resumeService.이력서수정(resumeUpdateReqDto);
         return new ResponseDto<>(1, "이력서 수정 성공", null);
     }
 
