@@ -30,8 +30,8 @@
 		ORDER BY r.created_at DESC
 	</select>
 
-	<select id="findMatchingByJobId" resultType="site.metacoding.miniproject.domain.resume.Resume">
-		SELECT *
+	<select id="findMatchingByJobId" resultType="site.metacoding.miniproject.dto.resume.ResumeRespDto$MatchingResumeRespDto">
+		SELECT re.*, cj.job_name
 		FROM (SELECT r.resume_id, r.resume_title, e.employee_name, r.job_id, r.career_period
 		FROM resume r
 		INNER JOIN employee e

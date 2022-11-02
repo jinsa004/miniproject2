@@ -4,6 +4,7 @@ import java.util.List;
 
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeRespDto.MatchingResumeRespDto;
 import site.metacoding.miniproject.dto.resume.ResumeRespDto.ResumeAllRespDto;
 
 public interface ResumeDao {
@@ -13,7 +14,7 @@ public interface ResumeDao {
 
     public Resume findById(Integer resumeId);
 
-    public List<Resume> findMatchingByJobId(Integer companyId);
+    public List<MatchingResumeRespDto> findMatchingByJobId(Integer companyId);
 
     public List<Resume> findByEmployeeId(Integer employeeId);
 

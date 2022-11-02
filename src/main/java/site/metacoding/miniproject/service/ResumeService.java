@@ -12,6 +12,7 @@ import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.resume.ResumeDao;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeRespDto.MatchingResumeRespDto;
 import site.metacoding.miniproject.dto.resume.ResumeRespDto.ResumeAllRespDto;
 
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class ResumeService {
         return resumeDao.findByJobCodeToResume(jobCode);
     }
 
-    public List<Resume> 기업매칭리스트보기(Integer employeeId) {
+    public List<MatchingResumeRespDto> findMachingResumeList(Integer employeeId) {
         return resumeDao.findMatchingByJobId(employeeId);
     }
 

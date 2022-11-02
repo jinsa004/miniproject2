@@ -42,6 +42,17 @@ public class ResumeRespDto {
 
 	@Setter
 	@Getter
+	public static class MatchingResumeRespDto {
+		private Integer resumeId;
+		private String resumeTitle;
+		private String employeeName;
+		private Integer jobId;
+		private String careerPeriod;
+		private String jobName;
+	}
+
+	@Setter
+	@Getter
 	public static class ResumeDetailRespDto {
 		private String resumeTitle;
 		private Integer employeeId;

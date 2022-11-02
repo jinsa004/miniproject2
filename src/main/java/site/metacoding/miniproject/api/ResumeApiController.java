@@ -117,9 +117,8 @@ public class ResumeApiController {
     }
 
     @GetMapping("/co/matchingResume/{companyId}")
-    public ResponseDto<?> companyMatchingList(@PathVariable Integer companyId) {
-        List<Resume> matchingResume = resumeService.기업매칭리스트보기(companyId);
-        return new ResponseDto<>(1, "성공", null);
+    public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
+        return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
     }
 
     // @GetMapping("/co/resumeDetail/{resumeId}")
