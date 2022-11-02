@@ -26,7 +26,7 @@ import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
-import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
 import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpUpdateRespDto;
 import site.metacoding.miniproject.service.EmployeeService;
@@ -45,7 +45,7 @@ public class EmployeeController {
     private final HttpSession session;
 
     @PostMapping("/emp/login")
-    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginDto empLoginDto, HttpServletResponse response) {
+    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginDto, HttpServletResponse response) {
         System.out.println("===============");
         System.out.println(empLoginDto.isRemember());
         System.out.println("===============");
