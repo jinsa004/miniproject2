@@ -26,17 +26,18 @@ public class ResumeRespDto {
 	@Setter
 	@Getter
 	public static class ResumeAllRespDto {
+		private String employeeName;
 		private String resumeTitle;
-		private Integer employeeId;
 		private String careerPeriod;
-		private Integer jobId;
+		private String jobName;
+		private String resumeId;
 
-		public ResumeAllRespDto(Resume resume) {
-			this.resumeTitle = resume.getResumeTitle();
-			this.employeeId = resume.getEmployeeId();
-			this.careerPeriod = resume.getCareerPeriod();
-			this.jobId = resume.getJobId();
-		}
+		// public ResumeAllRespDto(Resume resume) {
+		// this.resumeTitle = resume.getResumeTitle();
+		// this.employeeId = resume.getEmployeeId();
+		// this.careerPeriod = resume.getCareerPeriod();
+		// this.jobId = resume.getJobId();
+		// }
 	}
 
 	@Setter

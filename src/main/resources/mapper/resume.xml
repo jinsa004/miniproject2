@@ -9,7 +9,7 @@
 		VALUES(#{resumeTitle}, #{employeeId}, #{resumeImageId}, #{highschoolName}, #{highschoolStartdate}, #{highschoolEnddate},  #{highschoolMajor}, #{univName}, #{univStartdate}, #{univEnddate}, #{univMajor}, #{univGrades}, #{prevCo}, #{careerPeriod}, #{careerPosition}, #{careerDepartment}, #{careerTask}, #{jobId}, false, NOW())
 	</insert>-->
 
-	<select id="findAll" resultType="site.metacoding.miniproject.domain.resume.Resume">
+	<select id="findAll" resultType="site.metacoding.miniproject.dto.resume.ResumeRespDto$ResumeAllRespDto">
 		SELECT e.employee_name, r.resume_title, r.career_period, j.job_name, r.resume_id
 		FROM resume r
 		JOIN employee e

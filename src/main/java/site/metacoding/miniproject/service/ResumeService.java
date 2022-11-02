@@ -30,7 +30,7 @@ public class ResumeService {
     }
 
     public List<ResumeAllRespDto> findResumeAllList() {
-        return resumeDao.findAll().stream().map((resume) -> new ResumeAllRespDto(resume)).collect(Collectors.toList());
+        return resumeDao.findAll();
     }
 
     public List<Resume> 이력서분야별목록보기(Integer jobCode) {

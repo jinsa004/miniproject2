@@ -4,9 +4,10 @@ import java.util.List;
 
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeRespDto.ResumeAllRespDto;
 
 public interface ResumeDao {
-    public List<Resume> findAll();
+    public List<ResumeAllRespDto> findAll();
 
     public List<Resume> findByJobCodeToResume(Integer jobCode);
 
