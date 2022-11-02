@@ -3,6 +3,7 @@ package site.metacoding.miniproject.dto.employee;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.employee.Employee;
 

@@ -12,6 +12,7 @@ import site.metacoding.miniproject.domain.check.employee.EmpCheckDao;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
@@ -56,16 +57,17 @@ public class EmployeeService {
      */
 
     @Transactional(readOnly = true)
-    public Employee 로그인(EmpLoginReqDto loginDto) {
-        Employee employeePS = employeeDao.findByEmployeeUsername(loginDto.getEmployeeUsername());
+    public EmpSessionUser 로그인(EmpLoginReqDto empLoginReqDto) {
+        Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
 
-        // if
-        // (employeePS.getEmployeePassword().equals(loginDto.getEmployeePassword()))
         if (employeePS != null &&
-                employeePS.getEmployeePassword().equals(loginDto.getEmployeePassword())) {
-            return employeePS;
+                employeePS.getEmployeePassword().equals(empLoginReqDto.getEmployeePassword())) {
+            return new EmpSessionUser(employeePS);
+        } else {
+            throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
+
         }
-        return null;
+
     }
 
     @Transactional
