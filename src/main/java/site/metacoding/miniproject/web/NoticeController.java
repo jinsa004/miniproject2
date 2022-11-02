@@ -36,17 +36,18 @@
 // /* =============================개인회원=========================================
 // */
 
-// // @GetMapping({ "/emp/main", "emp", "/" }) // ({ "emp/", "emp/notice" }) 로 두
-// 개
-// // 걸어주는 것 불가 (쿼리스트링시 매핑 주소 "notice"가 중복되기
-// // // 때문)
-// // public String getAllNoticeList(Model model) {
-// // List<Job> jobPS = jobService.관심직무보기();
-// // model.addAttribute("jobPS", jobPS);
-// // List<Notice> noticeAllList = noticeService.채용공고전체목록보기();
-// // model.addAttribute("noticeAllList", noticeAllList);
-// // return "employee/main";
-// // }
+
+// @GetMapping({ "/emp/main", "emp", "/" }) // ({ "emp/", "emp/notice" }) 로 두 개
+// 걸어주는 것 불가 (쿼리스트링시 매핑 주소 "notice"가 중복되기
+// // 때문)
+// public String getAllNoticeList(Model model) {
+// List<Job> jobPS = jobService.관심직무보기();
+// model.addAttribute("jobPS", jobPS);
+// List<Notice> noticeAllList = noticeService.채용공고전체목록보기();
+// model.addAttribute("noticeAllList", noticeAllList);
+// return "employee/main";
+// }
+
 
 // @GetMapping("/emp/notice")
 // public String getJobNoticeList(@RequestParam("jobCode") Integer jobCode,
