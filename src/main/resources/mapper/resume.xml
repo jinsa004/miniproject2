@@ -3,14 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.resume.ResumeDao">
 
-	<!-- <insert id="insert">
-		insert into resume(resume_title, employee_id, resume_image_id, highschool_name, highschool_startdate, highschool_enddate, highschool_major, 
+	<!-- <insert id="insert" useGeneratedKeys="true" keyProperty="resumeId">
+		insert into resume(resume_title, employee_id, highschool_name, highschool_startdate, highschool_enddate, highschool_major, 
 		univ_name, univ_startdate, univ_enddate, univ_major, univ_grades, prev_co, career_period, career_position, career_department, career_task, job_id, is_main, created_at) 
-		VALUES(#{resumeTitle}, #{employeeId}, #{resumeImageId}, #{highschoolName}, #{highschoolStartdate}, #{highschoolEnddate},  #{highschoolMajor}, #{univName}, #{univStartdate}, #{univEnddate}, #{univMajor}, #{univGrades}, #{prevCo}, #{careerPeriod}, #{careerPosition}, #{careerDepartment}, #{careerTask}, #{jobId}, false, NOW())
+		VALUES(#{resumeTitle}, #{employeeId}, #{highschoolName}, #{highschoolStartdate}, #{highschoolEnddate},  #{highschoolMajor}, #{univName}, #{univStartdate}, #{univEnddate}, #{univMajor}, #{univGrades}, #{prevCo}, #{careerPeriod}, #{careerPosition}, #{careerDepartment}, #{careerTask}, #{jobId}, false, NOW())
 	</insert>
 
-	<select id="findAll" resultType="site.metacoding.miniproject.dto.resume.ResumeRespDto$ResumeAllRespDto">
-		SELECT r.resume_id, e.employee_name, r.resume_title, r.career_period, j.job_name
+	<select id="findAll" resultType="site.metacoding.miniproject.domain.resume.Resume">
+		SELECT e.employee_name, r.resume_title, r.career_period, j.job_name, r.resume_id
 		FROM resume r
 		JOIN employee e
 		ON r.employee_id=e.employee_id
@@ -56,7 +56,7 @@
 		WHERE r.resume_id = #{resumeId}
 	</select>
 
-	<select id="findByEmployeeId" resultType="site.metacoding.miniproject.domain.resume.Resume">
+	 <select id="findByEmployeeId" resultType="site.metacoding.miniproject.domain.resume.Resume">
 		SELECT *
 		FROM resume r
 		INNER JOIN job j
@@ -64,10 +64,9 @@
 		WHERE r.employee_id=#{employeeId}
   </select>
 
-	<update id="update">
+	<update id="update" useGeneratedKeys="true" keyProperty="resumeId">
 		UPDATE resume SET
 		resume_title = #{resumeTitle}, 
-		resume_image_id = #{resumeImageId}, 
 		highschool_name = #{highschoolName}, 
 		highschool_startdate = #{highschoolStartdate}, 
 		highschool_enddate = #{highschoolEnddate}, 
