@@ -20,11 +20,11 @@ import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.company.CompanyJoinDto;
-import site.metacoding.miniproject.dto.company.CompanyLoginDto;
-import site.metacoding.miniproject.dto.company.CompanyUpdateDto;
-import site.metacoding.miniproject.dto.intro.IntroInsertDto;
-import site.metacoding.miniproject.dto.intro.UpdateDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
+import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.service.CompanyService;
 import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
@@ -39,9 +39,10 @@ public class CompanyController {
     private final JobService jobService;
 
     @PostMapping("/co/login")
-    public @ResponseBody ResponseDto<?> login(@RequestBody CompanyLoginDto loginDto, HttpServletResponse response) {
+    public @ResponseBody ResponseDto<?> login(@RequestBody CompanyLoginReqDto companyLoginReqDto,
+            HttpServletResponse response) {
         System.out.println("===============");
-        System.out.println(loginDto.isRemember());
+        System.out.println(companyLoginReqDto.isRemember());
         System.out.println("===============");
 
         // if (loginDto.isRemember() == true) {
@@ -55,29 +56,29 @@ public class CompanyController {
         // response.addCookie(cookie);
         // }
 
-        Company principal = companyService.로그인(loginDto);
-        if (principal == null) {
+        CompanySessionUser companySessionUser = companyService.로그인(companyLoginReqDto);
+        if (companySessionUser == null) {
             return new ResponseDto<>(-1, "로그인실패", null);
         }
-        session.setAttribute("coprincipal", principal);
-        return new ResponseDto<>(1, "로그인성공", null);
+        session.setAttribute("coprincipal", companySessionUser);
+        return new ResponseDto<>(1, "로그인성공", companySessionUser);
     }
 
     @GetMapping("/cs/co/companyInfo/{companyId}")
-    public String 기업정보관리(@PathVariable Integer companyId, Model model) {// 기업회원 회원가입 정보 수정할 때 쓰는 거 company 테이블
+    public @ResponseBody ResponseDto<?> 기업정보관리(@PathVariable Integer companyId, Model model) {
         List<Job> jobPS = jobService.관심직무보기();
         model.addAttribute("jobPS", jobPS);
         Company companyPS = (Company) session.getAttribute("coprincipal");
         model.addAttribute("company", companyPS);
-        return "company/companyInfo";
+        return new ResponseDto<>(1, "성공", null);
     }
 
     @PutMapping("/coapi/cs/co/companyUpdate/{companyId}")
     public @ResponseBody ResponseDto<?> companyUpdate(@PathVariable Integer companyId,
-            @RequestBody CompanyUpdateDto companyupdateDto) {
-        Company companyPS = companyService.기업회원정보수정(companyId, companyupdateDto);
+            @RequestBody CompanyUpdateReqDto companyUpdateReqDto) {
+        CompanyUpdateRespDto companyPS = companyService.기업회원정보수정(companyId, companyUpdateReqDto);
         session.setAttribute("coprincipal", companyPS);
-        return new ResponseDto<>(1, "수정성공", null);
+        return new ResponseDto<>(1, "수정성공", companyPS);
     }
 
     @DeleteMapping("/coapi/cs/co/companyDelete/{companyId}")
@@ -95,11 +96,12 @@ public class CompanyController {
         return "company/coIntroInsert";
     }
 
-    @PostMapping("/coapi/cs/co/companyIntroInsert")
-    public @ResponseBody ResponseDto<?> 기업소개등록(IntroInsertDto introInsertDto) throws Exception {
-        introService.기업소개등록(introInsertDto);
-        return new ResponseDto<>(1, "기업소개 등록 성공", null);
-    }
+    // @PostMapping("/coapi/cs/co/companyIntroInsert")
+    // public @ResponseBody ResponseDto<?> 기업소개등록(IntroInsertDto introInsertDto)
+    // throws Exception {
+    // introService.기업소개등록(introInsertDto);
+    // return new ResponseDto<>(1, "기업소개 등록 성공", null);
+    // }
 
     @GetMapping("/cs/co/companyIntroDetail/{companyId}")
     public String 기업소개상세(@PathVariable Integer companyId, Model model) {// 기업소개 상세보기 intro 테이블
@@ -120,16 +122,17 @@ public class CompanyController {
         return "company/coIntroUpdate";
     }
 
-    @PutMapping("/coapi/cs/co/companyIntroUpdate/{companyId}/update")
-    public @ResponseBody ResponseDto<?> putIntroUpdate(@PathVariable Integer companyId,
-            @RequestBody UpdateDto updateDto) {
-        introService.기업소개수정하기(companyId, updateDto);
-        return new ResponseDto<>(1, "수정성공", null);
-    }
+    // @PutMapping("/coapi/cs/co/companyIntroUpdate/{companyId}/update")
+    // public @ResponseBody ResponseDto<?> putIntroUpdate(@PathVariable Integer
+    // companyId,
+    // @RequestBody UpdateDto updateDto) {
+    // introService.기업소개수정하기(companyId, updateDto);
+    // return new ResponseDto<>(1, "수정성공", null);
+    // }
 
     @PostMapping("/co/join")
-    public @ResponseBody ResponseDto<?> companyJoin(@RequestBody CompanyJoinDto companyJoinDto) {
-        companyService.회원가입(companyJoinDto);
+    public @ResponseBody ResponseDto<?> companyJoin(@RequestBody CompanyJoinReqDto companyJoinReqDto) {
+        companyService.회원가입(companyJoinReqDto);
         return new ResponseDto<>(1, "회원가입성공", null);
     }
 

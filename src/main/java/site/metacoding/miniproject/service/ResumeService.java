@@ -9,8 +9,8 @@ import site.metacoding.miniproject.domain.application.Application;
 import site.metacoding.miniproject.domain.application.ApplicationDao;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.resume.ResumeDao;
-import site.metacoding.miniproject.dto.resume.ResumeInsertDto;
-import site.metacoding.miniproject.dto.resume.UpdateDto;
+import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 
 @RequiredArgsConstructor
 @Service
@@ -39,18 +39,19 @@ public class ResumeService {
         return resumeDao.findMatchingByJobId(employeeId);
     }
 
-    public void 이력서작성(ResumeInsertDto rid) {
+    public void 이력서작성(ResumeSaveReqDto rid) {
         resumeDao.insert(rid);
+
     }
 
     public Resume 이력서상세보기(Integer resumeId) {
         return resumeDao.findById(resumeId);
     }
 
-    public void 이력서수정(Integer resumeId, UpdateDto updateDto) {
-        Resume resumePS = resumeDao.findById(resumeId);
-        resumePS.update(updateDto);
-        resumeDao.update(resumePS);
+    public void 이력서수정(ResumeUpdateReqDto resumeUpdateReqDto) {
+        Resume resumePS = resumeDao.findById(resumeUpdateReqDto.getResumeId());
+        resumePS.update(resumeUpdateReqDto);
+        // resumeDao.update(resumePS);
     }
 
     public List<Resume> 내이력서가져오기(Integer employeeId) {
