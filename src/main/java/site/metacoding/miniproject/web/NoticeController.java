@@ -36,7 +36,6 @@
 // /* =============================개인회원=========================================
 // */
 
-
 // @GetMapping({ "/emp/main", "emp", "/" }) // ({ "emp/", "emp/notice" }) 로 두 개
 // 걸어주는 것 불가 (쿼리스트링시 매핑 주소 "notice"가 중복되기
 // // 때문)
@@ -47,7 +46,6 @@
 // model.addAttribute("noticeAllList", noticeAllList);
 // return "employee/main";
 // }
-
 
 // @GetMapping("/emp/notice")
 // public String getJobNoticeList(@RequestParam("jobCode") Integer jobCode,
