@@ -8,7 +8,7 @@
 		VALUES(#{companyId}, #{introConame}, #{introBirth}, #{introTask}, #{introSal}, #{introWellfare}, #{introContent}, #{introLocation}, #{jobId}, #{introImageId});	
 	</insert>
 
-	<select id="findAll" resultType="site.metacoding.miniproject.domain.intro.Intro">
+	<select id="findAll" resultType="site.metacoding.miniproject.dto.intro.IntroRespDto">
 		SELECT ii.*, c.company_name
 		FROM (SELECT i.*, img.new_image_name
 		FROM intro i
@@ -18,7 +18,7 @@
 		ON ii.company_id = c.company_id
 	</select>
 
-	<select id="findById" resultType="site.metacoding.miniproject.domain.intro.Intro">
+	<select id="findById" resultType="site.metacoding.miniproject.dto.intro.IntroRespDto">
 		SELECT  i.intro_id, c.company_name, i.intro_coname, i.intro_task, i.intro_sal, i.intro_wellfare, i.intro_content, i.intro_sal, i.intro_wellfare,
 		i.intro_content, i.intro_location, i.intro_image_id, i.intro_birth, i.job_id, j.job_name, j.job_code, i.company_id
 		FROM intro i
@@ -58,8 +58,8 @@
 
 	<delete id="deleteById"></delete>
 
-	<select id="findByDetail" resultType="site.metacoding.miniproject.web.dto.request.intro.DetailDto">
-		SELECT ii.*,
+	<select id="findByDetail" resultType="site.metacoding.miniproject.dto.intro.IntroRespDto">
+		SELECT i.*,
 		s.subscribe_id subscribeId,	
 		if(s.subscribe_id IS NULL, 0 ,1) isSubed,
 		j.job_name,
@@ -67,15 +67,13 @@
 		c.company_name
 		FROM (SELECT i.*, img.new_image_name
 		FROM intro i
-		LEFT OUTER JOIN intro_image img
-		ON i.intro_image_id = img.intro_image_id) ii
 		LEFT OUTER JOIN (SELECT * FROM subscribe WHERE employee_id = #{principalId}) s
-		ON ii.company_id = s.company_id
+		ON i.company_id = s.company_id
 		LEFT OUTER JOIN job j
-		ON ii.job_id = j.job_id
+		ON i.job_id = j.job_id
 		LEFT OUTER JOIN company c
-		ON ii.company_id = c.company_id
-		WHERE ii.intro_id = #{introId}
+		ON i.company_id = c.company_id
+		WHERE i.intro_id = #{introId}
 	</select>
 
 </mapper>

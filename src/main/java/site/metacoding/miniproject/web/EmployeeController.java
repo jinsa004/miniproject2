@@ -45,9 +45,10 @@ public class EmployeeController {
     private final HttpSession session;
 
     @PostMapping("/emp/login")
-    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginDto, HttpServletResponse response) {
+    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
+            HttpServletResponse response) {
         System.out.println("===============");
-        System.out.println(empLoginDto.isRemember());
+        System.out.println(empLoginReqDto.isRemember());
         System.out.println("===============");
 
         // if (loginDto.isRemember() == true) {
@@ -62,7 +63,7 @@ public class EmployeeController {
         // response.addCookie(cookie);
         // }
 
-        Employee principal = employeeService.로그인(empLoginDto);
+        Employee principal = employeeService.로그인(empLoginReqDto);
         if (principal == null) {
             return new ResponseDto<>(-1, "로그인실패", null);
         }
@@ -75,16 +76,18 @@ public class EmployeeController {
         return "employee/subscription";
     }
 
-    @GetMapping("/emp/companyIntroDetail/{introId}")
-    public String introDetail(@PathVariable Integer introId, Model model) {// 개인회원 보는 기업소개 상세보기
-        Employee principal = (Employee) session.getAttribute("empprincipal");
-        if (principal == null) {
-            model.addAttribute("detailDto", introService.기업소개상세보기(introId, 0));
-        } else {
-            model.addAttribute("detailDto", introService.기업소개상세보기(introId, principal.getEmployeeId()));
-        }
-        return "employee/coIntroDetail";
-    }
+    // @GetMapping("/emp/companyIntroDetail/{introId}")
+    // public String introDetail(@PathVariable Integer introId, Model model) {//
+    // 개인회원 보는 기업소개 상세보기
+    // Employee principal = (Employee) session.getAttribute("empprincipal");
+    // if (principal == null) {
+    // model.addAttribute("detailDto", introService.기업소개상세보기(introId, 0));
+    // } else {
+    // model.addAttribute("detailDto", introService.기업소개상세보기(introId,
+    // principal.getEmployeeId()));
+    // }
+    // return "employee/coIntroDetail";
+    // }
 
     @PostMapping("/empapi/es/emp/companyIntroDetail/{introId}/subscribe")
     public @ResponseBody ResponseDto<?> insertSub(@PathVariable Integer introId) {// 구독하기
