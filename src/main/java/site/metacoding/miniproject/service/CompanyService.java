@@ -11,10 +11,10 @@ import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.company.CompanyDao;
 import site.metacoding.miniproject.dto.check.company.CoCheckRespDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
-import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
+import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
+import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
-import site.metacoding.miniproject.dto.company.CompanySessionUser;
 
 @Service
 @RequiredArgsConstructor
@@ -35,23 +35,23 @@ public class CompanyService {
   // }
 
   @Transactional
-  public void join(CompanyJoinReqDto companyJoinReqDto) {
+  public CompanyJoinRespDto join(CompanyJoinReqDto companyJoinReqDto) {
     Company companyPS = companyJoinReqDto.toEntity();
     companyDao.insert(companyPS);
 
     for (Integer jobId : companyJoinReqDto.getJobIds()) {
       coCheckDao.insert(companyPS.getCompanyId(), jobId);
     }
-    // List<CoCheckRespDto> coCheckList =
-    // coCheckDao.findAll(companyPS.getCompanyId());
+    List<CoCheckRespDto> coCheckList = coCheckDao.findAll(companyPS.getCompanyId());
+    return new CompanyJoinRespDto(companyPS, coCheckList);
   }
 
-  // public CompanyDetailRespDto 기업소개하나보기(Integer companyId) {
-  // Company companyPS = companyDao.findById(companyId);
-  // CompanyDetailRespDto companyDetailRespDto = new
-  // CompanyDetailRespDto(companyPS);
-  // return companyDetailRespDto;
-  // }
+  public CompanyDetailRespDto 기업소개하나보기(Integer companyId) {
+    Company companyPS = companyDao.findById(companyId);
+    List<CoCheckRespDto> coCheckList = coCheckDao.findAll(companyPS.getCompanyId());
+    CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS, coCheckList);
+    return companyDetailRespDto;
+  }
 
   public CompanyUpdateRespDto 기업회원정보수정(Integer companyId, CompanyUpdateReqDto companyUpdateReqDto) {
     // emp_check 값 업데이트
