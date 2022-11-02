@@ -26,6 +26,7 @@ import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
+import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpUpdateReqDto;
 import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpUpdateRespDto;
 import site.metacoding.miniproject.service.EmployeeService;
@@ -43,32 +44,32 @@ public class EmployeeController {
     private final JobService jobService;
     private final HttpSession session;
 
-    // @PostMapping("/emp/login")
-    // public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginDto
-    // empLoginDto, HttpServletResponse response) {
-    // System.out.println("===============");
-    // System.out.println(empLoginDto.isRemember());
-    // System.out.println("===============");
+    @PostMapping("/emp/login")
+    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
+            HttpServletResponse response) {
+        System.out.println("===============");
+        System.out.println(empLoginReqDto.isRemember());
+        System.out.println("===============");
 
-    // // if (loginDto.isRemember() == true) {
-    // // Cookie cookie = new Cookie("employeeUsername",
-    // // loginDto.getEmployeeUsername());
-    // // cookie.setMaxAge(60 * 60 * 24);
-    // // response.addCookie(cookie);
+        // if (loginDto.isRemember() == true) {
+        // Cookie cookie = new Cookie("employeeUsername",
+        // loginDto.getEmployeeUsername());
+        // cookie.setMaxAge(60 * 60 * 24);
+        // response.addCookie(cookie);
 
-    // // } else {
-    // // Cookie cookie = new Cookie("employeeUsername", null);
-    // // cookie.setMaxAge(0);
-    // // response.addCookie(cookie);
-    // // }
+        // } else {
+        // Cookie cookie = new Cookie("employeeUsername", null);
+        // cookie.setMaxAge(0);
+        // response.addCookie(cookie);
+        // }
 
-    // Employee principal = employeeService.로그인(empLoginDto);
-    // if (principal == null) {
-    // return new ResponseDto<>(-1, "로그인실패", null);
-    // }
-    // session.setAttribute("empprincipal", principal);
-    // return new ResponseDto<>(1, "로그인성공", null);
-    // }
+        Employee principal = employeeService.로그인(empLoginReqDto);
+        if (principal == null) {
+            return new ResponseDto<>(-1, "로그인실패", null);
+        }
+        session.setAttribute("empprincipal", principal);
+        return new ResponseDto<>(1, "로그인성공", null);
+    }
 
     @GetMapping("/es/emp/subscription")
     public String subscriptionList() {// 개인회원이 보는 구독기업공고탭(구독기업 공고 목록보기)
