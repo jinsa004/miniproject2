@@ -9,7 +9,7 @@ import site.metacoding.miniproject.dto.resume.ResumeRespDto.ResumeAllRespDto;
 public interface ResumeDao {
     public List<ResumeAllRespDto> findAll();
 
-    public List<Resume> findByJobCodeToResume(Integer jobCode);
+    public List<ResumeAllRespDto> findByJobCodeToResume(Integer jobCode);
 
     public Resume findById(Integer resumeId);
 

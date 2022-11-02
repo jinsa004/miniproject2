@@ -113,8 +113,7 @@ public class ResumeApiController {
 
     @GetMapping("/co/resume")
     public ResponseDto<?> getJobResumeList(@RequestParam("jobCode") Integer jobCode) {
-        List<Resume> jobResumeList = resumeService.이력서분야별목록보기(jobCode);
-        return new ResponseDto<>(1, "성공", null);
+        return new ResponseDto<>(1, "성공", resumeService.findByJobCodeToResumeList(jobCode));
     }
 
     @GetMapping("/co/matchingResume/{companyId}")

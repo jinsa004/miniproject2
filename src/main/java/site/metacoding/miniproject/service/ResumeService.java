@@ -33,7 +33,7 @@ public class ResumeService {
         return resumeDao.findAll();
     }
 
-    public List<Resume> 이력서분야별목록보기(Integer jobCode) {
+    public List<ResumeAllRespDto> findByJobCodeToResumeList(Integer jobCode) {
         return resumeDao.findByJobCodeToResume(jobCode);
     }
 

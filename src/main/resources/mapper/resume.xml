@@ -10,7 +10,7 @@
 	</insert>-->
 
 	<select id="findAll" resultType="site.metacoding.miniproject.dto.resume.ResumeRespDto$ResumeAllRespDto">
-		SELECT e.employee_name, r.resume_title, r.career_period, j.job_name, r.resume_id
+		SELECT r.resume_id, e.employee_name, r.resume_title, r.career_period, j.job_name
 		FROM resume r
 		JOIN employee e
 		ON r.employee_id=e.employee_id
@@ -19,7 +19,7 @@
 		ORDER BY r.created_at DESC
 	</select>
 
-	<select id="findByJobCodeToResume" resultType="site.metacoding.miniproject.domain.resume.Resume">
+	<select id="findByJobCodeToResume" resultType="site.metacoding.miniproject.dto.resume.ResumeRespDto$ResumeAllRespDto">
 		SELECT r.resume_id, e.employee_name, r.resume_title, r.career_period, j.job_name
 		FROM resume r
 		JOIN employee e
