@@ -51,7 +51,7 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "성공", noticeService.findByJobCodeToNoticeList(jobCode));
     }
 
-    @GetMapping("/emp/matchingNotice/{employeeId}")
+    @GetMapping("emp/matchingNotice/{employeeId}")
     public ResponseDto<?> matchingNoticeList(@PathVariable Integer employeeId) {
         return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
     }
