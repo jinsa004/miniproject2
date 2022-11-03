@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,7 @@ import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
+import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 import site.metacoding.miniproject.service.JobService;
 import site.metacoding.miniproject.service.NoticeService;
 import site.metacoding.miniproject.service.ResumeService;
@@ -93,13 +95,11 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "통신성공", noticeService.findByCompanyIdToNotice(companyId));
     }
 
-    // @PutMapping("/co/noticeUpdate/{noticeId}")
-    // public @ResponseBody ResponseDto<?> updateResume(@PathVariable Integer
-    // noticeId,
-    // @RequestBody NoticeUpdateDto noticeUpdateDto) {
-    // noticeService.이력서수정(noticeId, noticeUpdateDto);
-    // return new ResponseDto<>(1, "공고 수정 성공", null);
-    // }
+    @PutMapping("/co/notice/update/{noticeId}")
+    public ResponseDto<?> updateNotice(@PathVariable Integer noticeId,
+            @RequestBody NoticeUpdateReqDto NoticeUpdateReqDto) {
+        return new ResponseDto<>(1, "공고 수정 성공", noticeService.updateNotice(noticeId, NoticeUpdateReqDto));
+    }
 
     @DeleteMapping("/co/noticeDelete/{noticeId}")
     public @ResponseBody ResponseDto<?> deleteNotice(@PathVariable Integer noticeId) {
@@ -115,6 +115,5 @@ public class NoticeApiController {
         Notice noticePS = noticeService.내공고상세보기(noticeId);
         model.addAttribute("noticePS", noticePS);
         return new ResponseDto<>(1, "통신성공", null);
-
     }
 }

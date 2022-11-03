@@ -27,6 +27,21 @@
 		WHERE company_id = #{companyId}
 	</select>
 
+	<update id="update" useGeneratedKeys="true" keyProperty="noticeId">
+		UPDATE notice SET
+        notice_title = #{noticeTitle}, 
+        notice_period = #{noticePeriod}, 
+        notice_dept = #{noticeDept}, 
+        notice_position = #{noticePosition}, 
+        notice_task = #{noticeTask}, 
+        notice_sal = #{noticeSal}, 
+        notice_qual = #{noticeQual}, 
+        notice_career = #{noticeCareer}, 
+        notice_wellfare = #{noticeWellfare}, 
+        job_id = #{jobId}
+        WHERE notice_id = #{noticeId}
+	</update>
+
 	<!-- <select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT ni.*
 		FROM (SELECT n.*, i.new_image_name
@@ -77,21 +92,6 @@
 		ON nj.company_id = ii.company_id
 		WHERE nj.notice_id = #{noticeId}
 	</select>
-
-	<update id="update">
-		UPDATE notice SET
-        notice_title = #{noticeTitle}, 
-        notice_period = #{noticePeriod}, 
-        notice_dept = #{noticeDept}, 
-        notice_position = #{noticePosition}, 
-        notice_task = #{noticeTask}, 
-        notice_sal = #{noticeSal}, 
-        notice_qual = #{noticeQual}, 
-        notice_career = #{noticeCareer}, 
-        notice_wellfare = #{noticeWellfare}, 
-        job_id = #{jobId}
-        WHERE notice_id = #{noticeId}
-	</update>
 
 	<delete id="deleteById">
 		DELETE FROM notice WHERE notice_id = #{noticeId}
