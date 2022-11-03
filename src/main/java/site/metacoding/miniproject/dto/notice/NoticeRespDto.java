@@ -220,4 +220,28 @@ public class NoticeRespDto {
             this.jobId = notice.getJobId();
         }
     }
+
+    @Setter
+    @Getter
+    public static class NoticeSubscribeRespDto {
+        private Integer noticeId;
+        private Integer companyId;
+        private String noticeTitle;
+        private String noticePeriod;
+        private String noticeDept;
+        private String noticePosition;
+        private String noticeQual;
+        private String noticeTask;
+
+        public NoticeSubscribeRespDto(Notice notice) {
+            this.noticeId = notice.getNoticeId();
+            this.companyId = notice.getCompanyId();
+            this.noticeTitle = notice.getNoticeTitle();
+            this.noticePeriod = notice.getNoticePeriod();
+            this.noticeDept = notice.getNoticeDept();
+            this.noticePosition = notice.getNoticePosition();
+            this.noticeQual = notice.getNoticeQual();
+            this.noticeTask = notice.getNoticeTask();
+        }
+    }
 }

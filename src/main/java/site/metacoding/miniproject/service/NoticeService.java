@@ -18,6 +18,7 @@ import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeFindByCompanyI
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeJobRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeMatchingRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeSaveRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeSubscribeRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeUpdateRespDto;
 
 @Slf4j
@@ -29,10 +30,6 @@ public class NoticeService {
 
     // public Notice 내공고상세보기(Integer noticeId) {// 기업회원이 수정할 때 사용
     // return noticeDao.findById(noticeId);
-    // }
-
-    // public List<Notice> 구독공고목록보기(Integer employeeId) {
-    // return noticeDao.findSubsByEmployeeId(employeeId);
     // }
 
     public List<NoticeAllRespDto> findNoticeAllList() { // 개인회원이 채용공고 전체 목록보기
@@ -55,6 +52,12 @@ public class NoticeService {
     public List<NoticeMatchingRespDto> findMachingNoticeList(Integer employeeId) { // 개인회원이 매칭리스트 공고 보기
         return noticeDao.findMatchingByJobId(employeeId).stream().map((notice) -> new NoticeMatchingRespDto(notice))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<NoticeSubscribeRespDto> subsNoticeAll(Integer employeeId) {
+        return noticeDao.findSubsByEmployeeId(employeeId).stream()
+                .map((notice) -> new NoticeSubscribeRespDto(notice)).collect(Collectors.toList());
     }
 
     @Transactional
