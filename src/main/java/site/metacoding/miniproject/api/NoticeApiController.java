@@ -104,6 +104,6 @@ public class NoticeApiController {
 
     @GetMapping("/co/notice/{companyId}/detail/{noticeId}")
     public ResponseDto<?> noticeDetail(@PathVariable Integer companyId, @PathVariable Integer noticeId) {
-        return new ResponseDto<>(1, "통신성공", noticeService.noticeDetail(noticeId));
+        return new ResponseDto<>(1, "통신성공", noticeService.getNoticeDetail(noticeId));
     }
 }

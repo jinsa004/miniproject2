@@ -30,7 +30,7 @@ public class EmployeeApiController {
 
     // 로그인
     @PostMapping("/emp/login")
-    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
+    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
             HttpServletResponse response) {
         EmpSessionUser empPrincipal = employeeService.로그인(empLoginReqDto);
         if (empPrincipal == null) {
@@ -38,22 +38,6 @@ public class EmployeeApiController {
         }
         session.setAttribute("empprincipal", empPrincipal);
         return new ResponseDto<>(1, "로그인성공", null);
-    }
-
-    @PostMapping("/emp/login")
-    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto) {
-        EmpSessionUser empSessionUser = employeeService.로그인(empLoginReqDto);
-
-        System.out.println("===============");
-        System.out.println(empLoginReqDto.isRemember());
-        System.out.println("===============");
-
-        // session.setAttribute("empSessionUser", empSessionUser);
-        // Employee principal = employeeService.로그인(empLoginReqDto);
-        if (empSessionUser == null) {
-            return new ResponseDto<>(-1, "로그인실패", null);
-        }
-        return new ResponseDto<>(1, "로그인성공", empSessionUser);
     }
 
     @PostMapping("/emp/join")
