@@ -83,6 +83,30 @@ public class CompanyRespDto {
       this.companyPassword = company.getCompanyPassword();
       this.jobCheckList = jobCheckList;
     }
+  }
+
+  @Setter
+  @Getter
+  public static class CompanyDeleteRespDto {
+    private Integer companyNumber;
+    private String companyName;
+    private String companyEmail;
+    private String companyTel;
+    private String companyLocation;
+    private String companyUsername;
+    private String companyPassword;
+    private List<CoCheckRespDto> jobCheckList;
+
+    public CompanyDeleteRespDto(Company company, List<CoCheckRespDto> jobCheckList) {
+      this.companyNumber = company.getCompanyNumber();
+      this.companyName = company.getCompanyName();
+      this.companyEmail = company.getCompanyEmail();
+      this.companyTel = company.getCompanyTel();
+      this.companyLocation = company.getCompanyLocation();
+      this.companyUsername = company.getCompanyUsername();
+      this.companyPassword = company.getCompanyPassword();
+      this.jobCheckList = jobCheckList;
+    }
 
   }
 }

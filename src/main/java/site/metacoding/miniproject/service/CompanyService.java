@@ -11,10 +11,12 @@ import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.company.CompanyDao;
 import site.metacoding.miniproject.dto.check.company.CoCheckRespDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 
 @Service
 @RequiredArgsConstructor
@@ -23,16 +25,14 @@ public class CompanyService {
   private final CompanyDao companyDao;
   private final CoCheckDao coCheckDao;
 
-  // public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
-  // Company companyPS =
-  // companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
-  // if (companyPS != null &&
-  // companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword()))
-  // {
-  // return new CompanySessionUser(companyPS);
-  // }
-  // return null;
-  // }
+  public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
+    Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
+    if (companyPS != null &&
+        companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword())) {
+      return new CompanySessionUser(companyPS);
+    }
+    return null;
+  }
 
   @Transactional
   public CompanyJoinRespDto join(CompanyJoinReqDto companyJoinReqDto) {
@@ -42,25 +42,24 @@ public class CompanyService {
     for (Integer jobId : companyJoinReqDto.getJobIds()) {
       coCheckDao.insert(companyPS.getCompanyId(), jobId);
     }
-    List<CoCheckRespDto> coCheckList = coCheckDao.findAll(companyPS.getCompanyId());
+    List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
     return new CompanyJoinRespDto(companyPS, coCheckList);
   }
 
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {
     Company companyPS = companyDao.findById(companyId);
-    List<CoCheckRespDto> coCheckList = coCheckDao.findAll(companyPS.getCompanyId());
+    List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
     CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS, coCheckList);
     return companyDetailRespDto;
   }
 
   public CompanyUpdateRespDto updateCompany(Integer companyId, CompanyUpdateReqDto companyUpdateReqDto) {
-
-    // emp_check 값 업데이트
+    // co_check 값 업데이트
     coCheckDao.deleteById(companyId);
     for (Integer jobId : companyUpdateReqDto.getJobIds()) {
       coCheckDao.insert(companyId, jobId);
     }
-    List<CoCheckRespDto> jobCheckList = coCheckDao.findAll(companyId);
+    List<CoCheckRespDto> jobCheckList = coCheckDao.findByCompanyId(companyId);
 
     // 회원정보 업데이트
     Company companyPS = companyDao.findById(companyId);
@@ -69,7 +68,7 @@ public class CompanyService {
     return new CompanyUpdateRespDto(companyPS, jobCheckList);
   }
 
-  public void 기업회원탈퇴(Integer companyId) {
+  public void deleteCompany(Integer companyId) {
     companyDao.deleteById(companyId);
     coCheckDao.deleteById(companyId);
   }
