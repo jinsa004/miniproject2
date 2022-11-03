@@ -68,7 +68,7 @@ public class CompanyService {
     return new CompanyUpdateRespDto(companyPS, jobCheckList);
   }
 
-  public void 기업회원탈퇴(Integer companyId) {
+  public void deleteCompany(Integer companyId) {
     companyDao.deleteById(companyId);
     coCheckDao.deleteById(companyId);
   }
