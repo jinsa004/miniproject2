@@ -101,9 +101,9 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "공고 수정 성공", noticeService.updateNotice(noticeId, NoticeUpdateReqDto));
     }
 
-    @DeleteMapping("/co/noticeDelete/{noticeId}")
+    @DeleteMapping("/co/notice/delete/{noticeId}")
     public @ResponseBody ResponseDto<?> deleteNotice(@PathVariable Integer noticeId) {
-        noticeService.내공고삭제(noticeId);
+        noticeService.deleteNotice(noticeId);
         return new ResponseDto<>(1, "공고 삭제 성공", null);
     }
 
