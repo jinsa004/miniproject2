@@ -1,6 +1,7 @@
 package site.metacoding.miniproject.dto.resume;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.application.Application;
 import site.metacoding.miniproject.domain.resume.Resume;
