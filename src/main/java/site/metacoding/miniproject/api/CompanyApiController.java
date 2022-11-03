@@ -16,12 +16,14 @@ import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespD
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
 import site.metacoding.miniproject.service.CompanyService;
+import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
 
 @RequiredArgsConstructor
 @RestController
 public class CompanyApiController {
 
+    private final IntroService introService;
     private final CompanyService companyService;
     private final JobService jobService;
 
@@ -47,6 +49,11 @@ public class CompanyApiController {
         CompanyUpdateRespDto companyUpdateRespDto = companyService.updateCompany(companyId, companyUpdateReqDto);
         // session.setAttribute("coprincipal", companyPS);
         return new ResponseDto<>(1, "수정성공", companyUpdateRespDto);
+    }
+
+    @GetMapping("/cs/co/companyIntroDetail/{companyId}")
+    public ResponseDto<?> findByCompanyId(@PathVariable Integer companyId) {// 기업에서 기업소개 상세보기
+        return new ResponseDto<>(1, "성공", introService.findByCompanyId(companyId));
     }
 
     // ================= 유효성 체크 ================
@@ -76,5 +83,24 @@ public class CompanyApiController {
         }
         return new ResponseDto<>(1, "성공", isSame);
     }
+
+    // @PostMapping("/api/cs/co/companyIntroInsert")
+    // public ResponseDto<?> insertIntro(@RequestBody IntroSaveReqDto
+    // introSaveReqDto) {
+    // // SessionUser sessionUser = (SessionUser)
+    // // session.getAttribute("sessionUser");
+    // // introSaveReqDto.setSessionUser(sessionUser);
+    // IntroSaveRespDto introSaveRespDto = introService.saveIntro(introSaveReqDto);
+    // return new ResponseDto<>(1, "성공", introSaveRespDto);
+    // }
+
+    // @PutMapping("")
+    // public ResponseDto<?> updateIntro(@PathVariable Integer introId, @RequestBody
+    // IntroUpdateReqDto introUpdateReqDto) {
+    // // SessionUser sessionUser = (SessionUser)
+    // // session.getAttribute("sessionUser");
+    // introUpdateReqDto.setIntroId(introId);
+    // return new ResponseDto<>(1, "성공", introService.update(introUpdateReqDto));
+    // }
 
 }

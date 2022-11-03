@@ -28,6 +28,7 @@ public class Intro {
 	private String jobCode;
 	private boolean isSubed;
 	private Integer subscribeId;
+	private Integer principalId;
 
 	@Builder
 	public Intro(Integer introId, Integer companyId, String introConame, String introBirth, String introTask,

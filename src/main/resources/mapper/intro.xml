@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.intro.IntroDao">
 
-	<!-- <insert id="insert">
+
+	<!-- <insert id="insert" useGeneratedKeys="true" keyProperty="intro">
 		INSERT INTO intro
 		(company_id, intro_coname, intro_birth, intro_task, intro_sal, intro_wellfare, intro_content, intro_location, job_id, intro_image_id)
 		VALUES(#{companyId}, #{introConame}, #{introBirth}, #{introTask}, #{introSal}, #{introWellfare}, #{introContent}, #{introLocation}, #{jobId}, #{introImageId});	
 	</insert>
 
-	<select id="findAll" resultType="site.metacoding.miniproject.dto.intro.IntroRespDto">
+	<select id="findAll" resultType="site.metacoding.miniproject.domain.intro.Intro">
 		SELECT ii.*, c.company_name
 		FROM (SELECT i.*, img.new_image_name
 		FROM intro i
@@ -18,7 +19,7 @@
 		ON ii.company_id = c.company_id
 	</select>
 
-	<select id="findById" resultType="site.metacoding.miniproject.dto.intro.IntroRespDto">
+	<select id="findById" resultType="site.metacoding.miniproject.domain.intro.Intro">
 		SELECT  i.intro_id, c.company_name, i.intro_coname, i.intro_task, i.intro_sal, i.intro_wellfare, i.intro_content, i.intro_sal, i.intro_wellfare,
 		i.intro_content, i.intro_location, i.intro_image_id, i.intro_birth, i.job_id, j.job_name, j.job_code, i.company_id
 		FROM intro i
@@ -50,7 +51,7 @@
 		i.intro_wellfare = #{introWellfare},
 		i.intro_sal = #{introSal},
 		i.intro_content = #{introContent},
-		i.intro_location = #{introLocation},
+		i.intro_location = #{introLocation}, 
 		i.intro_image_id  = #{introImageId},
 		i.job_id = #{jobId}
 		WHERE i.intro_id = #{introId}
@@ -58,8 +59,8 @@
 
 	<delete id="deleteById"></delete>
 
-	<select id="findByDetail" resultType="site.metacoding.miniproject.dto.intro.IntroRespDto">
-		SELECT i.*,
+	<select id="findByDetail" resultType="site.metacoding.miniproject.domain.intro.Intro">
+		SELECT ii.*,
 		s.subscribe_id subscribeId,	
 		if(s.subscribe_id IS NULL, 0 ,1) isSubed,
 		j.job_name,
@@ -67,13 +68,15 @@
 		c.company_name
 		FROM (SELECT i.*, img.new_image_name
 		FROM intro i
+		LEFT OUTER JOIN intro_image img
+		ON i.intro_image_id = img.intro_image_id) ii
 		LEFT OUTER JOIN (SELECT * FROM subscribe WHERE employee_id = #{principalId}) s
-		ON i.company_id = s.company_id
+		ON ii.company_id = s.company_id
 		LEFT OUTER JOIN job j
-		ON i.job_id = j.job_id
+		ON ii.job_id = j.job_id
 		LEFT OUTER JOIN company c
-		ON i.company_id = c.company_id
-		WHERE i.intro_id = #{introId}
+		ON ii.company_id = c.company_id
+		WHERE ii.intro_id = #{introId}
 	</select> -->
 
 </mapper>
