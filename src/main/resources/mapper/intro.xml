@@ -75,7 +75,7 @@
 		ON ii.job_id = j.job_id
 		LEFT OUTER JOIN company c
 		ON ii.company_id = c.company_id
-		WHERE ii.intro_id = #{introId}!-->
-	</select>
+		WHERE ii.intro_id = #{introId}
+	</select>!-->
 
 </mapper>

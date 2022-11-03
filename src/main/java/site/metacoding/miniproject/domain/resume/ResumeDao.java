@@ -16,11 +16,7 @@ public interface ResumeDao {
 
     public List<Resume> findByEmployeeId(Integer employeeId);
 
-<<<<<<< HEAD
     public void insert(Resume resume);
-=======
-    public void insert(ResumeSaveReqDto resumesSaveReqDto);
->>>>>>> 51343ab629c1d255fe960903875f8527d8c32783
 
     public void deleteById(Integer resumeId);
 
