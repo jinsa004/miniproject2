@@ -14,6 +14,7 @@ import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
+import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpJoinRespDto;
 import site.metacoding.miniproject.service.EmployeeService;
 
 @RequiredArgsConstructor
@@ -31,19 +32,19 @@ public class EmpApiController {
         System.out.println(empLoginReqDto.isRemember());
         System.out.println("===============");
 
+        session.setAttribute("empSessionUser", empSessionUser);
         // Employee principal = employeeService.로그인(empLoginReqDto);
         if (empSessionUser == null) {
             return new ResponseDto<>(-1, "로그인실패", null);
         }
-        session.setAttribute("empSessionUser", empSessionUser);
         return new ResponseDto<>(1, "로그인성공", empSessionUser);
     }
 
     @PostMapping("/emp/join")
     public ResponseDto<?> 회원가입(@RequestBody EmpJoinReqDto empJoinReqDto) {
-        // EmpJoinRespDto empJoinRespDto = employeeService.employeeJoin(empJoinReqDto);
-        employeeService.employeeJoin(empJoinReqDto);
-        return new ResponseDto<>(1, "회원가입 성공", null);
+        EmpJoinRespDto empJoinRespDto = employeeService.employeeJoin(empJoinReqDto);
+        // employeeService.employeeJoin(empJoinReqDto);
+        return new ResponseDto<>(1, "회원가입 성공", empJoinRespDto);
     }
 
 }

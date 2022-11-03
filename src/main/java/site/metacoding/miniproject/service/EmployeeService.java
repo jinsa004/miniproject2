@@ -71,7 +71,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void employeeJoin(EmpJoinReqDto empJoinReqDto) {
+    public EmpJoinRespDto employeeJoin(EmpJoinReqDto empJoinReqDto) {
         Employee employeePS = empJoinReqDto.toEmpEntity();
         employeeDao.insert(employeePS);
         // employeeDao.insert(employee);
@@ -79,10 +79,9 @@ public class EmployeeService {
         for (Integer jobId : empJoinReqDto.getJobIds()) {
             empCheckDao.insert(employeePS.getEmployeeId(), jobId);
         }
-        // List<EmpCheckRespDto> jobCheckList =
-        // empCheckDao.findAll(employeePS.getEmployeeId());
+        List<EmpCheckRespDto> jobCheckList = empCheckDao.findAll(employeePS.getEmployeeId());
 
-        // return new EmpJoinRespDto(employeePS, jobCheckList);
+        return new EmpJoinRespDto(employeePS, jobCheckList);
     }
 
     // =========================== 유효성체크 ======================================

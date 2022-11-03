@@ -15,11 +15,11 @@
 		WHERE employee_id = #{employeeId}
     </select> -->
 
-	<!-- <select id="findAll" resultType="package site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto">
+	<select id="findAll" resultType="site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto">
         select *
         FROM emp_check c
 		WHERE employee_id = #{employeeId}
-    </select> -->
+    </select>
 
 	<!-- <delete id="deleteById">
 		DELETE FROM emp_check WHERE employee_id=#{employeeId}
