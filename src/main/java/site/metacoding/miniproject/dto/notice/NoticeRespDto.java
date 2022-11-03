@@ -2,6 +2,8 @@ package site.metacoding.miniproject.dto.notice;
 
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.miniproject.domain.intro.Intro;
+import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.notice.Notice;
 
 public class NoticeRespDto {
@@ -41,7 +43,6 @@ public class NoticeRespDto {
     @Setter
     @Getter
     public static class NoticeDetailRespDto {
-
         private Integer noticeId;
         private Integer companyId;
         private String noticeTitle;
@@ -54,7 +55,6 @@ public class NoticeRespDto {
         private String noticeCareer;
         private String noticeWellfare;
         private Integer jobId;
-
         // notice가 아닌 필드
         private Integer jobCode;
         private String jobName;
