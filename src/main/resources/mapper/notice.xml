@@ -57,6 +57,16 @@
 		WHERE nj.notice_id = #{noticeId}
 	</select>
 
+	<select id="findSubsByEmployeeId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT ns.*
+		FROM (SELECT n.*
+		FROM notice n
+		INNER JOIN subscribe s
+		ON n.company_id = s.company_id
+		WHERE s.employee_id = #{employeeId}) ns
+		ORDER BY ns.notice_period DESC;
+	</select>
+
 	<select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT ni.*
 		FROM (SELECT n.*, i.new_image_name
@@ -79,18 +89,6 @@
 		WHERE c.employee_id = #{employeeId}) ec
 		ON n.job_id = ec.job_id
 		ORDER BY n.notice_period DESC
-	</select>
-
-	<select id="findSubsByEmployeeId" resultType="site.metacoding.miniproject.domain.notice.Notice">
-		SELECT ns.*, img.new_image_name
-		FROM (SELECT n.*
-		FROM notice n
-		INNER JOIN subscribe s
-		ON n.company_id = s.company_id
-		WHERE s.employee_id = #{employeeId}) ns
-		LEFT OUTER JOIN intro_image img
-		ON ns.company_id = img.company_id
-		ORDER BY ns.notice_period DESC
 	</select>
 
 </mapper>

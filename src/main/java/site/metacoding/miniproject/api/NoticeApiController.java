@@ -67,12 +67,10 @@ public class NoticeApiController {
         }
     }
 
-    // @GetMapping("/es/emp/subscribeNotice/{employeeId}")
-    // public String subs(@PathVariable Integer employeeId, Model model) {
-    // List<Notice> noticeList = noticeService.구독공고목록보기(employeeId);
-    // model.addAttribute("noticeList", noticeList);
-    // return "employee/subscription";
-    // }
+    @GetMapping("/emp/subscribeNotice/{employeeId}")
+    public ResponseDto<?> subsNoticeAll(@PathVariable Integer employeeId) { // 성진
+        return new ResponseDto<>(1, "통신성공", noticeService.subsNoticeAll(employeeId));
+    }
 
     /* =============================기업회원========================================= */
 
@@ -107,7 +105,7 @@ public class NoticeApiController {
     }
 
     @GetMapping("/co/notice/{companyId}/detail/{noticeId}")
-    public ResponseDto<?> updateMyNotice(@PathVariable Integer companyId, @PathVariable Integer noticeId) {
-        return new ResponseDto<>(1, "통신성공", noticeService.getNoticeDetail(noticeId)); // 메서드이름 수정
+    public ResponseDto<?> noticeDetail(@PathVariable Integer companyId, @PathVariable Integer noticeId) {
+        return new ResponseDto<>(1, "통신성공", noticeService.noticeDetail(noticeId));
     }
 }
