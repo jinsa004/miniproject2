@@ -11,11 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.notice.NoticeDao;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
+import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeAllRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeFindByCompanyIdRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeJobRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeMatchingRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeSaveRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeUpdateRespDto;
 
 @Slf4j
 @Service
@@ -63,12 +65,6 @@ public class NoticeService {
                 .collect(Collectors.toList());
     }
 
-    // public void 이력서수정(Integer noticeId, NoticeUpdateDto noticeUpdateDto) {
-    // Notice noticePS = noticeDao.findById(noticeId);
-    // // noticePS.update(noticeUpdateDto);
-    // noticeDao.update(noticePS);
-    // }
-
     @Transactional
     public NoticeSaveRespDto saveNotice(NoticeSaveReqDto noticeSaveReqDto) {
         Notice noticePS = noticeSaveReqDto.toEntity();
@@ -83,6 +79,16 @@ public class NoticeService {
     public List<NoticeFindByCompanyIdRespDto> findByCompanyIdToNotice(Integer companyId) {
         return noticeDao.findByCompanyId(companyId).stream().map((notice) -> new NoticeFindByCompanyIdRespDto(notice))
                 .collect(Collectors.toList());
+    }
+    
+    @Transactional
+    public NoticeUpdateRespDto updateNotice(Integer noticeId, NoticeUpdateReqDto NoticeUpdateReqDto) {
+        Notice noticePS = noticeDao.findById(noticeId);
+        noticePS.update(NoticeUpdateReqDto);
+        noticeDao.update(noticePS);
+        noticeDao.findById(noticePS.getNoticeId());
+        NoticeUpdateRespDto noticeUpdateRespDto = new NoticeUpdateRespDto(noticePS);
+        return noticeUpdateRespDto;
     }
 
 }

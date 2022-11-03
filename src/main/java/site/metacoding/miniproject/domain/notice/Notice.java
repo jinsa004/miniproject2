@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -55,4 +56,17 @@ public class Notice {
 		this.jobId = jobId;
 	}
 
+	public void update(NoticeUpdateReqDto noticeUpdateReqDto) {
+		this.companyId = noticeUpdateReqDto.getCompanyId();
+		this.noticeTitle = noticeUpdateReqDto.getNoticeWellfare();
+		this.noticePeriod = noticeUpdateReqDto.getNoticePeriod();
+		this.noticeDept = noticeUpdateReqDto.getNoticeDept();
+		this.noticePosition = noticeUpdateReqDto.getNoticePosition();
+		this.noticeTask = noticeUpdateReqDto.getNoticeTask();
+		this.noticeSal = noticeUpdateReqDto.getNoticeSal();
+		this.noticeQual = noticeUpdateReqDto.getNoticeQual();
+		this.noticeCareer = noticeUpdateReqDto.getNoticeCareer();
+		this.noticeWellfare = noticeUpdateReqDto.getNoticeWellfare();
+		this.jobId = noticeUpdateReqDto.getJobId();
+	}
 }
