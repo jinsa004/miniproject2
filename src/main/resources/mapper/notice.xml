@@ -28,18 +28,15 @@
 	</select>
 
 	<select id="findMatchingByJobId" resultType="site.metacoding.miniproject.domain.notice.Notice">
-		SELECT nec.*, img.new_image_name
-		FROM (SELECT n.*
+		SELECT n.*
 		FROM notice n
-		INNER JOIN (SELECT ec.job_id
-		FROM emp_check ec
+		INNER JOIN (SELECT c.job_id
+		FROM emp_check c
 		INNER JOIN employee e
-		ON ec.employee_id = e.employee_id
-		WHERE ec.employee_id = #{employeeId}) ec
-		ON n.job_id = ec.job_id) nec
-		LEFT OUTER JOIN intro_image img
-		ON nec.company_id = img.company_id
-		ORDER BY nec.notice_period DESC
+		ON c.employee_id = e.employee_id
+		WHERE c.employee_id = #{employeeId}) ec
+		ON n.job_id = ec.job_id
+		ORDER BY n.notice_period DESC
 	</select>
 
 	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
@@ -99,6 +96,5 @@
 	<delete id="deleteById">
 		DELETE FROM notice WHERE notice_id = #{noticeId}
 	</delete> -->
-
 
 </mapper>

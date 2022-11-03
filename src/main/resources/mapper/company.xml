@@ -36,7 +36,6 @@
 		WHERE company_Email = #{companyEmail}
 	</select>
 
-
 	<update id="update">
 		UPDATE company 
 		SET company_number = #{companyNumber},

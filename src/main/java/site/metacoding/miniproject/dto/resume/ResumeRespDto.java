@@ -26,17 +26,29 @@ public class ResumeRespDto {
 	@Setter
 	@Getter
 	public static class ResumeAllRespDto {
+		private String employeeName;
 		private String resumeTitle;
-		private Integer employeeId;
 		private String careerPeriod;
-		private Integer jobId;
+		private String jobName;
+		private String resumeId;
 
-		public ResumeAllRespDto(Resume resume) {
-			this.resumeTitle = resume.getResumeTitle();
-			this.employeeId = resume.getEmployeeId();
-			this.careerPeriod = resume.getCareerPeriod();
-			this.jobId = resume.getJobId();
-		}
+		// public ResumeAllRespDto(Resume resume) {
+		// this.resumeTitle = resume.getResumeTitle();
+		// this.employeeId = resume.getEmployeeId();
+		// this.careerPeriod = resume.getCareerPeriod();
+		// this.jobId = resume.getJobId();
+		// }
+	}
+
+	@Setter
+	@Getter
+	public static class MatchingResumeRespDto {
+		private Integer resumeId;
+		private String resumeTitle;
+		private String employeeName;
+		private Integer jobId;
+		private String careerPeriod;
+		private String jobName;
 	}
 
 	@Setter
@@ -111,6 +123,7 @@ public class ResumeRespDto {
 	@Setter
 	@Getter
 	public static class ResumeSaveRespDto {
+		private Integer resumeId;
 		private String resumeTitle;
 		private Integer employeeId;
 		private String highschoolName;
@@ -130,6 +143,7 @@ public class ResumeRespDto {
 		private Integer jobId;
 
 		public ResumeSaveRespDto(Resume resume) {
+			this.resumeId = resume.getResumeId();
 			this.resumeTitle = resume.getResumeTitle();
 			this.employeeId = resume.getEmployeeId();
 			this.highschoolName = resume.getHighschoolName();
