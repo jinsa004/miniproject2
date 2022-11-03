@@ -16,8 +16,11 @@ import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespD
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
 import site.metacoding.miniproject.service.CompanyService;
-import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
+import site.metacoding.miniproject.dto.intro.IntroResDto.IntroSaveReqDto;
+import site.metacoding.miniproject.dto.intro.IntroResDto.IntroUpdateReqDto;
+import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
+import site.metacoding.miniproject.service.IntroService;
 
 @RequiredArgsConstructor
 @RestController

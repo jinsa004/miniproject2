@@ -3,7 +3,7 @@
 <mapper namespace="site.metacoding.miniproject.domain.intro.IntroDao">
 
 
-	<!-- <insert id="insert" useGeneratedKeys="true" keyProperty="intro">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="intro">
 		INSERT INTO intro
 		(company_id, intro_coname, intro_birth, intro_task, intro_sal, intro_wellfare, intro_content, intro_location, job_id, intro_image_id)
 		VALUES(#{companyId}, #{introConame}, #{introBirth}, #{introTask}, #{introSal}, #{introWellfare}, #{introContent}, #{introLocation}, #{jobId}, #{introImageId});	
@@ -77,6 +77,6 @@
 		LEFT OUTER JOIN company c
 		ON ii.company_id = c.company_id
 		WHERE ii.intro_id = #{introId}
-	</select> -->
+	</select>
 
 </mapper>
