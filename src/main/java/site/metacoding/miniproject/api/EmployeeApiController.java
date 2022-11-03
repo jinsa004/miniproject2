@@ -1,5 +1,6 @@
 package site.metacoding.miniproject.api;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,19 @@ public class EmployeeApiController {
 
     private final IntroService introService;
     private final EmployeeService employeeService;
+    private final HttpSession session;
+
+    // 로그인
+    @PostMapping("/emp/login")
+    public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
+            HttpServletResponse response) {
+        EmpSessionUser empPrincipal = employeeService.로그인(empLoginReqDto);
+        if (empPrincipal == null) {
+            return new ResponseDto<>(-1, "로그인실패", null);
+        }
+        session.setAttribute("empprincipal", empPrincipal);
+        return new ResponseDto<>(1, "로그인성공", null);
+    }
 
     // 개인이 보는기업소개 상세보기
     @GetMapping("/emp/companyIntroDetail/{introId}")
