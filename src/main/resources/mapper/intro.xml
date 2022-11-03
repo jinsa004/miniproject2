@@ -2,13 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.intro.IntroDao">
 
-	<!-- <insert id="insert" useGeneratedKeys="true" keyProperty="intro">
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="introId">
 		INSERT INTO intro
-		(company_id, intro_coname, intro_birth, intro_task, intro_sal, intro_wellfare, intro_content, intro_location, job_id, intro_image_id)
-		VALUES(#{companyId}, #{introConame}, #{introBirth}, #{introTask}, #{introSal}, #{introWellfare}, #{introContent}, #{introLocation}, #{jobId}, #{introImageId});	
+		(company_id, intro_coname, intro_birth, intro_task, intro_sal, intro_wellfare, intro_content, intro_location, job_id)
+		VALUES(#{companyId}, #{introConame}, #{introBirth}, #{introTask}, #{introSal}, #{introWellfare}, #{introContent}, #{introLocation}, #{jobId});	
 	</insert>
 
-	<select id="findAll" resultType="site.metacoding.miniproject.domain.intro.Intro">
+
+	<select id="findByIntroId" resultType="site.metacoding.miniproject.domain.intro.Intro">
+		SELECT  i.intro_id, c.company_name, i.intro_coname, i.intro_task, i.intro_sal, i.intro_wellfare, i.intro_content, i.intro_sal, i.intro_wellfare,
+		i.intro_content, i.intro_location, i.intro_birth, i.job_id, j.job_name, j.job_code, i.company_id
+		FROM intro i
+		LEFT OUTER JOIN company c
+		ON i.company_id = c.company_id
+		LEFT OUTER JOIN job j
+		ON i.job_id = j.job_id
+		WHERE i.intro_id = #{introId}
+	</select>
+
+
+	<!-- <select id="findAll" resultType="site.metacoding.miniproject.domain.intro.Intro">
 		SELECT ii.*, c.company_name
 		FROM (SELECT i.*, img.new_image_name
 		FROM intro i
@@ -18,16 +32,7 @@
 		ON ii.company_id = c.company_id
 	</select>
 
-	<select id="findById" resultType="site.metacoding.miniproject.domain.intro.Intro">
-		SELECT  i.intro_id, c.company_name, i.intro_coname, i.intro_task, i.intro_sal, i.intro_wellfare, i.intro_content, i.intro_sal, i.intro_wellfare,
-		i.intro_content, i.intro_location, i.intro_image_id, i.intro_birth, i.job_id, j.job_name, j.job_code, i.company_id
-		FROM intro i
-		LEFT OUTER JOIN company c
-		ON i.company_id = c.company_id
-		LEFT OUTER JOIN job j
-		ON i.job_id = j.job_id
-		WHERE c.company_id = #{companyId}
-	</select>
+
 
 	<select id="findByJobCodeToIntro" resultType="site.metacoding.miniproject.domain.intro.Intro">
 		SELECT ii.*
@@ -44,14 +49,13 @@
 		UPDATE intro i
 		RIGHT JOIN company c ON (c.company_id = i.company_id)
 		RIGHT JOIN job j ON (j.job_id = i.job_id)
-		SET i.intro_coname = #{introConame},
+		SET c.company_name = #{companyName},
 		i.intro_birth = #{introBirth},
 		i.intro_task = #{introTask},
 		i.intro_wellfare = #{introWellfare},
 		i.intro_sal = #{introSal},
 		i.intro_content = #{introContent},
-		i.intro_location = #{introLocation}, 
-		i.intro_image_id  = #{introImageId},
+		i.intro_location = #{introLocation},
 		i.job_id = #{jobId}
 		WHERE i.intro_id = #{introId}
 	</update>
@@ -76,6 +80,17 @@
 		LEFT OUTER JOIN company c
 		ON ii.company_id = c.company_id
 		WHERE ii.intro_id = #{introId}
-	</select>!-->
+	</select>
+
+	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.intro.Intro">
+		SELECT  i.intro_id, c.company_name, i.intro_coname, i.intro_task, i.intro_sal, i.intro_wellfare, i.intro_content, i.intro_sal, i.intro_wellfare,
+		i.intro_content, i.intro_location, i.intro_birth, i.job_id, j.job_name, j.job_code, i.company_id
+		FROM intro i
+		LEFT OUTER JOIN company c
+		ON i.company_id = c.company_id
+		LEFT OUTER JOIN job j
+		ON i.job_id = j.job_id
+		WHERE c.company_id = #{companyId}
+	</select> -->
 
 </mapper>

@@ -16,6 +16,9 @@ import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
+import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
+import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
+import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
 import site.metacoding.miniproject.service.CompanyService;
 import site.metacoding.miniproject.service.IntroService;
 import site.metacoding.miniproject.service.JobService;
@@ -50,13 +53,6 @@ public class CompanyApiController {
         CompanyUpdateRespDto companyUpdateRespDto = companyService.updateCompany(companyId, companyUpdateReqDto);
         // session.setAttribute("coprincipal", companyPS);
         return new ResponseDto<>(1, "수정성공", companyUpdateRespDto);
-    }
-
-    @DeleteMapping("/co/company/delete/{companyId}")
-    public ResponseDto<?> deleteCompany(@PathVariable Integer companyId) {
-        companyService.deleteCompany(companyId);
-        // session.invalidate();
-        return new ResponseDto<>(1, "기업탈퇴성공", null);
     }
 
     @GetMapping("/cs/co/companyIntroDetail/{companyId}")
@@ -98,23 +94,23 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "성공", isSame);
     }
 
-    // @PostMapping("/api/cs/co/companyIntroInsert")
-    // public ResponseDto<?> insertIntro(@RequestBody IntroSaveReqDto
-    // introSaveReqDto) {
-    // // SessionUser sessionUser = (SessionUser)
-    // // session.getAttribute("sessionUser");
-    // // introSaveReqDto.setSessionUser(sessionUser);
-    // IntroSaveRespDto introSaveRespDto = introService.saveIntro(introSaveReqDto);
-    // return new ResponseDto<>(1, "성공", introSaveRespDto);
-    // }
+    @PostMapping("/co/intro/insert")
+    public ResponseDto<?> insertIntro(@RequestBody IntroSaveReqDto introSaveReqDto) {
+        // SessionUser sessionUser = (SessionUser)
+        // session.getAttribute("sessionUser");
+        // introSaveReqDto.setSessionUser(sessionUser);
+        Integer companyId = 1;
+        introSaveReqDto.setCompanyId(companyId);
+        IntroSaveRespDto introSaveRespDto = introService.saveIntro(introSaveReqDto);
+        return new ResponseDto<>(1, "성공", introSaveRespDto);
+    }
 
-    // @PutMapping("")
-    // public ResponseDto<?> updateIntro(@PathVariable Integer introId, @RequestBody
-    // IntroUpdateReqDto introUpdateReqDto) {
-    // // SessionUser sessionUser = (SessionUser)
-    // // session.getAttribute("sessionUser");
-    // introUpdateReqDto.setIntroId(introId);
-    // return new ResponseDto<>(1, "성공", introService.update(introUpdateReqDto));
-    // }
+    @PutMapping("/co/intro/update/{introId}")
+    public ResponseDto<?> updateIntro(@PathVariable Integer introId, @RequestBody IntroUpdateReqDto introUpdateReqDto) {
+        // SessionUser sessionUser = (SessionUser)
+        // session.getAttribute("sessionUser");
+        introUpdateReqDto.setIntroId(introId);
+        return new ResponseDto<>(1, "성공", introService.update(introUpdateReqDto));
+    }
 
 }

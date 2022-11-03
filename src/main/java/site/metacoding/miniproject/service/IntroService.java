@@ -9,13 +9,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
 import site.metacoding.miniproject.domain.subscribe.SubscribeDao;
+import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
+import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroAllRespDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroFindByCompanyIdRespDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroFindByDetailRespDto;
+import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
+import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroUpdateRespDto;
+import site.metacoding.miniproject.dto.subscribe.SubscribeReqDto;
+import site.metacoding.miniproject.dto.subscribe.SubscribeReqDto.SubscribeSaveReqDto;
+import site.metacoding.miniproject.dto.subscribe.SubscribeRespDto.SubscribeSaveRespDto;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class IntroService {
@@ -36,7 +45,7 @@ public class IntroService {
 
     @Transactional(readOnly = true)
     public IntroFindByCompanyIdRespDto findByCompanyId(Integer companyId) { // 기업입장에서 기업소개 목록보기
-        Intro introPS = introDao.findById(companyId);
+        Intro introPS = introDao.findByCompanyId(companyId);
         IntroFindByCompanyIdRespDto introFindByCompanyIdRespDto = new IntroFindByCompanyIdRespDto(introPS);
         return introFindByCompanyIdRespDto;
     }
@@ -48,18 +57,29 @@ public class IntroService {
         return introFindByDetailRespDto;
     }
 
-    // @Transactional
-    // public IntroSaveRespDto saveIntro(IntroSaveReqDto introSaveReqDto) {
-    // Intro introPS = introDao.insert(introSaveReqDto);
-    // IntroSaveRespDto introSaveRespDto = new IntroSaveRespDto(introPS);
-    // return introSaveRespDto;
-    // }
+    @Transactional
+    public IntroSaveRespDto saveIntro(IntroSaveReqDto introSaveReqDto) {
+        introDao.insert(introSaveReqDto);
+        log.debug("디버그 : " + introSaveReqDto.getCompanyId());
+        Intro introPS = introDao.findByIntroId(introSaveReqDto.getIntroId());
+        IntroSaveRespDto introSaveRespDto = new IntroSaveRespDto(introPS);
+        return introSaveRespDto;
+    }
 
-    // public IntroUpdateReqDto update(IntroUpdateReqDto introUpdateReqDto) {
-    // Integer introId = introUpdateReqDto.getIntroId();
-    // Intro introPS = introDao.findById(introId);
-    // introPS.
-    // return null;
+    @Transactional
+    // 기업소개 업데이트
+    public IntroUpdateRespDto update(IntroUpdateReqDto introUpdateReqDto) {
+        introDao.update(introUpdateReqDto);
+        Intro introPS = introDao.findByIntroId(introUpdateReqDto.getIntroId());
+        IntroUpdateRespDto introUpdateRespDto = new IntroUpdateRespDto(introPS);
+        return introUpdateRespDto;
+    }
+
+    // public SubscribeSaveRespDto 구독하기(SubscribeSaveReqDto subscribeSaveReqDto) {
+    // Subscribe subscribePS = subscribeDao.insert(subscribeSaveReqDto.toEntity());
+    // SubscribeSaveRespDto subscribeSaveRespDto = new
+    // SubscribeSaveRespDto(subscribePS);
+    // return subscribeSaveRespDto;
     // }
 
     // public Subscribe 구독하기(Subscribe subscribe) {
