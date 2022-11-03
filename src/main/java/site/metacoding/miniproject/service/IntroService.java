@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
-import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.domain.subscribe.SubscribeDao;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroAllRespDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroFindByCompanyIdRespDto;
@@ -63,10 +62,10 @@ public class IntroService {
     // return null;
     // }
 
-    public Subscribe 구독하기(Subscribe subscribe) {
-        subscribeDao.insert(subscribe);
-        return subscribe;
-    }
+    // public Subscribe 구독하기(Subscribe subscribe) {
+    // subscribeDao.insert(subscribe);
+    // return subscribe;
+    // }
 
     public void 구독취소하기(Integer subscribeId) {
         subscribeDao.deleteById(subscribeId);

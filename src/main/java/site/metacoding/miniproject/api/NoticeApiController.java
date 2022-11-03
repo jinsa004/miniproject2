@@ -56,24 +56,25 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
     }
 
-    @GetMapping("/emp/noticeDetail/{noticeId}") // notice/Detail로 들어가는게 좋을 것 같습니다
-    public String recruitDetail(@PathVariable Integer noticeId, Model model) {// 개인회원 입장에서 채용공고 상세보기
-        Employee principal = (Employee) session.getAttribute("empprincipal");
-        if (principal != null) {
-            List<Resume> resumePS = resumeService.내이력서가져오기(principal.getEmployeeId());
-            model.addAttribute("resumePS", resumePS);
-        }
-        Notice noticePS = noticeService.기업공고하나보기(noticeId);
-        model.addAttribute("noticePS", noticePS);
-        return "employee/noticeDetail";
-    }
+    // @GetMapping("/emp/noticeDetail/{noticeId}") // notice/Detail로 들어가는게 좋을 것 같습니다
+    // public String recruitDetail(@PathVariable Integer noticeId, Model model) {//
+    // 개인회원 입장에서 채용공고 상세보기
+    // Employee principal = (Employee) session.getAttribute("empprincipal");
+    // if (principal != null) {
+    // List<Resume> resumePS = resumeService.내이력서가져오기(principal.getEmployeeId());
+    // model.addAttribute("resumePS", resumePS);
+    // }
+    // Notice noticePS = noticeService.기업공고하나보기(noticeId);
+    // model.addAttribute("noticePS", noticePS);
+    // return "employee/noticeDetail";
+    // }
 
-    @GetMapping("/es/emp/subscribeNotice/{employeeId}")
-    public String subs(@PathVariable Integer employeeId, Model model) {
-        List<Notice> noticeList = noticeService.구독공고목록보기(employeeId);
-        model.addAttribute("noticeList", noticeList);
-        return "employee/subscription";
-    }
+    // @GetMapping("/es/emp/subscribeNotice/{employeeId}")
+    // public String subs(@PathVariable Integer employeeId, Model model) {
+    // List<Notice> noticeList = noticeService.구독공고목록보기(employeeId);
+    // model.addAttribute("noticeList", noticeList);
+    // return "employee/subscription";
+    // }
 
     /* =============================기업회원========================================= */
 
@@ -107,13 +108,13 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "공고 삭제 성공", null);
     }
 
-    @GetMapping("/co/noticeService/{companyId}/noticeDetail/{noticeId}")
-    public ResponseDto<?> updateMyNotice(@PathVariable Integer companyId,
-            @PathVariable Integer noticeId, Model model) {
-        List<Job> jobPS = jobService.관심직무보기();
-        model.addAttribute("jobPS", jobPS);
-        Notice noticePS = noticeService.내공고상세보기(noticeId);
-        model.addAttribute("noticePS", noticePS);
-        return new ResponseDto<>(1, "통신성공", null);
-    }
+    // @GetMapping("/co/noticeService/{companyId}/noticeDetail/{noticeId}")
+    // public ResponseDto<?> updateMyNotice(@PathVariable Integer companyId,
+    // @PathVariable Integer noticeId, Model model) {
+    // List<Job> jobPS = jobService.관심직무보기();
+    // model.addAttribute("jobPS", jobPS);
+    // Notice noticePS = noticeService.내공고상세보기(noticeId);
+    // model.addAttribute("noticePS", noticePS);
+    // return new ResponseDto<>(1, "통신성공", null);
+    // }
 }
