@@ -67,6 +67,7 @@ public class IntroService {
         return introSaveRespDto;
     }
 
+
     @Transactional
     // 기업소개 업데이트
     public IntroUpdateRespDto update(IntroUpdateReqDto introUpdateReqDto) {
@@ -74,7 +75,6 @@ public class IntroService {
         Intro introPS = introDao.findByIntroId(introUpdateReqDto.getIntroId());
         IntroUpdateRespDto introUpdateRespDto = new IntroUpdateRespDto(introPS);
         return introUpdateRespDto;
-    }
 
     // public SubscribeSaveRespDto 구독하기(SubscribeSaveReqDto subscribeSaveReqDto) {
     // Subscribe subscribePS = subscribeDao.insert(subscribeSaveReqDto.toEntity());

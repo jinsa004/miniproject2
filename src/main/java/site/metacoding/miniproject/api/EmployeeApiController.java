@@ -51,6 +51,7 @@ public class EmployeeApiController {
         return new ResponseDto<>(1, "구독성공", subscribeSaveRespDto);
     }
 
+
     // 구독취소
     @DeleteMapping("/emp/subscribe/{subscribeId}")
     public ResponseDto<?> deleteSub(
