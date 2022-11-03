@@ -3,13 +3,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.resume.ResumeDao">
 
-	<!-- <insert id="insert" useGeneratedKeys="true" keyProperty="resumeId">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="resumeId">
 		insert into resume(resume_title, employee_id, highschool_name, highschool_startdate, highschool_enddate, highschool_major, 
 		univ_name, univ_startdate, univ_enddate, univ_major, univ_grades, prev_co, career_period, career_position, career_department, career_task, job_id, is_main, created_at) 
 		VALUES(#{resumeTitle}, #{employeeId}, #{highschoolName}, #{highschoolStartdate}, #{highschoolEnddate},  #{highschoolMajor}, #{univName}, #{univStartdate}, #{univEnddate}, #{univMajor}, #{univGrades}, #{prevCo}, #{careerPeriod}, #{careerPosition}, #{careerDepartment}, #{careerTask}, #{jobId}, false, NOW())
 	</insert>
 
-	<select id="findAll" resultType="site.metacoding.miniproject.domain.resume.Resume">
+	<select id="findById" resultType="site.metacoding.miniproject.domain.resume.Resume">
+		SELECT *
+		FROM resume r
+		LEFT OUTER JOIN employee e
+		ON r.employee_id = e.employee_id
+		LEFT OUTER JOIN job j
+		ON r.job_id = j.job_id
+		WHERE r.resume_id = #{resumeId}
+	</select>
+
+	<update id="update" useGeneratedKeys="true" keyProperty="resumeId">
+		UPDATE resume SET
+		resume_title = #{resumeTitle}, 
+		highschool_name = #{highschoolName}, 
+		highschool_startdate = #{highschoolStartdate}, 
+		highschool_enddate = #{highschoolEnddate}, 
+		highschool_major = #{highschoolMajor}, 
+		univ_name = #{univName}, 
+		univ_startdate = #{univStartdate}, 
+		univ_enddate = #{univEnddate}, 
+		univ_major = #{univMajor}, 
+		univ_grades = #{univGrades}, 
+		prev_co = #{prevCo}, 
+		career_period = #{careerPeriod}, 
+		career_position = #{careerPosition}, 
+		career_department = #{careerDepartment}, 
+		career_task = #{careerTask}, 
+		job_id = #{jobId}
+		WHERE resume_id = #{resumeId}
+	</update>
+
+	<select id="findByEmployeeId" resultType="site.metacoding.miniproject.domain.resume.Resume">
+		SELECT *
+		FROM resume r
+		INNER JOIN job j
+		ON r.job_id = j.job_id
+		WHERE r.employee_id=#{employeeId}
+  </select>
+
+	<update id="updateMain">
+		UPDATE resume
+		SET is_main =  case when resume_id=#{resumeId} then 1 ELSE 0 END
+		WHERE employee_id = (select employee_id from resume WHERE resume_id=#{resumeId})
+	</update>
+
+	<!-- <select id="findAll" resultType="site.metacoding.miniproject.domain.resume.Resume">
 		SELECT e.employee_name, r.resume_title, r.career_period, j.job_name, r.resume_id
 		FROM resume r
 		JOIN employee e
@@ -46,53 +91,16 @@
 		GROUP BY cj.job_id
 	</select>
 
-	<select id="findById" resultType="site.metacoding.miniproject.domain.resume.Resume">
-		SELECT *
-		FROM resume r
-		LEFT OUTER JOIN employee e
-		ON r.employee_id = e.employee_id
-		LEFT OUTER JOIN job j
-		ON r.job_id = j.job_id
-		WHERE r.resume_id = #{resumeId}
-	</select>
 
-	 <select id="findByEmployeeId" resultType="site.metacoding.miniproject.domain.resume.Resume">
-		SELECT *
-		FROM resume r
-		INNER JOIN job j
-		ON r.job_id = j.job_id
-		WHERE r.employee_id=#{employeeId}
-  </select>
 
-	<update id="update" useGeneratedKeys="true" keyProperty="resumeId">
-		UPDATE resume SET
-		resume_title = #{resumeTitle}, 
-		highschool_name = #{highschoolName}, 
-		highschool_startdate = #{highschoolStartdate}, 
-		highschool_enddate = #{highschoolEnddate}, 
-		highschool_major = #{highschoolMajor}, 
-		univ_name = #{univName}, 
-		univ_startdate = #{univStartdate}, 
-		univ_enddate = #{univEnddate}, 
-		univ_major = #{univMajor}, 
-		univ_grades = #{univGrades}, 
-		prev_co = #{prevCo}, 
-		career_period = #{careerPeriod}, 
-		career_position = #{careerPosition}, 
-		career_department = #{careerDepartment}, 
-		career_task = #{careerTask}, 
-		job_id = #{jobId}
-		WHERE resume_id = #{resumeId}
-	</update>
+
+
+
 
 	<delete id="deleteById">
 		DELETE FROM resume WHERE resume_id = #{resumeId}
 	</delete>
 
-	<update id="updateMain">
-		UPDATE resume
-		SET is_main =  case when resume_id=#{resumeId} then 1 ELSE 0 END
-		WHERE employee_id = (select employee_id from resume WHERE resume_id=#{resumeId})
-	</update> -->
+ -->
 
 </mapper>

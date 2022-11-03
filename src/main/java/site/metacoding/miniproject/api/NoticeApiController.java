@@ -52,8 +52,8 @@ public class NoticeApiController {
     public String recruitDetail(@PathVariable Integer noticeId, Model model) {// 개인회원 입장에서 채용공고 상세보기
         Employee principal = (Employee) session.getAttribute("empprincipal");
         if (principal != null) {
-            List<Resume> resumePS = resumeService.내이력서가져오기(principal.getEmployeeId());
-            model.addAttribute("resumePS", resumePS);
+            // List<Resume> resumePS = resumeService.내이력서가져오기(principal.getEmployeeId());
+            // model.addAttribute("resumePS", resumePS);
         }
         Notice noticePS = noticeService.기업공고하나보기(noticeId);
         model.addAttribute("noticePS", noticePS);
