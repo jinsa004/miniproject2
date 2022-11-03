@@ -66,7 +66,6 @@ public class NoticeRespDto {
         private String introWellfare;
         private String introContent;
         private String introLocation;
-        private Integer resumeId;
 
         public NoticeDetailRespDto(Notice notice) {
             this.noticeId = notice.getNoticeId();
@@ -81,6 +80,16 @@ public class NoticeRespDto {
             this.noticeCareer = notice.getNoticeCareer();
             this.noticeWellfare = notice.getNoticeWellfare();
             this.jobId = notice.getJobId();
+            this.jobCode = notice.getJobCode();
+            this.jobName = notice.getJobName();
+            this.introId = notice.getIntroId();
+            this.introConame = notice.getIntroConame();
+            this.introBirth = notice.getIntroBirth();
+            this.introTask = notice.getIntroTask();
+            this.introSal = notice.getIntroSal();
+            this.introWellfare = notice.getIntroWellfare();
+            this.introContent = notice.getIntroContent();
+            this.introLocation = notice.getIntroLocation();
         }
     }
 

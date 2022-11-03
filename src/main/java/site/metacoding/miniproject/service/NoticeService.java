@@ -13,6 +13,7 @@ import site.metacoding.miniproject.domain.notice.NoticeDao;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeAllRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeDetailRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeFindByCompanyIdRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeJobRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeMatchingRespDto;
@@ -28,10 +29,6 @@ public class NoticeService {
 
     // public Notice 내공고상세보기(Integer noticeId) {// 기업회원이 수정할 때 사용
     // return noticeDao.findById(noticeId);
-    // }
-
-    // public Notice 기업공고하나보기(Integer noticeId) {
-    // return noticeDao.findByNoticeIdToNoticeDetail(noticeId);
     // }
 
     // public List<Notice> 구독공고목록보기(Integer employeeId) {
@@ -95,4 +92,12 @@ public class NoticeService {
             throw new RuntimeException("해당 " + noticeId + "로 삭제를 할 수 없습니다.");
         }
     }
+
+    @Transactional
+    public NoticeDetailRespDto noticeDetail(Integer noticeId) {
+        Notice noticePS = noticeDao.findByNoticeIdToNoticeDetail(noticeId);
+        NoticeDetailRespDto noticeDetailRespDto = new NoticeDetailRespDto(noticePS);
+        return noticeDetailRespDto;
+    }
+
 }
