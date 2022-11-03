@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.subscribe.SubscribeDao">
 
-	<!-- <insert id="insert">
+	<insert id="insert">
 		insert into subscribe(employee_id, company_id) 
 		VALUES(#{employeeId}, #{companyId})
 	</insert>
@@ -16,6 +16,6 @@
 
 	<delete id="deleteById">
 		delete from subscribe WHERE subscribe_id = #{subscribeId}
-	</delete> -->
+	</delete>
 
 </mapper>
