@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.notice.NoticeDao;
+import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeAllRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeSaveRespDto;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
@@ -65,8 +70,14 @@ public class NoticeService {
     // noticeDao.update(noticePS);
     // }
 
-    public void 공고등록(Notice notice) {
-        noticeDao.insert(notice);
+    @Transactional
+    public NoticeSaveRespDto saveNotice(NoticeSaveReqDto noticeSaveReqDto) {
+        Notice noticePS = noticeSaveReqDto.toEntity();
+        noticeDao.insert(noticePS);
+        noticeDao.findById(noticePS.getNoticeId());
+        log.debug("디버그 : " + noticePS.getNoticeId());
+        NoticeSaveRespDto noticeSaveRespDto = new NoticeSaveRespDto(noticePS);
+        return noticeSaveRespDto;
     }
 
 }

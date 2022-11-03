@@ -20,6 +20,7 @@ import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.dto.ResponseDto;
+import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.service.JobService;
 import site.metacoding.miniproject.service.NoticeService;
 import site.metacoding.miniproject.service.ResumeService;
@@ -74,43 +75,27 @@ public class NoticeApiController {
 
     /* =============================기업회원========================================= */
 
-    @GetMapping("/co/noticeDetail")
-    public String noticeDetail() {// 기업회원 입장에서 채용공고 상세보기
-        return "company/noticeDetail";
-    }
-
-    @GetMapping("/cs/co/noticeSave/{companyId}")
-    public String 공고등록(@PathVariable Integer companyId, Model model) {
+    @GetMapping("/co/noticeSave/{companyId}")
+    public ResponseDto<?> 공고등록(@PathVariable Integer companyId, Model model) { // 등록폼을 가져오는 것
         session.getAttribute("coprincipal");
         List<Job> jobPS = jobService.관심직무보기();
         model.addAttribute("jobPS", jobPS);
-        return "notice/noticeSave";
-    }
-
-    @PostMapping("/coapi/cs/co/noticeSave")
-    public @ResponseBody ResponseDto<?> insert(@RequestBody Notice notice) {
-        noticeService.공고등록(notice);
         return new ResponseDto<>(1, "통신성공", null);
     }
 
-    @GetMapping("/cs/co/noticeService/{companyId}")
-    public String FindAllmyNotice(@PathVariable Integer companyId, Model model) { // 메서드이름은 동사여야 하지 않나요
+    @PostMapping("/co/notice/save")
+    public ResponseDto<?> saveNotice(@RequestBody NoticeSaveReqDto noticeSaveReqDto) {
+        return new ResponseDto<>(1, "통신성공", noticeService.saveNotice(noticeSaveReqDto));
+    }
+
+    @GetMapping("/co/noticeService/{companyId}")
+    public ResponseDto<?> FindAllmyNotice(@PathVariable Integer companyId, Model model) { // 메서드이름은 동사여야 하지 않나요
         List<Notice> noticeList = noticeService.내공고목록보기(companyId);
         model.addAttribute("noticeList", noticeList);
-        return "company/supporter";
+        return new ResponseDto<>(1, "통신성공", null);
     }
 
-    @GetMapping("/cs/co/noticeService/{companyId}/noticeDetail/{noticeId}")
-    public String updateMyNotice(@PathVariable Integer companyId,
-            @PathVariable Integer noticeId, Model model) {
-        List<Job> jobPS = jobService.관심직무보기();
-        model.addAttribute("jobPS", jobPS);
-        Notice noticePS = noticeService.내공고상세보기(noticeId);
-        model.addAttribute("noticePS", noticePS);
-        return "notice/noticeUpdate";
-    }
-
-    // @PutMapping("/coapi/cs/co/noticeUpdate/{noticeId}")
+    // @PutMapping("/co/noticeUpdate/{noticeId}")
     // public @ResponseBody ResponseDto<?> updateResume(@PathVariable Integer
     // noticeId,
     // @RequestBody NoticeUpdateDto noticeUpdateDto) {
@@ -118,9 +103,20 @@ public class NoticeApiController {
     // return new ResponseDto<>(1, "공고 수정 성공", null);
     // }
 
-    @DeleteMapping("/coapi/cs/co/noticeDelete/{noticeId}")
+    @DeleteMapping("/co/noticeDelete/{noticeId}")
     public @ResponseBody ResponseDto<?> deleteNotice(@PathVariable Integer noticeId) {
         noticeService.내공고삭제(noticeId);
         return new ResponseDto<>(1, "공고 삭제 성공", null);
+    }
+
+    @GetMapping("/co/noticeService/{companyId}/noticeDetail/{noticeId}")
+    public ResponseDto<?> updateMyNotice(@PathVariable Integer companyId,
+            @PathVariable Integer noticeId, Model model) {
+        List<Job> jobPS = jobService.관심직무보기();
+        model.addAttribute("jobPS", jobPS);
+        Notice noticePS = noticeService.내공고상세보기(noticeId);
+        model.addAttribute("noticePS", noticePS);
+        return new ResponseDto<>(1, "통신성공", null);
+
     }
 }
