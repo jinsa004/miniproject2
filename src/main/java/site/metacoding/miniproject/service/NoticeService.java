@@ -38,11 +38,6 @@ public class NoticeService {
         return noticeDao.findSubsByEmployeeId(employeeId);
     }
 
-    public void 내공고삭제(Integer noticeId) {
-        Notice noticePS = noticeDao.findById(noticeId); // 영속화
-        noticeDao.deleteById(noticePS.getNoticeId());
-    }
-
     public List<NoticeAllRespDto> findNoticeAllList() { // 개인회원이 채용공고 전체 목록보기
         // List<Notice> noticeList = noticeDao.findAll();
 
@@ -80,7 +75,7 @@ public class NoticeService {
         return noticeDao.findByCompanyId(companyId).stream().map((notice) -> new NoticeFindByCompanyIdRespDto(notice))
                 .collect(Collectors.toList());
     }
-    
+
     @Transactional
     public NoticeUpdateRespDto updateNotice(Integer noticeId, NoticeUpdateReqDto NoticeUpdateReqDto) {
         Notice noticePS = noticeDao.findById(noticeId);
@@ -91,4 +86,13 @@ public class NoticeService {
         return noticeUpdateRespDto;
     }
 
+    @Transactional
+    public void deleteNotice(Integer noticeId) {
+        Notice noticePS = noticeDao.findById(noticeId); // 영속화
+        if (noticePS != null) {
+            noticeDao.deleteById(noticePS.getNoticeId());
+        } else {
+            throw new RuntimeException("해당 " + noticeId + "로 삭제를 할 수 없습니다.");
+        }
+    }
 }

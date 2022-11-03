@@ -42,6 +42,10 @@
         WHERE notice_id = #{noticeId}
 	</update>
 
+	<delete id="deleteById">
+		DELETE FROM notice WHERE notice_id = #{noticeId}
+	</delete>
+
 	<!-- <select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT ni.*
 		FROM (SELECT n.*, i.new_image_name
@@ -91,10 +95,5 @@
 		ON i.intro_image_id = img.intro_image_id) ii
 		ON nj.company_id = ii.company_id
 		WHERE nj.notice_id = #{noticeId}
-	</select>
-
-	<delete id="deleteById">
-		DELETE FROM notice WHERE notice_id = #{noticeId}
-	</delete> -->
 
 </mapper>
