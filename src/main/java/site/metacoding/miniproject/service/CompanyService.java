@@ -69,6 +69,7 @@ public class CompanyService {
   }
 
   public void deleteCompany(Integer companyId) {
+
     Company companyPS = companyDao.findById(companyId);
     if (companyPS != null) {
       companyDao.deleteById(companyId);
@@ -76,7 +77,6 @@ public class CompanyService {
     } else {
       throw new RuntimeException("해당 " + companyId + "로 삭제를 할 수 없습니다.");
     }
-
   }
 
   public boolean usernameSameCheck(String companyUsername) {

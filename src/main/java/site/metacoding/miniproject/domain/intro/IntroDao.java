@@ -4,18 +4,21 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import site.metacoding.miniproject.dto.intro.IntroResDto.IntroSaveReqDto;
+import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
+import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 
 public interface IntroDao {
 	public List<Intro> findAll();
 
-	public Intro findById(Integer companyId);
+	public Intro findByCompanyId(Integer companyId);
+
+	public Intro findByIntroId(Integer introId);
 
 	// public List<Intro> findByJobCodeToIntro(Integer jobCode);
 
-	public void insert(IntroSaveReqDto introsSaveReqDto);
+	public void insert(IntroSaveReqDto introSaveReqDto);
 
-	public void update(Intro intro);
+	public void update(IntroUpdateReqDto introUpdateReqDto);
 
 	public void deleteById(Integer introId);
 

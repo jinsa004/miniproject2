@@ -10,23 +10,27 @@ public class IntroRespDto {
     @Getter
     public static class IntroSaveRespDto {
         private Integer introId;
+        private Integer companyId;
         private String introConame;
         private String introBirth;
         private String introTask;
         private String introSal;
         private String introWellfare;
         private String introContent;
+        private String introLocation;
         private Integer jobId;
         private String jobName;
 
         public IntroSaveRespDto(Intro intro) {
             this.introId = intro.getIntroId();
+            this.companyId = intro.getCompanyId();
             this.introConame = intro.getIntroConame();
             this.introBirth = intro.getIntroBirth();
             this.introTask = intro.getIntroTask();
             this.introSal = intro.getIntroSal();
             this.introWellfare = intro.getIntroWellfare();
             this.introContent = intro.getIntroContent();
+            this.introLocation = intro.getIntroLocation();
             this.jobId = intro.getJobId();
             this.jobName = intro.getJobName();
         }
@@ -100,12 +104,12 @@ public class IntroRespDto {
     @Getter
     public static class IntroAllRespDto {
         private Integer introId;
-        private String introConame;
+        private String companyName;
         private String introTask;
 
         public IntroAllRespDto(Intro intro) {
             this.introId = intro.getIntroId();
-            this.introConame = intro.getIntroConame();
+            this.companyName = intro.getCompanyName();
             this.introTask = intro.getIntroTask();
         }
     }
@@ -113,7 +117,7 @@ public class IntroRespDto {
     @Setter
     @Getter
     public static class IntroUpdateRespDto {
-        private String introConame;
+        private String companyName;
         private String introBirth;
         private String introTask;
         private String introSal;
@@ -121,5 +125,17 @@ public class IntroRespDto {
         private String introContent;
         private String introLocation;
         private Integer jobId;
+
+        public IntroUpdateRespDto(Intro intro) {
+            this.companyName = intro.getCompanyName();
+            this.introBirth = intro.getIntroBirth();
+            this.introTask = intro.getIntroTask();
+            this.introSal = intro.getIntroSal();
+            this.introWellfare = intro.getIntroWellfare();
+            this.introContent = intro.getIntroContent();
+            this.introLocation = intro.getIntroLocation();
+            this.jobId = intro.getJobId();
+        }
+
     }
 }

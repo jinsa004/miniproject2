@@ -3,28 +3,26 @@ package site.metacoding.miniproject.dto.resume;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import site.metacoding.miniproject.domain.application.Application;
 import site.metacoding.miniproject.domain.resume.Resume;
 
 public class ResumeReqDto {
 
-	/*
-	 * @Getter
-	 * 
-	 * @Setter
-	 * public static class ApplicationSaveReqDto {
-	 * private Integer applicationId;
-	 * private Integer resumeId;
-	 * private Integer noticeId;
-	 * 
-	 * public Application toEntity(){
-	 * return Resume.builder()
-	 * .applicationId(applicationId)
-	 * .resumeId(resumeId)
-	 * .noticeId(noticeId)
-	 * .build();
-	 * }
-	 * }
-	 */
+	@Getter
+	@Setter
+	public static class ApplicationSaveReqDto {
+		private Integer applicationId;
+		private Integer resumeId;
+		private Integer noticeId;
+
+		public Application toEntity() {
+			return Application.builder()
+					.applicationId(applicationId)
+					.resumeId(resumeId)
+					.noticeId(noticeId)
+					.build();
+		}
+	}
 
 	@Setter
 	@Getter
@@ -95,6 +93,7 @@ public class ResumeReqDto {
 
 		public Resume toEntity() {
 			return Resume.builder()
+					.resumeId(resumeId)
 					.resumeTitle(resumeTitle)
 					.highschoolName(highschoolName)
 					.highschoolStartdate(highschoolStartdate)
@@ -119,11 +118,13 @@ public class ResumeReqDto {
 	@Getter
 	public static class ResumeUpdateMainReqDto {
 		private Integer resumeId;
-		private Integer employeeId;
 		private boolean isMain;
+		private Integer employeeId;
 
 		public Resume toEntity() {
 			return Resume.builder()
+					.resumeId(resumeId)
+					.employeeId(employeeId)
 					.isMain(isMain)
 					.build();
 		}
