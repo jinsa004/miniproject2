@@ -11,10 +11,12 @@ import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.company.CompanyDao;
 import site.metacoding.miniproject.dto.check.company.CoCheckRespDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 
 @Service
 @RequiredArgsConstructor
@@ -23,16 +25,14 @@ public class CompanyService {
   private final CompanyDao companyDao;
   private final CoCheckDao coCheckDao;
 
-  // public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
-  // Company companyPS =
-  // companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
-  // if (companyPS != null &&
-  // companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword()))
-  // {
-  // return new CompanySessionUser(companyPS);
-  // }
-  // return null;
-  // }
+  public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
+    Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
+    if (companyPS != null &&
+        companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword())) {
+      return new CompanySessionUser(companyPS);
+    }
+    return null;
+  }
 
   @Transactional
   public CompanyJoinRespDto join(CompanyJoinReqDto companyJoinReqDto) {
