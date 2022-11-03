@@ -104,7 +104,7 @@ public class ResumeService {
     }
 
     @Transactional
-    public List<ResumeMyListRespDto> 내이력서가져오기(Integer employeeId) {
+    public List<ResumeMyListRespDto> getMyResumeList(Integer employeeId) { // 메서드이름수정
         List<Resume> resumeList = resumeDao.findByEmployeeId(employeeId);
         List<ResumeMyListRespDto> resumeMyListRespDto = new ArrayList<>();
         for (Resume resume : resumeList) {

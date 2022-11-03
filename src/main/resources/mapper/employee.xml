@@ -13,11 +13,12 @@
 		SELECT * FROM employee WHERE employee_id = #{employeeId}
 	</select>
 
+-->
 	<select id="findByEmployeeUsername" resultType="site.metacoding.miniproject.domain.employee.Employee">
 		SELECT *
 		FROM employee
 		WHERE employee_username = #{employeeUsername}
-	</select>
+	</select> <!-- 
 
 	<select id="findByEmployeePassword" resultType="site.metacoding.miniproject.domain.employee.Employee">
 		SELECT *

@@ -40,7 +40,7 @@ public class ResumeApiController {
 
     @GetMapping("/emp/mypage/resume/{employeeId}")
     public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
-        return new ResponseDto<>(1, "내 이력서 불러오기 성공", resumeService.내이력서가져오기(employeeId));
+        return new ResponseDto<>(1, "내 이력서 불러오기 성공", resumeService.getMyResumeList(employeeId));
     }
 
     @PutMapping("/emp/resume/setMain/{resumeId}")

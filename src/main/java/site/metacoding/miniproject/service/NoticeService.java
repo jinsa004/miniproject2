@@ -94,7 +94,7 @@ public class NoticeService {
     }
 
     @Transactional
-    public NoticeDetailRespDto noticeDetail(Integer noticeId) {
+    public NoticeDetailRespDto getNoticeDetail(Integer noticeId) { // 메서드이름 수정
         Notice noticePS = noticeDao.findByNoticeIdToNoticeDetail(noticeId);
         NoticeDetailRespDto noticeDetailRespDto = new NoticeDetailRespDto(noticePS);
         return noticeDetailRespDto;
