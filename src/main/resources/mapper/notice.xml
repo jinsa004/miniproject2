@@ -2,10 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.notice.NoticeDao">
 
-	<insert id="insert">
+	<!-- <insert id="insert" useGeneratedKeys="true" keyProperty="noticeId">
 		INSERT INTO notice(company_id, notice_title, notice_period, notice_dept, notice_position, notice_task, notice_sal, notice_qual, notice_career, notice_wellfare, job_id)
         VALUES(#{companyId}, #{noticeTitle}, #{noticePeriod},#{noticeDept},#{noticePosition},#{noticeTask},#{noticeSal},#{noticeQual},#{noticeCareer}, #{noticeWellfare},#{jobId})
 	</insert>
+
+	<select id="findById" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT *
+		FROM notice
+		WHERE notice_id = #{noticeId}
+	</select>
 
 	<select id="findAll" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT n.*, i.new_image_name
@@ -14,6 +20,31 @@
 		ON n.company_id = i.company_id
 		ORDER BY n.notice_period DESC
 	</select>
+
+	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT *
+		FROM notice
+		WHERE company_id = #{companyId}
+	</select>
+
+	<update id="update" useGeneratedKeys="true" keyProperty="noticeId">
+		UPDATE notice SET
+        notice_title = #{noticeTitle}, 
+        notice_period = #{noticePeriod}, 
+        notice_dept = #{noticeDept}, 
+        notice_position = #{noticePosition}, 
+        notice_task = #{noticeTask}, 
+        notice_sal = #{noticeSal}, 
+        notice_qual = #{noticeQual}, 
+        notice_career = #{noticeCareer}, 
+        notice_wellfare = #{noticeWellfare}, 
+        job_id = #{jobId}
+        WHERE notice_id = #{noticeId}
+	</update>
+
+	<delete id="deleteById">
+		DELETE FROM notice WHERE notice_id = #{noticeId}
+	</delete>
 
 	<select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT ni.*
@@ -37,18 +68,6 @@
 		WHERE c.employee_id = #{employeeId}) ec
 		ON n.job_id = ec.job_id
 		ORDER BY n.notice_period DESC
-	</select>
-
-	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
-		SELECT *
-		FROM notice
-		WHERE company_id = #{companyId}
-	</select>
-
-	<select id="findById" resultType="site.metacoding.miniproject.domain.notice.Notice">
-		SELECT *
-		FROM notice
-		WHERE notice_id = #{noticeId}
 	</select>
 
 	<select id="findSubsByEmployeeId" resultType="site.metacoding.miniproject.domain.notice.Notice">
@@ -75,27 +94,6 @@
 		LEFT OUTER JOIN intro_image img
 		ON i.intro_image_id = img.intro_image_id) ii
 		ON nj.company_id = ii.company_id
-		WHERE nj.notice_id = #{noticeId}
-	</select>
-
-	<update id="update">
-		UPDATE notice SET
-        notice_title = #{noticeTitle}, 
-        notice_period = #{noticePeriod}, 
-        notice_dept = #{noticeDept}, 
-        notice_position = #{noticePosition}, 
-        notice_task = #{noticeTask}, 
-        notice_sal = #{noticeSal}, 
-        notice_qual = #{noticeQual}, 
-        notice_career = #{noticeCareer}, 
-        notice_wellfare = #{noticeWellfare}, 
-        job_id = #{jobId}
-        WHERE notice_id = #{noticeId}
-	</update>
-
-	<delete id="deleteById">
-		DELETE FROM notice WHERE notice_id = #{noticeId}
-	</delete>
-
+		WHERE nj.notice_id = #{noticeId} !-->
 
 </mapper>

@@ -120,6 +120,78 @@ public class NoticeRespDto {
 
     @Setter
     @Getter
+    public static class NoticeJobRespDto {
+        private Integer noticeId;
+        private Integer companyId;
+        private String noticeTitle;
+        private String noticePeriod;
+        private String noticeDept;
+        private String noticePosition;
+        private String noticeQual;
+        private String noticeTask;
+
+        public NoticeJobRespDto(Notice notice) {
+            this.noticeId = notice.getNoticeId();
+            this.companyId = notice.getCompanyId();
+            this.noticeTitle = notice.getNoticeTitle();
+            this.noticePeriod = notice.getNoticePeriod();
+            this.noticeDept = notice.getNoticeDept();
+            this.noticePosition = notice.getNoticePosition();
+            this.noticeQual = notice.getNoticeQual();
+            this.noticeTask = notice.getNoticeTask();
+        }
+    }
+
+    @Setter
+    @Getter
+    public static class NoticeMatchingRespDto {
+        private Integer noticeId;
+        private Integer companyId;
+        private String noticeTitle;
+        private String noticePeriod;
+        private String noticeDept;
+        private String noticePosition;
+        private String noticeQual;
+        private String noticeTask;
+
+        public NoticeMatchingRespDto(Notice notice) {
+            this.noticeId = notice.getNoticeId();
+            this.companyId = notice.getCompanyId();
+            this.noticeTitle = notice.getNoticeTitle();
+            this.noticePeriod = notice.getNoticePeriod();
+            this.noticeDept = notice.getNoticeDept();
+            this.noticePosition = notice.getNoticePosition();
+            this.noticeQual = notice.getNoticeQual();
+            this.noticeTask = notice.getNoticeTask();
+        }
+    }
+
+    @Setter
+    @Getter
+    public static class NoticeFindByCompanyIdRespDto {
+        private Integer noticeId;
+        private Integer companyId;
+        private String noticeTitle;
+        private String noticePeriod;
+        private String noticeDept;
+        private String noticePosition;
+        private String noticeQual;
+        private String noticeTask;
+
+        public NoticeFindByCompanyIdRespDto(Notice notice) {
+            this.noticeId = notice.getNoticeId();
+            this.companyId = notice.getCompanyId();
+            this.noticeTitle = notice.getNoticeTitle();
+            this.noticePeriod = notice.getNoticePeriod();
+            this.noticeDept = notice.getNoticeDept();
+            this.noticePosition = notice.getNoticePosition();
+            this.noticeQual = notice.getNoticeQual();
+            this.noticeTask = notice.getNoticeTask();
+        }
+    }
+
+    @Setter
+    @Getter
     public static class NoticeUpdateRespDto {
         private Integer noticeId;
         private Integer companyId;

@@ -15,7 +15,7 @@
 		WHERE employee_id = #{employeeId}
     </select>
 
-	<select id="findAll" resultType="package site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto">
+	<select id="findAll" resultType="site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto">
         select *
         FROM emp_check c
 		WHERE employee_id = #{employeeId}
