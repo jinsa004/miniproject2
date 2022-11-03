@@ -95,6 +95,5 @@
 		ON i.intro_image_id = img.intro_image_id) ii
 		ON nj.company_id = ii.company_id
 		WHERE nj.notice_id = #{noticeId}
-	</select>-->
 
 </mapper>
