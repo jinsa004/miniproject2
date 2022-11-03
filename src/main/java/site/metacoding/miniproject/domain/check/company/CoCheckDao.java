@@ -14,6 +14,5 @@ public interface CoCheckDao {
 
     public List<CoCheck> findCheckAll(Integer companyId);
 
-    public List<CoCheckRespDto> findAll(Integer companyId);
-
+    public List<CoCheckRespDto> findByCompanyId(Integer companyId);
 }

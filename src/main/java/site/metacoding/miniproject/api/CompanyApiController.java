@@ -1,6 +1,7 @@
 package site.metacoding.miniproject.api;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,9 +52,22 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "수정성공", companyUpdateRespDto);
     }
 
+    @DeleteMapping("/co/company/delete/{companyId}")
+    public ResponseDto<?> deleteCompany(@PathVariable Integer companyId) {
+        companyService.deleteCompany(companyId);
+        // session.invalidate();
+        return new ResponseDto<>(1, "기업탈퇴성공", null);
+    }
+
     @GetMapping("/cs/co/companyIntroDetail/{companyId}")
     public ResponseDto<?> findByCompanyId(@PathVariable Integer companyId) {// 기업에서 기업소개 상세보기
         return new ResponseDto<>(1, "성공", introService.findByCompanyId(companyId));
+    }
+
+    @GetMapping("/co/logout")
+    public String Companylogout() {
+        // session.invalidate();
+        return "redirect:/co";
     }
 
     // ================= 유효성 체크 ================
