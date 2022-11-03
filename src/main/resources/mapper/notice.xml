@@ -13,7 +13,7 @@
 		WHERE notice_id = #{noticeId}
 	</select>
 
-	<!-- <select id="findAll" resultType="site.metacoding.miniproject.domain.notice.Notice">
+	<select id="findAll" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT n.*, i.new_image_name
 		FROM notice n
 		LEFT OUTER JOIN intro_image i
@@ -21,7 +21,13 @@
 		ORDER BY n.notice_period DESC
 	</select>
 
-	<select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
+	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+		SELECT *
+		FROM notice
+		WHERE company_id = #{companyId}
+	</select>
+
+	<!-- <select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT ni.*
 		FROM (SELECT n.*, i.new_image_name
 		FROM notice n
@@ -44,14 +50,6 @@
 		ON n.job_id = ec.job_id
 		ORDER BY n.notice_period DESC
 	</select>
-
-	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
-		SELECT *
-		FROM notice
-		WHERE company_id = #{companyId}
-	</select>
-
-
 
 	<select id="findSubsByEmployeeId" resultType="site.metacoding.miniproject.domain.notice.Notice">
 		SELECT ns.*, img.new_image_name

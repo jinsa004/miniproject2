@@ -49,6 +49,11 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "성공", noticeService.findByJobCodeToNoticeList(jobCode));
     }
 
+    @GetMapping("/emp/matchingNotice/{employeeId}")
+    public ResponseDto<?> matchingNoticeList(@PathVariable Integer employeeId) {
+        return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
+    }
+
     @GetMapping("/emp/noticeDetail/{noticeId}") // notice/Detail로 들어가는게 좋을 것 같습니다
     public String recruitDetail(@PathVariable Integer noticeId, Model model) {// 개인회원 입장에서 채용공고 상세보기
         Employee principal = (Employee) session.getAttribute("empprincipal");
@@ -59,11 +64,6 @@ public class NoticeApiController {
         Notice noticePS = noticeService.기업공고하나보기(noticeId);
         model.addAttribute("noticePS", noticePS);
         return "employee/noticeDetail";
-    }
-
-    @GetMapping("emp/matchingNotice/{employeeId}")
-    public ResponseDto<?> matchingNoticeList(@PathVariable Integer employeeId) {
-        return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
     }
 
     @GetMapping("/es/emp/subscribeNotice/{employeeId}")
@@ -88,11 +88,9 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "통신성공", noticeService.saveNotice(noticeSaveReqDto));
     }
 
-    @GetMapping("/co/noticeService/{companyId}")
-    public ResponseDto<?> FindAllmyNotice(@PathVariable Integer companyId, Model model) { // 메서드이름은 동사여야 하지 않나요
-        List<Notice> noticeList = noticeService.내공고목록보기(companyId);
-        model.addAttribute("noticeList", noticeList);
-        return new ResponseDto<>(1, "통신성공", null);
+    @GetMapping("/co/notice/{companyId}")
+    public ResponseDto<?> findByCompanyIdToNotice(@PathVariable Integer companyId) { // 내 공고목록보기 기능
+        return new ResponseDto<>(1, "통신성공", noticeService.findByCompanyIdToNotice(companyId));
     }
 
     // @PutMapping("/co/noticeUpdate/{noticeId}")

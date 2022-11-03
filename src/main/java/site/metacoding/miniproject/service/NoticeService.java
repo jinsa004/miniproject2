@@ -12,6 +12,9 @@ import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.notice.NoticeDao;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeAllRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeFindByCompanyIdRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeJobRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeMatchingRespDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeSaveRespDto;
 
 @Slf4j
@@ -38,7 +41,7 @@ public class NoticeService {
         noticeDao.deleteById(noticePS.getNoticeId());
     }
 
-    public List<NoticeAllRespDto> findNoticeAllList() {
+    public List<NoticeAllRespDto> findNoticeAllList() { // 개인회원이 채용공고 전체 목록보기
         // List<Notice> noticeList = noticeDao.findAll();
 
         // List<NoticeAllRespDto> noticeAllRespDtoList = new ArrayList<>();
@@ -50,18 +53,14 @@ public class NoticeService {
         return noticeDao.findAll().stream().map((notice) -> new NoticeAllRespDto(notice)).collect(Collectors.toList());
     }
 
-    public List<NoticeAllRespDto> findByJobCodeToNoticeList(Integer jobCode) {
-        return noticeDao.findByJobCodeToNotice(jobCode).stream().map((notice) -> new NoticeAllRespDto(notice))
+    public List<NoticeJobRespDto> findByJobCodeToNoticeList(Integer jobCode) { // 개인회원이 채용공고 분야별 목록보기 (필터기능)
+        return noticeDao.findByJobCodeToNotice(jobCode).stream().map((notice) -> new NoticeJobRespDto(notice))
                 .collect(Collectors.toList());
     }
 
-    public List<NoticeAllRespDto> findMachingNoticeList(Integer employeeId) {
-        return noticeDao.findMatchingByJobId(employeeId).stream().map((notice) -> new NoticeAllRespDto(notice))
+    public List<NoticeMatchingRespDto> findMachingNoticeList(Integer employeeId) { // 개인회원이 매칭리스트 공고 보기
+        return noticeDao.findMatchingByJobId(employeeId).stream().map((notice) -> new NoticeMatchingRespDto(notice))
                 .collect(Collectors.toList());
-    }
-
-    public List<Notice> 내공고목록보기(Integer companyId) {
-        return noticeDao.findByCompanyId(companyId);
     }
 
     // public void 이력서수정(Integer noticeId, NoticeUpdateDto noticeUpdateDto) {
@@ -78,6 +77,12 @@ public class NoticeService {
         log.debug("디버그 : " + noticePS.getNoticeId());
         NoticeSaveRespDto noticeSaveRespDto = new NoticeSaveRespDto(noticePS);
         return noticeSaveRespDto;
+    }
+
+    @Transactional(readOnly = true)
+    public List<NoticeFindByCompanyIdRespDto> findByCompanyIdToNotice(Integer companyId) {
+        return noticeDao.findByCompanyId(companyId).stream().map((notice) -> new NoticeFindByCompanyIdRespDto(notice))
+                .collect(Collectors.toList());
     }
 
 }
