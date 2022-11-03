@@ -1,9 +1,12 @@
 package site.metacoding.miniproject.dto.resume;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.application.Application;
 import site.metacoding.miniproject.domain.resume.Resume;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeDetailRespDto;
 
 public class ResumeRespDto {
 
@@ -47,6 +50,20 @@ public class ResumeRespDto {
 		private Integer jobId;
 		private String careerPeriod;
 		private String jobName;
+	}
+
+	@Setter
+	@Getter
+	public static class NoticeHaveResumeRespDto {
+		private NoticeDetailRespDto noticeDetailRespDto;
+		private List<ResumeMyListRespDto> resumeMyListRespDto;
+
+		public NoticeHaveResumeRespDto(NoticeDetailRespDto noticeDetailRespDto,
+				List<ResumeMyListRespDto> resumeMyListRespDto) {
+			this.noticeDetailRespDto = noticeDetailRespDto;
+			this.resumeMyListRespDto = resumeMyListRespDto;
+		}
+
 	}
 
 	@Setter
