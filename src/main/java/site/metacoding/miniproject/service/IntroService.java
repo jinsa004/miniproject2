@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
+import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.domain.subscribe.SubscribeDao;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
@@ -82,10 +83,13 @@ public class IntroService {
     // return subscribeSaveRespDto;
     // }
 
-    // public Subscribe 구독하기(Subscribe subscribe) {
-    // subscribeDao.insert(subscribe);
-    // return subscribe;
-    // }
+    public SubscribeSaveRespDto 구독하기(SubscribeSaveReqDto subscribeSaveReqDto) {
+        subscribeDao.insert(subscribeSaveReqDto);
+        log.debug("디버그 : " + subscribeSaveReqDto.getSubscribeId());
+        Subscribe subscribePS = subscribeDao.findById(subscribeSaveReqDto.getSubscribeId());
+        SubscribeSaveRespDto subscribeSaveRespDto = new SubscribeSaveRespDto(subscribePS);
+        return subscribeSaveRespDto;
+    }
 
     public void 구독취소하기(Integer subscribeId) {
         subscribeDao.deleteById(subscribeId);
