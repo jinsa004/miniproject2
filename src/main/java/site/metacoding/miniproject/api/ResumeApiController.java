@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.dto.ResponseDto;
@@ -110,7 +109,4 @@ public class ResumeApiController {
         // Company companyPS = (Company) session.getAttribute("coprincipal"); 세션
         return new ResponseDto<>(1, "성공", resumeService.이력서상세보기(resumeId));
     }
-
-    // 나중에 지원자 관리 메서드 생성 필요 (resumeList.jsp)
-
 }

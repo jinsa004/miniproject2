@@ -1,6 +1,7 @@
 package site.metacoding.miniproject.api;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
-import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
-import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;

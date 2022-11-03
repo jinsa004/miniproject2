@@ -28,27 +28,24 @@ public class NoticeService {
 
     private final NoticeDao noticeDao;
 
-    // public Notice 내공고상세보기(Integer noticeId) {// 기업회원이 수정할 때 사용
-    // return noticeDao.findById(noticeId);
-    // }
-
+    @Transactional
     public List<NoticeAllRespDto> findNoticeAllList() { // 개인회원이 채용공고 전체 목록보기
         // List<Notice> noticeList = noticeDao.findAll();
-
         // List<NoticeAllRespDto> noticeAllRespDtoList = new ArrayList<>();
         // for (Notice notice : noticeList) {
         // noticeAllRespDtoList.add(new NoticeAllRespDto(notice));
         // }
         // return noticeAllRespDtoList;
-
         return noticeDao.findAll().stream().map((notice) -> new NoticeAllRespDto(notice)).collect(Collectors.toList());
     }
 
+    @Transactional
     public List<NoticeJobRespDto> findByJobCodeToNoticeList(Integer jobCode) { // 개인회원이 채용공고 분야별 목록보기 (필터기능)
         return noticeDao.findByJobCodeToNotice(jobCode).stream().map((notice) -> new NoticeJobRespDto(notice))
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<NoticeMatchingRespDto> findMachingNoticeList(Integer employeeId) { // 개인회원이 매칭리스트 공고 보기
         return noticeDao.findMatchingByJobId(employeeId).stream().map((notice) -> new NoticeMatchingRespDto(notice))
                 .collect(Collectors.toList());

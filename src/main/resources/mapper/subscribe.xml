@@ -13,7 +13,6 @@
 		select * from subscribe WHERE subscribe_id = #{subscribeId}
 	</select>
 
-
 	<update id="update"></update>
 
 	<delete id="deleteById">

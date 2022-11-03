@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.domain.job.Job;
-import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
@@ -31,8 +29,8 @@ public class NoticeApiController {
 
     private final NoticeService noticeService;
     private final ResumeService resumeService;
-    private final HttpSession session;
     private final JobService jobService;
+    private final HttpSession session;
 
     /* =============================개인회원========================================= */
 

@@ -2,12 +2,9 @@ package site.metacoding.miniproject.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.intro.Intro;
@@ -21,7 +18,6 @@ import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroFindByCompanyIdRe
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroFindByDetailRespDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroUpdateRespDto;
-import site.metacoding.miniproject.dto.subscribe.SubscribeReqDto;
 import site.metacoding.miniproject.dto.subscribe.SubscribeReqDto.SubscribeSaveReqDto;
 import site.metacoding.miniproject.dto.subscribe.SubscribeRespDto.SubscribeSaveRespDto;
 
@@ -67,7 +63,6 @@ public class IntroService {
         return introSaveRespDto;
     }
 
-
     @Transactional
     // 기업소개 업데이트
     public IntroUpdateRespDto update(IntroUpdateReqDto introUpdateReqDto) {
@@ -75,13 +70,7 @@ public class IntroService {
         Intro introPS = introDao.findByIntroId(introUpdateReqDto.getIntroId());
         IntroUpdateRespDto introUpdateRespDto = new IntroUpdateRespDto(introPS);
         return introUpdateRespDto;
-
-    // public SubscribeSaveRespDto 구독하기(SubscribeSaveReqDto subscribeSaveReqDto) {
-    // Subscribe subscribePS = subscribeDao.insert(subscribeSaveReqDto.toEntity());
-    // SubscribeSaveRespDto subscribeSaveRespDto = new
-    // SubscribeSaveRespDto(subscribePS);
-    // return subscribeSaveRespDto;
-    // }
+    }
 
     public SubscribeSaveRespDto 구독하기(SubscribeSaveReqDto subscribeSaveReqDto) {
         subscribeDao.insert(subscribeSaveReqDto);
@@ -94,38 +83,4 @@ public class IntroService {
     public void 구독취소하기(Integer subscribeId) {
         subscribeDao.deleteById(subscribeId);
     }
-
-    // public Intro 마이페이지설정(Integer companyId) {// 기업이 보는 마이페이지
-    // Intro intro = introDao.findById(companyId);
-    // return intro;
-    // }
-
-    // public void 기업소개등록(IntroInsertDto introInsertDto) {
-    // introDao.insert(introInsertDto);
-    // }
-
-    // public List<Intro> 기업소개목록보기() {
-    // return introDao.findAll();
-    // }
-
-    // public List<Intro> 기업소개분야별목록보기(Integer jobCode) {
-    // return introDao.findByJobCodeToIntro(jobCode);
-    // }
-
-    // public DetailDto 기업소개상세보기(Integer companyId, Integer principalId) {// 개인이 보는
-    // 기업상세보기
-    // return introDao.findByDetail(companyId, principalId);
-    // }
-
-    // public Intro 기업소개상세보기(Integer companyId) {// 기업이 보는 마이페이지
-    // Intro intro = introDao.findById(companyId);
-    // return intro;
-    // }
-
-    // public void 기업소개수정하기(Integer companyId, UpdateDto updateDto) {
-    // Intro introPS = introDao.findById(companyId);
-    // // introPS.Update(updateDto);
-    // System.out.println(introPS.getJobId());
-    // introDao.update(introPS);
-    // }
 }
