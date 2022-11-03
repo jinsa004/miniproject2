@@ -2,6 +2,8 @@ package site.metacoding.miniproject.dto.notice;
 
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.miniproject.domain.intro.Intro;
+import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.notice.Notice;
 
 public class NoticeRespDto {
@@ -41,7 +43,6 @@ public class NoticeRespDto {
     @Setter
     @Getter
     public static class NoticeDetailRespDto {
-
         private Integer noticeId;
         private Integer companyId;
         private String noticeTitle;
@@ -58,7 +59,7 @@ public class NoticeRespDto {
         // notice가 아닌 필드
         private Integer jobCode;
         private String jobName;
-        private String introId;
+        // private String introId;
         private String introConame;
         private String introBirth;
         private String introTask;
@@ -66,9 +67,9 @@ public class NoticeRespDto {
         private String introWellfare;
         private String introContent;
         private String introLocation;
-        private Integer resumeId;
+        // private Integer resumeId;
 
-        public NoticeDetailRespDto(Notice notice) {
+        public NoticeDetailRespDto(Notice notice, Job job, Intro intro) {
             this.noticeId = notice.getNoticeId();
             this.companyId = notice.getCompanyId();
             this.noticeTitle = notice.getNoticeTitle();
@@ -81,6 +82,15 @@ public class NoticeRespDto {
             this.noticeCareer = notice.getNoticeCareer();
             this.noticeWellfare = notice.getNoticeWellfare();
             this.jobId = notice.getJobId();
+            this.jobCode = job.getJobCode();
+            this.jobName = job.getJobName();
+            this.introConame = intro.getIntroConame();
+            this.introBirth = intro.getIntroBirth();
+            this.introTask = intro.getIntroTask();
+            this.introSal = intro.getIntroSal();
+            this.introWellfare = intro.getIntroWellfare();
+            this.introContent = intro.getIntroContent();
+            this.introLocation = intro.getIntroLocation();
         }
     }
 

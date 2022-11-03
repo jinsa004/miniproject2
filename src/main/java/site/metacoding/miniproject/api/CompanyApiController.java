@@ -30,18 +30,13 @@ public class CompanyApiController {
 
     @PostMapping("/co/join")
     public ResponseDto<?> companyJoin(@RequestBody CompanyJoinReqDto companyJoinReqDto) { // 기업 회원가입
-        CompanyJoinRespDto companyJoinRespDtp = companyService.join(companyJoinReqDto);
-        return new ResponseDto<>(1, "회원가입성공", companyJoinRespDtp);
+        return new ResponseDto<>(1, "회원가입성공", companyService.join(companyJoinReqDto));
     }
 
     @GetMapping("/co/company/detail/{companyId}")
     public ResponseDto<?> findByCompanyIdToCompanyDetail(@PathVariable Integer companyId, Model model) { // 기업회원정보보기
-        CompanyDetailRespDto companyDetailRespDto = companyService.findByCompanyIdToCompanyDetail(companyId);
-        // List<Job> jobPS = jobService.관심직무보기();
-        // model.addAttribute("jobPS", jobPS);
         // Company companyPS = (Company) session.getAttribute("coprincipal");
-        // model.addAttribute("company", companyPS);
-        return new ResponseDto<>(1, "성공", companyDetailRespDto);
+        return new ResponseDto<>(1, "성공", companyService.findByCompanyIdToCompanyDetail(companyId));
     }
 
     @PutMapping("/co/company/update/{companyId}")
@@ -65,9 +60,9 @@ public class CompanyApiController {
     }
 
     @GetMapping("/co/logout")
-    public String Companylogout() {
+    public ResponseDto<?> Companylogout() {
         // session.invalidate();
-        return "redirect:/co";
+        return new ResponseDto<>(1, "로그아웃", null);
     }
 
     // ================= 유효성 체크 ================

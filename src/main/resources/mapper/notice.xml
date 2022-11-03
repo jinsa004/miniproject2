@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.notice.NoticeDao">
 
-	<!-- <insert id="insert">
+	<insert id="insert">
 		INSERT INTO notice(company_id, notice_title, notice_period, notice_dept, notice_position, notice_task, notice_sal, notice_qual, notice_career, notice_wellfare, job_id)
         VALUES(#{companyId}, #{noticeTitle}, #{noticePeriod},#{noticeDept},#{noticePosition},#{noticeTask},#{noticeSal},#{noticeQual},#{noticeCareer}, #{noticeWellfare},#{jobId})
 	</insert>
@@ -95,6 +95,7 @@
 
 	<delete id="deleteById">
 		DELETE FROM notice WHERE notice_id = #{noticeId}
-	</delete> -->
+	</delete>
+
 
 </mapper>
