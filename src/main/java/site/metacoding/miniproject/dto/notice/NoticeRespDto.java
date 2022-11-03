@@ -55,11 +55,10 @@ public class NoticeRespDto {
         private String noticeCareer;
         private String noticeWellfare;
         private Integer jobId;
-
         // notice가 아닌 필드
         private Integer jobCode;
         private String jobName;
-        // private String introId;
+        private String introId;
         private String introConame;
         private String introBirth;
         private String introTask;
@@ -67,9 +66,8 @@ public class NoticeRespDto {
         private String introWellfare;
         private String introContent;
         private String introLocation;
-        // private Integer resumeId;
 
-        public NoticeDetailRespDto(Notice notice, Job job, Intro intro) {
+        public NoticeDetailRespDto(Notice notice) {
             this.noticeId = notice.getNoticeId();
             this.companyId = notice.getCompanyId();
             this.noticeTitle = notice.getNoticeTitle();
@@ -82,15 +80,16 @@ public class NoticeRespDto {
             this.noticeCareer = notice.getNoticeCareer();
             this.noticeWellfare = notice.getNoticeWellfare();
             this.jobId = notice.getJobId();
-            this.jobCode = job.getJobCode();
-            this.jobName = job.getJobName();
-            this.introConame = intro.getIntroConame();
-            this.introBirth = intro.getIntroBirth();
-            this.introTask = intro.getIntroTask();
-            this.introSal = intro.getIntroSal();
-            this.introWellfare = intro.getIntroWellfare();
-            this.introContent = intro.getIntroContent();
-            this.introLocation = intro.getIntroLocation();
+            this.jobCode = notice.getJobCode();
+            this.jobName = notice.getJobName();
+            this.introId = notice.getIntroId();
+            this.introConame = notice.getIntroConame();
+            this.introBirth = notice.getIntroBirth();
+            this.introTask = notice.getIntroTask();
+            this.introSal = notice.getIntroSal();
+            this.introWellfare = notice.getIntroWellfare();
+            this.introContent = notice.getIntroContent();
+            this.introLocation = notice.getIntroLocation();
         }
     }
 
