@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.notice.Notice;
-import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
@@ -108,13 +106,8 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "공고 삭제 성공", null);
     }
 
-    // @GetMapping("/co/noticeService/{companyId}/noticeDetail/{noticeId}")
-    // public ResponseDto<?> updateMyNotice(@PathVariable Integer companyId,
-    // @PathVariable Integer noticeId, Model model) {
-    // List<Job> jobPS = jobService.관심직무보기();
-    // model.addAttribute("jobPS", jobPS);
-    // Notice noticePS = noticeService.내공고상세보기(noticeId);
-    // model.addAttribute("noticePS", noticePS);
-    // return new ResponseDto<>(1, "통신성공", null);
-    // }
+    @GetMapping("/co/notice/{companyId}/detail/{noticeId}")
+    public ResponseDto<?> updateMyNotice(@PathVariable Integer companyId, @PathVariable Integer noticeId) {
+        return new ResponseDto<>(1, "통신성공", noticeService.noticeDetail(noticeId));
+    }
 }
