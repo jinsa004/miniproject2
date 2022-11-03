@@ -2,41 +2,51 @@ package site.metacoding.miniproject.dto.resume;
 
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.miniproject.domain.application.Application;
 import site.metacoding.miniproject.domain.resume.Resume;
 
 public class ResumeRespDto {
 
-	/*
-	 * @Getter
-	 * 
-	 * @Setter
-	 * public static class ApplicationSaveReqDto {
-	 * private Integer applicationId;
-	 * private Integer resumeId;
-	 * private Integer noticeId;
-	 * 
-	 * public ApplicationSaveRespDto(Applicate applicate){
-	 * this.applicationId = applicate.getApplicationId();
-	 * this.resumeId = applicate.getResumeId();
-	 * this.noticeId = applicate.getNoticeId();
-	 * }
-	 * }
-	 */
+	@Getter
+	@Setter
+	public static class ApplicationSaveRespDto {
+		private Integer applicationId;
+		private Integer resumeId;
+		private Integer noticeId;
+
+		public ApplicationSaveRespDto(Application application) {
+			this.applicationId = application.getApplicationId();
+			this.resumeId = application.getResumeId();
+			this.noticeId = application.getNoticeId();
+		}
+	}
 
 	@Setter
 	@Getter
 	public static class ResumeAllRespDto {
+		private String employeeName;
 		private String resumeTitle;
-		private Integer employeeId;
 		private String careerPeriod;
-		private Integer jobId;
+		private String jobName;
+		private String resumeId;
 
-		public ResumeAllRespDto(Resume resume) {
-			this.resumeTitle = resume.getResumeTitle();
-			this.employeeId = resume.getEmployeeId();
-			this.careerPeriod = resume.getCareerPeriod();
-			this.jobId = resume.getJobId();
-		}
+		// public ResumeAllRespDto(Resume resume) {
+		// this.resumeTitle = resume.getResumeTitle();
+		// this.employeeId = resume.getEmployeeId();
+		// this.careerPeriod = resume.getCareerPeriod();
+		// this.jobId = resume.getJobId();
+		// }
+	}
+
+	@Setter
+	@Getter
+	public static class MatchingResumeRespDto {
+		private Integer resumeId;
+		private String resumeTitle;
+		private String employeeName;
+		private Integer jobId;
+		private String careerPeriod;
+		private String jobName;
 	}
 
 	@Setter
@@ -111,6 +121,7 @@ public class ResumeRespDto {
 	@Setter
 	@Getter
 	public static class ResumeSaveRespDto {
+		private Integer resumeId;
 		private String resumeTitle;
 		private Integer employeeId;
 		private String highschoolName;
@@ -130,6 +141,7 @@ public class ResumeRespDto {
 		private Integer jobId;
 
 		public ResumeSaveRespDto(Resume resume) {
+			this.resumeId = resume.getResumeId();
 			this.resumeTitle = resume.getResumeTitle();
 			this.employeeId = resume.getEmployeeId();
 			this.highschoolName = resume.getHighschoolName();
@@ -222,15 +234,36 @@ public class ResumeRespDto {
 
 	@Getter
 	@Setter
-	public static class ResumeUpdateMainReqDto {
+	public static class ResumeUpdateMainRespDto {
 		private Integer resumeId;
 		private Integer employeeId;
 		private boolean isMain;
 
-		public ResumeUpdateMainReqDto(Resume resume) {
+		public ResumeUpdateMainRespDto(Resume resume) {
 			this.resumeId = resume.getResumeId();
 			this.employeeId = resume.getEmployeeId();
 			this.isMain = resume.isMain();
+		}
+
+	}
+
+	@Setter
+	@Getter
+	public static class ResumeMyListRespDto {
+		private Integer employeeId;
+		private Integer resumeId;
+		private String resumeTitle;
+		private String careerPeriod;
+		private boolean isMain;
+		private Integer jobId;
+
+		public ResumeMyListRespDto(Resume resume) {
+			this.employeeId = resume.getEmployeeId();
+			this.resumeId = resume.getResumeId();
+			this.resumeTitle = resume.getResumeTitle();
+			this.careerPeriod = resume.getCareerPeriod();
+			this.isMain = resume.isMain();
+			this.jobId = resume.getJobId();
 		}
 
 	}

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.check.employee.EmpCheckDao">
 
-	<insert id="insert">
+	<!-- <insert id="insert">
 		INSERT INTO emp_check(employee_id, job_id)
 		VALUES(#{employeeId}, #{jobId})
 	</insert>
@@ -15,7 +15,7 @@
 		WHERE employee_id = #{employeeId}
     </select>
 
-	<select id="findAll" resultType="package site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto">
+	<select id="findAll" resultType="site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto">
         select *
         FROM emp_check c
 		WHERE employee_id = #{employeeId}
@@ -23,6 +23,6 @@
 
 	<delete id="deleteById">
 		DELETE FROM emp_check WHERE employee_id=#{employeeId}
-	</delete>
+	</delete> -->
 
 </mapper>

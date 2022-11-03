@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 
 @NoArgsConstructor
 @Getter
@@ -18,16 +19,15 @@ public class Intro {
 	private String introWellfare;
 	private String introContent;
 	private String introLocation;
-	private String introImageId;
 	private Integer jobId;
 
 	// 엔티티가 아닌 필드
 	private String companyName;
 	private String jobName;
-	private String newImageName;
 	private String jobCode;
 	private boolean isSubed;
 	private Integer subscribeId;
+	private Integer principalId;
 
 	@Builder
 	public Intro(Integer introId, Integer companyId, String introConame, String introBirth, String introTask,
@@ -46,6 +46,19 @@ public class Intro {
 		this.companyName = companyName;
 		this.jobName = jobName;
 		this.jobCode = jobCode;
+	}
+
+	public void update(IntroUpdateReqDto introUpdateReqDto) {
+		this.introId = introUpdateReqDto.getIntroId();
+		this.companyName = introUpdateReqDto.getCompanyName();
+		this.introBirth = introUpdateReqDto.getIntroBirth();
+		this.introTask = introUpdateReqDto.getIntroTask();
+		this.introSal = introUpdateReqDto.getIntroSal();
+		this.introWellfare = introUpdateReqDto.getIntroWellfare();
+		this.introContent = introUpdateReqDto.getIntroContent();
+		this.introLocation = introUpdateReqDto.getIntroLocation();
+		this.jobId = introUpdateReqDto.getJobId();
+
 	}
 
 }
