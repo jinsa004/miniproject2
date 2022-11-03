@@ -26,17 +26,17 @@ public class NoticeService {
 
     private final NoticeDao noticeDao;
 
-    public Notice 내공고상세보기(Integer noticeId) {// 기업회원이 수정할 때 사용
-        return noticeDao.findById(noticeId);
-    }
+    // public Notice 내공고상세보기(Integer noticeId) {// 기업회원이 수정할 때 사용
+    // return noticeDao.findById(noticeId);
+    // }
 
-    public Notice 기업공고하나보기(Integer noticeId) {
-        return noticeDao.findByNoticeIdToNoticeDetail(noticeId);
-    }
+    // public Notice 기업공고하나보기(Integer noticeId) {
+    // return noticeDao.findByNoticeIdToNoticeDetail(noticeId);
+    // }
 
-    public List<Notice> 구독공고목록보기(Integer employeeId) {
-        return noticeDao.findSubsByEmployeeId(employeeId);
-    }
+    // public List<Notice> 구독공고목록보기(Integer employeeId) {
+    // return noticeDao.findSubsByEmployeeId(employeeId);
+    // }
 
     public List<NoticeAllRespDto> findNoticeAllList() { // 개인회원이 채용공고 전체 목록보기
         // List<Notice> noticeList = noticeDao.findAll();
