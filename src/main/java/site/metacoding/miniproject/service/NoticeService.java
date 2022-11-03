@@ -80,7 +80,7 @@ public class NoticeService {
         return noticeDao.findByCompanyId(companyId).stream().map((notice) -> new NoticeFindByCompanyIdRespDto(notice))
                 .collect(Collectors.toList());
     }
-
+    
     @Transactional
     public NoticeUpdateRespDto updateNotice(Integer noticeId, NoticeUpdateReqDto NoticeUpdateReqDto) {
         Notice noticePS = noticeDao.findById(noticeId);
@@ -90,4 +90,5 @@ public class NoticeService {
         NoticeUpdateRespDto noticeUpdateRespDto = new NoticeUpdateRespDto(noticePS);
         return noticeUpdateRespDto;
     }
+
 }
