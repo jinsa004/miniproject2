@@ -19,7 +19,7 @@ import site.metacoding.miniproject.service.EmployeeService;
 
 @RequiredArgsConstructor
 @RestController
-public class EmpApiController {
+public class EmployeeApiController {
 
     private final EmployeeService employeeService;
     private final HttpSession session;
