@@ -13,12 +13,12 @@ import site.metacoding.miniproject.domain.company.CompanyDao;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class FilterConfig {
+public class CompanyFilterConfig {
 
   private final CompanyDao companyDao;
 
   @Bean
-  public FilterRegistrationBean<CompanyJwtAuthenticationFilter> jwtAuthenticationFilterRegister() {// IoC등록 서버실행시
+  public FilterRegistrationBean<CompanyJwtAuthenticationFilter> jwtAuthenticationFilterRegister() {
     log.debug("디버그 : 인증 필터 등록");
     FilterRegistrationBean<CompanyJwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
         new CompanyJwtAuthenticationFilter(companyDao));
@@ -28,12 +28,12 @@ public class FilterConfig {
   }
 
   @Bean
-  public FilterRegistrationBean<CompanyJwtAuthorizationFilter> jwtAuthorizationFilterRegister() {// IoC등록 서버실행시
+  public FilterRegistrationBean<CompanyJwtAuthorizationFilter> jwtAuthorizationFilterRegister() {
     log.debug("디버그 : 인가 필터 등록");
     FilterRegistrationBean<CompanyJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
         new CompanyJwtAuthorizationFilter());
-    bean.addUrlPatterns("/cs/*"); // 원래 주소창 뒤엔 **로 모든 걸 포함할 수 있지만 여기서는 * 하나로 예외.
-    bean.setOrder(2);// 낮은 순서대로 실행
+    bean.addUrlPatterns("/cs/*");
+    bean.setOrder(2);
     return bean;
   }
 
