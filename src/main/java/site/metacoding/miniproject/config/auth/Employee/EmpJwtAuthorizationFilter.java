@@ -50,10 +50,8 @@ public class EmpJwtAuthorizationFilter implements Filter {
             String employeeUsername = decodedJWT.getClaim("employeeUsername").asString();
             EmpSessionUser empSessionUser = new EmpSessionUser(
                     Employee.builder().employeeId(employeeId).employeeUsername(employeeUsername).build());
-            log.debug("디버그 아이디 : " + empSessionUser.getEmployeeId());
             HttpSession session = req.getSession();
             session.setAttribute("empSessionUser", empSessionUser);
-            log.debug("디버그 : " + );
         } catch (Exception e) {
             filterResponse("토큰 검증 실패", resp);
         }
