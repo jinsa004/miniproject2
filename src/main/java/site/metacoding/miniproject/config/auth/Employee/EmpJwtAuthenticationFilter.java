@@ -82,6 +82,9 @@ public class EmpJwtAuthenticationFilter implements Filter {
         // JWT토큰 응답
         filterJwtResponse(jwtToken, employeePS, resp);
 
+        // 디스패처 서블릿 입장 또는 Filter체인 타기
+        chain.doFilter(req, resp);
+
     }
 
     private void filterResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {
