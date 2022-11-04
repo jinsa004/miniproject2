@@ -32,7 +32,7 @@ public class FilterConfig {
     log.debug("디버그 : 인가 필터 등록");
     FilterRegistrationBean<CompanyJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
         new CompanyJwtAuthorizationFilter());
-    bean.addUrlPatterns("/s/*"); // 원래 주소창 뒤엔 **로 모든 걸 포함할 수 있지만 여기서는 * 하나로 예외.
+    bean.addUrlPatterns("/cs/*"); // 원래 주소창 뒤엔 **로 모든 걸 포함할 수 있지만 여기서는 * 하나로 예외.
     bean.setOrder(2);// 낮은 순서대로 실행
     return bean;
   }

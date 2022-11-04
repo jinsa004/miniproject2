@@ -99,12 +99,12 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "성공", resumeService.findByJobCodeToResumeList(jobCode));
     }
 
-    @GetMapping("/co/matchingResume/{companyId}")
+    @GetMapping("/cs/co/matchingResume/{companyId}")
     public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
         return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
     }
 
-    @GetMapping("/co/resume/detail/{resumeId}")
+    @GetMapping("/cs/co/resume/detail/{resumeId}")
     public ResponseDto<?> getResumeDetail(@PathVariable Integer resumeId) {
         // Company companyPS = (Company) session.getAttribute("coprincipal"); 세션
         return new ResponseDto<>(1, "성공", resumeService.이력서상세보기(resumeId));

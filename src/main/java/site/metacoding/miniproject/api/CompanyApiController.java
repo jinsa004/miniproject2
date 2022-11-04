@@ -33,13 +33,13 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "회원가입성공", companyService.join(companyJoinReqDto));
     }
 
-    @GetMapping("/s/co/company/detail/{companyId}")
+    @GetMapping("/cs/co/company/detail/{companyId}")
     public ResponseDto<?> findByCompanyIdToCompanyDetail(@PathVariable Integer companyId) { // 기업회원정보보기
         // Company companyPS = (Company) session.getAttribute("coprincipal");
         return new ResponseDto<>(1, "성공", companyService.findByCompanyIdToCompanyDetail(companyId));
     }
 
-    @PutMapping("/s/co/company/update/{companyId}")
+    @PutMapping("/cs/co/company/update/{companyId}")
     public ResponseDto<?> updateCompany(@PathVariable Integer companyId,
             @RequestBody CompanyUpdateReqDto companyUpdateReqDto) {
         CompanyUpdateRespDto companyUpdateRespDto = companyService.updateCompany(companyId, companyUpdateReqDto);
@@ -47,7 +47,7 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "수정성공", companyUpdateRespDto);
     }
 
-    @DeleteMapping("/s/co/company/delete/{companyId}")
+    @DeleteMapping("/cs/co/company/delete/{companyId}")
     public ResponseDto<?> deleteCompany(@PathVariable Integer companyId) {
         companyService.deleteCompany(companyId);
         // session.invalidate();
@@ -60,7 +60,6 @@ public class CompanyApiController {
     }
 
     @GetMapping("/co/logout")
-
     public ResponseDto<?> Companylogout() {
         // session.invalidate();
         return new ResponseDto<>(1, "로그아웃", null);
@@ -94,7 +93,7 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "성공", isSame);
     }
 
-    @PostMapping("/co/intro/insert")
+    @PostMapping("/cs/co/intro/insert")
     public ResponseDto<?> insertIntro(@RequestBody IntroSaveReqDto introSaveReqDto) {
         // SessionUser sessionUser = (SessionUser)
         // session.getAttribute("sessionUser");
@@ -105,7 +104,7 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "성공", introSaveRespDto);
     }
 
-    @PutMapping("/co/intro/update/{introId}")
+    @PutMapping("/cs/co/intro/update/{introId}")
     public ResponseDto<?> updateIntro(@PathVariable Integer introId, @RequestBody IntroUpdateReqDto introUpdateReqDto) {
         // SessionUser sessionUser = (SessionUser)
         // session.getAttribute("sessionUser");
