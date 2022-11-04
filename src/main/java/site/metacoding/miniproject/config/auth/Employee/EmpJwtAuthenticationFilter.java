@@ -31,11 +31,6 @@ import site.metacoding.miniproject.util.SHA256;
 public class EmpJwtAuthenticationFilter implements Filter {
     private final EmployeeDao employeeDao; // DI (FilterConfig 주입받음)
 
-    // /login 요청시
-    // post 요청시
-    // username, password (json)
-    // db확인
-    // 토큰 생성
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
@@ -60,6 +55,14 @@ public class EmpJwtAuthenticationFilter implements Filter {
         Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
         if (employeePS == null) {
             filterResponse("유저네임을 찾을 수 없습니다.", resp);
+            return;
+        }
+
+        // 패스워드 체크
+        SHA256 sh = new SHA256();
+        String encPassword = sh.encrypt(empLoginReqDto.getEmployeePassword());
+        if (!employeePS.getEmployeePassword().equals(encPassword)) {
+            filterResponse("패스워드가 틀렸습니다.", resp);
             return;
         }
     }

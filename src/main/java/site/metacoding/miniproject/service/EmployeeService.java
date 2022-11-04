@@ -13,6 +13,7 @@ import site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
 import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpJoinRespDto;
+import site.metacoding.miniproject.util.SHA256;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class EmployeeService {
 
     private final EmployeeDao employeeDao;
     private final EmpCheckDao empCheckDao;
+    private final SHA256 sha256;
 
     @Transactional(readOnly = true)
     public EmpSessionUser 로그인(EmpLoginReqDto empLoginReqDto) {
@@ -38,7 +40,11 @@ public class EmployeeService {
 
     @Transactional
     public EmpJoinRespDto employeeJoin(EmpJoinReqDto empJoinReqDto) {
-        Employee employeePS = empJoinReqDto.toEmpEntity();
+        // 비밀번호 해시
+        String encPassword = sha256.encrypt(empJoinReqDto.getEmployeePassword());
+        empJoinReqDto.setEmployeePassword(encPassword);
+
+        Employee employeePS = empJoinReqDto.toEntity();
         employeeDao.insert(employeePS);
         // employeeDao.insert(employee);
 
