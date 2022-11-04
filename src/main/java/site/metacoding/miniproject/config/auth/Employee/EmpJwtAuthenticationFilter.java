@@ -48,11 +48,20 @@ public class EmpJwtAuthenticationFilter implements Filter {
             filterResponse("로그인시에는 post요청을 해야 합니다.", resp);
             return;
         }
+
+        // body값 받기
         ObjectMapper om = new ObjectMapper();
         EmpLoginReqDto empLoginReqDto = om.readValue(req.getInputStream(),
                 EmpLoginReqDto.class);
         log.debug("디버그 : " + empLoginReqDto.getEmployeeUsername());
         log.debug("디버그 : " + empLoginReqDto.getEmployeePassword());
+
+        // EmployeeUsername 있는지 체크
+        Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
+        if (employeePS == null) {
+            filterResponse("유저네임을 찾을 수 없습니다.", resp);
+            return;
+        }
     }
 
     private void filterResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {
