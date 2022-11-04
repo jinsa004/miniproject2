@@ -20,7 +20,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.dto.ResponseDto;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +40,24 @@ public class EmpJwtAuthorizationFilter implements Filter {
             filterResponse("JWT토큰이 없어서 인가할 수 없습니다", resp);
             return;
         }
+
+        // 토큰 검증
+        jwtToken = jwtToken.replace("Bearer ", "");
+        jwtToken = jwtToken.trim();
+        try {
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512("뺑소니")).build().verify(jwtToken);
+            Integer employeeId = decodedJWT.getClaim("employeeId").asInt();
+            String employeeUsername = decodedJWT.getClaim("employeeUsername").asString();
+            EmpSessionUser EmpSessionUser = new EmpSessionUser(
+                    Employee.builder().employeeId(employeeId).employeeUsername(employeeUsername).build());
+            HttpSession session = req.getSession();
+            session.setAttribute("empSessionUser", EmpSessionUser);
+        } catch (Exception e) {
+            filterResponse("토큰 검증 실패", resp);
+        }
+
+        // 디스패처 서블릿 입장 또는 Filter체인 타기
+        chain.doFilter(req, resp);
     }
 
     private void filterResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {

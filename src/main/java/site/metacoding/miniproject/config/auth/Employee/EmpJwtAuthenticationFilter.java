@@ -74,8 +74,8 @@ public class EmpJwtAuthenticationFilter implements Filter {
         String jwtToken = JWT.create()
                 .withSubject("메타코딩")
                 .withExpiresAt(expire)
-                .withClaim("id", employeePS.getEmployeeId())
-                .withClaim("username", employeePS.getEmployeeUsername())
+                .withClaim("employeeId", employeePS.getEmployeeId())
+                .withClaim("employeeUsername", employeePS.getEmployeeUsername())
                 .sign(Algorithm.HMAC512("취직"));
         log.debug("디버그 : " + jwtToken);
 
