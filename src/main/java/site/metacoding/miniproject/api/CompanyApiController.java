@@ -33,13 +33,13 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "회원가입성공", companyService.join(companyJoinReqDto));
     }
 
-    @GetMapping("/co/company/detail/{companyId}")
-    public ResponseDto<?> findByCompanyIdToCompanyDetail(@PathVariable Integer companyId, Model model) { // 기업회원정보보기
+    @GetMapping("/s/co/company/detail/{companyId}")
+    public ResponseDto<?> findByCompanyIdToCompanyDetail(@PathVariable Integer companyId) { // 기업회원정보보기
         // Company companyPS = (Company) session.getAttribute("coprincipal");
         return new ResponseDto<>(1, "성공", companyService.findByCompanyIdToCompanyDetail(companyId));
     }
 
-    @PutMapping("/co/company/update/{companyId}")
+    @PutMapping("/s/co/company/update/{companyId}")
     public ResponseDto<?> updateCompany(@PathVariable Integer companyId,
             @RequestBody CompanyUpdateReqDto companyUpdateReqDto) {
         CompanyUpdateRespDto companyUpdateRespDto = companyService.updateCompany(companyId, companyUpdateReqDto);
@@ -47,7 +47,7 @@ public class CompanyApiController {
         return new ResponseDto<>(1, "수정성공", companyUpdateRespDto);
     }
 
-    @DeleteMapping("/co/company/delete/{companyId}")
+    @DeleteMapping("/s/co/company/delete/{companyId}")
     public ResponseDto<?> deleteCompany(@PathVariable Integer companyId) {
         companyService.deleteCompany(companyId);
         // session.invalidate();
