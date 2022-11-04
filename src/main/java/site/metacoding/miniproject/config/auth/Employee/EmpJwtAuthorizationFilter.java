@@ -45,13 +45,15 @@ public class EmpJwtAuthorizationFilter implements Filter {
         jwtToken = jwtToken.replace("Bearer ", "");
         jwtToken = jwtToken.trim();
         try {
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512("뺑소니")).build().verify(jwtToken);
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512("취직")).build().verify(jwtToken);
             Integer employeeId = decodedJWT.getClaim("employeeId").asInt();
             String employeeUsername = decodedJWT.getClaim("employeeUsername").asString();
-            EmpSessionUser EmpSessionUser = new EmpSessionUser(
+            EmpSessionUser empSessionUser = new EmpSessionUser(
                     Employee.builder().employeeId(employeeId).employeeUsername(employeeUsername).build());
+            log.debug("디버그 아이디 : " + empSessionUser.getEmployeeId());
             HttpSession session = req.getSession();
-            session.setAttribute("empSessionUser", EmpSessionUser);
+            session.setAttribute("empSessionUser", empSessionUser);
+            log.debug("디버그 : " + );
         } catch (Exception e) {
             filterResponse("토큰 검증 실패", resp);
         }

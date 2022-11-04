@@ -66,7 +66,7 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "이력서 한건 불러오기 성공", resumeService.이력서상세보기(resumeId));
     }
 
-    @PostMapping("/emp/resume/save")
+    @PostMapping("/s/emp/resume/save")
     public ResponseDto<?> insertResume(@RequestBody ResumeSaveReqDto resumeSaveReqDto) {
         return new ResponseDto<>(1, "이력서 등록 성공", resumeService.이력서작성(resumeSaveReqDto));
     }
