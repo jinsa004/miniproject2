@@ -16,6 +16,7 @@ import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyDetailRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
+import site.metacoding.miniproject.util.SHA256;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
 
 @Service
@@ -24,6 +25,7 @@ public class CompanyService {
 
   private final CompanyDao companyDao;
   private final CoCheckDao coCheckDao;
+  private final SHA256 sha256;
 
   public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
     Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
@@ -36,6 +38,9 @@ public class CompanyService {
 
   @Transactional
   public CompanyJoinRespDto join(CompanyJoinReqDto companyJoinReqDto) {
+    String encPassword = sha256.encrypt(companyJoinReqDto.getCompanyPassword());
+    companyJoinReqDto.setCompanyPassword(encPassword);
+
     Company companyPS = companyJoinReqDto.toEntity();
     companyDao.insert(companyPS);
 
@@ -44,6 +49,7 @@ public class CompanyService {
     }
     List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
     return new CompanyJoinRespDto(companyPS, coCheckList);
+
   }
 
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {
@@ -69,6 +75,7 @@ public class CompanyService {
   }
 
   public void deleteCompany(Integer companyId) {
+
     Company companyPS = companyDao.findById(companyId);
     if (companyPS != null) {
       companyDao.deleteById(companyId);
@@ -76,7 +83,6 @@ public class CompanyService {
     } else {
       throw new RuntimeException("해당 " + companyId + "로 삭제를 할 수 없습니다.");
     }
-
   }
 
   public boolean usernameSameCheck(String companyUsername) {

@@ -1,3 +1,4 @@
+// package site.metacoding.miniproject.config.auth.company;
 // package site.metacoding.miniproject.config.auth;
 
 // import java.io.IOException;

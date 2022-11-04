@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.miniproject.domain.employee.EmployeeDao">
 
-	<!-- <insert id="insert" parameterType="site.metacoding.miniproject.domain.employee.Employee" useGeneratedKeys="true" keyProperty="employeeId">
+	<insert id="insert" parameterType="site.metacoding.miniproject.domain.employee.Employee" useGeneratedKeys="true" keyProperty="employeeId">
 		INSERT INTO employee(employee_name, employee_password, employee_sex, employee_email, employee_username, employee_birth, employee_tel, employee_location)
 		VALUES(#{employeeName}, #{employeePassword}, #{employeeSex}, #{employeeEmail}, #{employeeUsername}, #{employeeBirth}, #{employeeTel}, #{employeeLocation})
 	</insert>
@@ -46,6 +46,6 @@
 
 	<delete id="deleteById">
 		DELETE FROM employee WHERE employee_id=#{employeeId}
-	</delete> -->
+	</delete>
 
 </mapper>

@@ -45,7 +45,7 @@
 // private final JobService jobService;
 // private final HttpSession session;
 
-// @PostMapping("/emp/login")
+// @PostMapping("/emp/join2")
 // public @ResponseBody ResponseDto<?> login(@RequestBody EmpLoginReqDto
 // empLoginReqDto,
 // HttpServletResponse response) {
