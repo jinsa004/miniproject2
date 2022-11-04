@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.dto.ResponseDto;
@@ -41,7 +40,7 @@ public class ResumeApiController {
 
     @GetMapping("/emp/mypage/resume/{employeeId}")
     public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
-        return new ResponseDto<>(1, "내 이력서 불러오기 성공", resumeService.내이력서가져오기(employeeId));
+        return new ResponseDto<>(1, "내 이력서 불러오기 성공", resumeService.getMyResumeList(employeeId));
     }
 
     @PutMapping("/emp/resume/setMain/{resumeId}")
@@ -79,48 +78,6 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "이력서 수정 성공", resumeService.이력서수정(resumeUpdateReqDto));
     }
 
-    // @PostMapping("/empapi/es/emp/resume/applicate")
-    // public @ResponseBody ResponseDto<?> applicateByResumeId(@RequestBody
-    // Application application) {
-    // resumeService.지원하기(application);
-    // return new ResponseDto<>(1, "공고 지원 성공", null);
-    // }
-
-    // @GetMapping("/es/emp/resumeSaveForm/{employeeId}")
-    // public String insertResumeForm(@PathVariable Integer employeeId, Model model)
-    // { // 이력서 등록 페이지
-    // session.getAttribute("empprincipal");
-    // List<Job> jobPS = jobService.관심직무보기();
-    // model.addAttribute("jobPS", jobPS);
-    // return "resume/resumeSave";
-    // }
-
-    // @PostMapping("/empapi/es/emp/resumeSave")
-    // public @ResponseBody ResponseDto<?> insertImage(@RequestBody ResumeSaveReqDto
-    // resumeSaveReqDto) throws Exception {
-    // resumeService.이력서작성(resumeSaveReqDto);
-    // return new ResponseDto<>(1, "이력서 등록 성공", null);
-    // }
-
-    // @GetMapping("/es/emp/resumeUpdate/{resumeId}")
-    // public String updateResumeForm(@PathVariable Integer resumeId, Model model) {
-    // // 이력서 수정 페이지
-    // session.getAttribute("empprincipal");
-    // List<Job> jobPS = jobService.관심직무보기();
-    // model.addAttribute("jobPS", jobPS);
-    // Resume resumePS = resumeService.이력서상세보기(resumeId);
-    // model.addAttribute("resumePS", resumePS);
-    // return "resume/resumeUpdate";
-    // }
-
-    // @PutMapping("/empapi/es/emp/resumeUpdate/{resumeId}")
-    // public @ResponseBody ResponseDto<?> updateResume(@PathVariable Integer
-    // resumeId,
-    // @RequestBody ResumeUpdateReqDto resumeUpdateReqDto) {
-    // resumeService.이력서수정(resumeUpdateReqDto);
-    // return new ResponseDto<>(1, "이력서 수정 성공", null);
-    // }
-
     /* =============================기업회원========================================= */
 
     @GetMapping("/co")
@@ -147,14 +104,9 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
     }
 
-    // @GetMapping("/co/resumeDetail/{resumeId}")
-    // public String getResumeDetail(@PathVariable Integer resumeId, Model model) {
-    // Company companyPS = (Company) session.getAttribute("coprincipal");
-    // model.addAttribute("company", companyPS);
-    // model.addAttribute("resume", resumeService.이력서상세보기(resumeId));
-    // return "company/resumeDetail";
-    // }
-
-    // 나중에 지원자 관리 메서드 생성 필요 (resumeList.jsp)
-
+    @GetMapping("/co/resume/detail/{resumeId}")
+    public ResponseDto<?> getResumeDetail(@PathVariable Integer resumeId) {
+        // Company companyPS = (Company) session.getAttribute("coprincipal"); 세션
+        return new ResponseDto<>(1, "성공", resumeService.이력서상세보기(resumeId));
+    }
 }

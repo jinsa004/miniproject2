@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.domain.job.Job;
-import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.dto.ResponseDto;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
+import site.metacoding.miniproject.dto.resume.ResumeRespDto.NoticeHaveResumeRespDto;
 import site.metacoding.miniproject.service.JobService;
 import site.metacoding.miniproject.service.NoticeService;
 import site.metacoding.miniproject.service.ResumeService;
@@ -31,8 +31,8 @@ public class NoticeApiController {
 
     private final NoticeService noticeService;
     private final ResumeService resumeService;
-    private final HttpSession session;
     private final JobService jobService;
+    private final HttpSession session;
 
     /* =============================개인회원========================================= */
 
@@ -54,25 +54,21 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
     }
 
-    // @GetMapping("/emp/noticeDetail/{noticeId}") // notice/Detail로 들어가는게 좋을 것 같습니다
-    // public String recruitDetail(@PathVariable Integer noticeId, Model model) {//
-    // 개인회원 입장에서 채용공고 상세보기
-    // Employee principal = (Employee) session.getAttribute("empprincipal");
-    // if (principal != null) {
-    // List<Resume> resumePS = resumeService.내이력서가져오기(principal.getEmployeeId());
-    // model.addAttribute("resumePS", resumePS);
-    // }
-    // Notice noticePS = noticeService.기업공고하나보기(noticeId);
-    // model.addAttribute("noticePS", noticePS);
-    // return "employee/noticeDetail";
-    // }
+    @GetMapping("/emp/noticeDetail/{noticeId}")
+    public ResponseDto<?> getNoticeDetailWithResume(@PathVariable Integer noticeId) {// 개인회원 입장에서 채용공고보기
+        EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empprincipal");
+        if (empPrincipal != null) {
+            return new ResponseDto<>(1, "성공", new NoticeHaveResumeRespDto(noticeService.getNoticeDetail(noticeId),
+                    resumeService.getMyResumeList(empPrincipal.getEmployeeId())));
+        } else {
+            return new ResponseDto<>(1, "성공", noticeService.getNoticeDetail(noticeId));
+        }
+    }
 
-    // @GetMapping("/es/emp/subscribeNotice/{employeeId}")
-    // public String subs(@PathVariable Integer employeeId, Model model) {
-    // List<Notice> noticeList = noticeService.구독공고목록보기(employeeId);
-    // model.addAttribute("noticeList", noticeList);
-    // return "employee/subscription";
-    // }
+    @GetMapping("/emp/subscribeNotice/{employeeId}")
+    public ResponseDto<?> subsNoticeAll(@PathVariable Integer employeeId) { // 성진
+        return new ResponseDto<>(1, "통신성공", noticeService.subsNoticeAll(employeeId));
+    }
 
     /* =============================기업회원========================================= */
 
@@ -107,7 +103,7 @@ public class NoticeApiController {
     }
 
     @GetMapping("/co/notice/{companyId}/detail/{noticeId}")
-    public ResponseDto<?> updateMyNotice(@PathVariable Integer companyId, @PathVariable Integer noticeId) {
-        return new ResponseDto<>(1, "통신성공", noticeService.noticeDetail(noticeId));
+    public ResponseDto<?> noticeDetail(@PathVariable Integer companyId, @PathVariable Integer noticeId) {
+        return new ResponseDto<>(1, "통신성공", noticeService.getNoticeDetail(noticeId));
     }
 }

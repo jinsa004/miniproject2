@@ -22,6 +22,33 @@ public class EmployeeService {
     private final EmployeeDao employeeDao;
     private final EmpCheckDao empCheckDao;
 
+    @Transactional(readOnly = true)
+    public EmpSessionUser 로그인(EmpLoginReqDto empLoginReqDto) {
+        Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
+
+        if (employeePS != null &&
+                employeePS.getEmployeePassword().equals(empLoginReqDto.getEmployeePassword())) {
+            return new EmpSessionUser(employeePS);
+        } else {
+            throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
+
+        }
+
+    }
+
+    @Transactional
+    public EmpJoinRespDto employeeJoin(EmpJoinReqDto empJoinReqDto) {
+        Employee employeePS = empJoinReqDto.toEmpEntity();
+        employeeDao.insert(employeePS);
+        // employeeDao.insert(employee);
+
+        for (Integer jobId : empJoinReqDto.getJobIds()) {
+            empCheckDao.insert(employeePS.getEmployeeId(), jobId);
+        }
+        List<EmpCheckRespDto> jobCheckList = empCheckDao.findAll(employeePS.getEmployeeId());
+
+        return new EmpJoinRespDto(employeePS, jobCheckList);
+    }
     /*
      * public void employeeDelete(Integer employeeId) {
      * employeeDao.deleteById(employeeId);
@@ -51,34 +78,6 @@ public class EmployeeService {
      * return new EmpUpdateRespDto(employeePS, jobCheckList);
      * }
      */
-
-    @Transactional(readOnly = true)
-    public EmpSessionUser 로그인(EmpLoginReqDto empLoginReqDto) {
-        Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
-
-        if (employeePS != null &&
-                employeePS.getEmployeePassword().equals(empLoginReqDto.getEmployeePassword())) {
-            return new EmpSessionUser(employeePS);
-        } else {
-            throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
-
-        }
-
-    }
-
-    @Transactional
-    public EmpJoinRespDto employeeJoin(EmpJoinReqDto empJoinReqDto) {
-        Employee employeePS = empJoinReqDto.toEmpEntity();
-        employeeDao.insert(employeePS);
-        // employeeDao.insert(employee);
-
-        for (Integer jobId : empJoinReqDto.getJobIds()) {
-            empCheckDao.insert(employeePS.getEmployeeId(), jobId);
-        }
-        List<EmpCheckRespDto> jobCheckList = empCheckDao.findAll(employeePS.getEmployeeId());
-
-        return new EmpJoinRespDto(employeePS, jobCheckList);
-    }
 
     // =========================== 유효성체크 ======================================
     /*

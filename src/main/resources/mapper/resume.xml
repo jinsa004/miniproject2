@@ -58,7 +58,7 @@
 		DELETE FROM resume WHERE resume_id = #{resumeId}
 	</delete>
 
-	<!-- <select id="findAll" resultType="site.metacoding.miniproject.domain.resume.Resume">
+	<select id="findAll" resultType="site.metacoding.miniproject.domain.resume.Resume">
 		SELECT e.employee_name, r.resume_title, r.career_period, j.job_name, r.resume_id
 		FROM resume r
 		JOIN employee e
@@ -94,6 +94,5 @@
 		ON re.job_id = cj.job_id
 		GROUP BY cj.job_id
 	</select>
- -->
 
 </mapper>
