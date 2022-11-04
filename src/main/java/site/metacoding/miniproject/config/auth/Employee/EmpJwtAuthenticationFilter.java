@@ -48,7 +48,11 @@ public class EmpJwtAuthenticationFilter implements Filter {
             filterResponse("로그인시에는 post요청을 해야 합니다.", resp);
             return;
         }
-
+        ObjectMapper om = new ObjectMapper();
+        EmpLoginReqDto empLoginReqDto = om.readValue(req.getInputStream(),
+                EmpLoginReqDto.class);
+        log.debug("디버그 : " + empLoginReqDto.getEmployeeUsername());
+        log.debug("디버그 : " + empLoginReqDto.getEmployeePassword());
     }
 
     private void filterResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {
