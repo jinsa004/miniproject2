@@ -18,3 +18,5 @@ spring:
 logging:
     level:
         "[site.metacoding.miniproject]": DEBUG
+
+spring.main.allow-bean-definition-overriding: true
