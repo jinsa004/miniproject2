@@ -35,13 +35,9 @@ public class ResumeService {
 
     @Transactional
     public ApplicationSaveRespDto 지원하기(ApplicationSaveReqDto applicationSaveReqDto) {
-        log.debug("디버그0 : " + 0);
         Application applicationPS = applicationSaveReqDto.toEntity();
-        log.debug("디버그1 : " + 1);
         applicationDao.insert(applicationPS);
-        log.debug("디버그2 : " + 2);
         applicationPS = applicationDao.findById(applicationPS.getApplicationId());
-        log.debug("디버그3 : " + 3);
         return new ApplicationSaveRespDto(applicationPS);
     }
 
