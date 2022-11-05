@@ -54,7 +54,7 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
     }
 
-    @GetMapping("/emp/noticeDetail/{noticeId}")
+    @GetMapping("/es/emp/noticeDetail/{noticeId}")
     public ResponseDto<?> getNoticeDetailWithResume(@PathVariable Integer noticeId) {// 개인회원 입장에서 채용공고보기
         EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empprincipal");
         if (empPrincipal != null) {
@@ -66,7 +66,7 @@ public class NoticeApiController {
     }
 
     @GetMapping("/emp/subscribeNotice/{employeeId}")
-    public ResponseDto<?> subsNoticeAll(@PathVariable Integer employeeId) { // 성진
+    public ResponseDto<?> subsNoticeAll(@PathVariable Integer employeeId) {
         return new ResponseDto<>(1, "통신성공", noticeService.subsNoticeAll(employeeId));
     }
 
