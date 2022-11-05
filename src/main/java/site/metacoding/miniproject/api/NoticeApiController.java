@@ -54,7 +54,7 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "성공", noticeService.findMachingNoticeList(employeeId));
     }
 
-    @GetMapping("/emp/noticeDetail/{noticeId}")
+    @GetMapping("/es/emp/noticeDetail/{noticeId}")
     public ResponseDto<?> getNoticeDetailWithResume(@PathVariable Integer noticeId) {// 개인회원 입장에서 채용공고보기
         EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empprincipal");
         if (empPrincipal != null) {
@@ -66,13 +66,14 @@ public class NoticeApiController {
     }
 
     @GetMapping("/emp/subscribeNotice/{employeeId}")
-    public ResponseDto<?> subsNoticeAll(@PathVariable Integer employeeId) { // 성진
+
+    public ResponseDto<?> subsNoticeAll(@PathVariable Integer employeeId) {
         return new ResponseDto<>(1, "통신성공", noticeService.subsNoticeAll(employeeId));
     }
 
     /* =============================기업회원========================================= */
 
-    @GetMapping("/co/noticeSave/{companyId}")
+    @GetMapping("/cs/co/noticeSave/{companyId}")
     public ResponseDto<?> 공고등록(@PathVariable Integer companyId, Model model) { // 등록폼을 가져오는 것
         session.getAttribute("coprincipal");
         List<Job> jobPS = jobService.관심직무보기();
@@ -80,29 +81,29 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "통신성공", null);
     }
 
-    @PostMapping("/co/notice/save")
+    @PostMapping("/cs/co/notice/save")
     public ResponseDto<?> saveNotice(@RequestBody NoticeSaveReqDto noticeSaveReqDto) {
         return new ResponseDto<>(1, "통신성공", noticeService.saveNotice(noticeSaveReqDto));
     }
 
-    @GetMapping("/co/notice/{companyId}")
+    @GetMapping("/cs/co/notice/{companyId}")
     public ResponseDto<?> findByCompanyIdToNotice(@PathVariable Integer companyId) { // 내 공고목록보기 기능
         return new ResponseDto<>(1, "통신성공", noticeService.findByCompanyIdToNotice(companyId));
     }
 
-    @PutMapping("/co/notice/update/{noticeId}")
+    @PutMapping("/cs/co/notice/update/{noticeId}")
     public ResponseDto<?> updateNotice(@PathVariable Integer noticeId,
             @RequestBody NoticeUpdateReqDto NoticeUpdateReqDto) {
         return new ResponseDto<>(1, "공고 수정 성공", noticeService.updateNotice(noticeId, NoticeUpdateReqDto));
     }
 
-    @DeleteMapping("/co/notice/delete/{noticeId}")
+    @DeleteMapping("/cs/co/notice/delete/{noticeId}")
     public @ResponseBody ResponseDto<?> deleteNotice(@PathVariable Integer noticeId) {
         noticeService.deleteNotice(noticeId);
         return new ResponseDto<>(1, "공고 삭제 성공", null);
     }
 
-    @GetMapping("/co/notice/{companyId}/detail/{noticeId}")
+    @GetMapping("/cs/co/notice/{companyId}/detail/{noticeId}")
     public ResponseDto<?> noticeDetail(@PathVariable Integer companyId, @PathVariable Integer noticeId) {
         return new ResponseDto<>(1, "통신성공", noticeService.getNoticeDetail(noticeId));
     }

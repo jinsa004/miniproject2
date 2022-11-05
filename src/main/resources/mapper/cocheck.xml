@@ -15,6 +15,6 @@
 		select * FROM co_check WHERE company_id = #{companyId}
 	</select>
 
-	<update id="update"></update> 
+	<update id="update"></update>
 
 </mapper>
