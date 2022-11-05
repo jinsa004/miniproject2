@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthenticationFilter;
 import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthorizationFilter;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
-import site.metacoding.miniproject.util.SHA256;
 
 @Slf4j
 @Configuration

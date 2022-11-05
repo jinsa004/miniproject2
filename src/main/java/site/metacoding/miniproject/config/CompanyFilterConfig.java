@@ -23,7 +23,7 @@ public class CompanyFilterConfig {
     FilterRegistrationBean<CompanyJwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
         new CompanyJwtAuthenticationFilter(companyDao));
     bean.addUrlPatterns("/co/login");
-    bean.setOrder(1);
+    bean.setOrder(3);
     return bean;
   }
 
@@ -33,7 +33,7 @@ public class CompanyFilterConfig {
     FilterRegistrationBean<CompanyJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
         new CompanyJwtAuthorizationFilter());
     bean.addUrlPatterns("/cs/*");
-    bean.setOrder(2);
+    bean.setOrder(4);
     return bean;
   }
 

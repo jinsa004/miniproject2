@@ -33,7 +33,7 @@ public class NoticeApiController {
     private final NoticeService noticeService;
     private final ResumeService resumeService;
     private final JobService jobService;
-    private final HttpSession empSession;
+    private final HttpSession session;
 
     /*
      * =============================개인회원=========================================
@@ -52,27 +52,26 @@ public class NoticeApiController {
                 noticeService.findByJobCodeToNoticeList(jobCode));
     }
 
-    // @GetMapping("emp/matchingNotice/{employeeId}")
-    // public ResponseDto<?> matchingNoticeList(@PathVariable(value="employeeId")
-    // Integer session.getAttribute("empSessionUser").getEmployeeId) {
-    // return new ResponseDto<>(1, "성공",
-    // noticeService.findMachingNoticeList(employeeId));
-    // }
+    @GetMapping("/es/emp/matchingNotice/{employeeId}")
+    public ResponseDto<?> matchingNoticeList(@PathVariable Integer employeeId) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+        if (employeeId.equals(empSessionUser.getEmployeeId())) {
+            return new ResponseDto<>(1, "성공",
+                    noticeService.findMachingNoticeList(employeeId));
+        }
+        return new ResponseDto<>(-1, "사용자 id가 달라 매칭리스트를 볼 권한이 없습니다", null);
+    }
 
-    // @GetMapping("/es/emp/noticeDetail/{noticeId}")
-    // public ResponseDto<?> getNoticeDetailWithResume(@PathVariable Integer
-    // noticeId) {// 개인회원 입장에서 채용공고보기
-    // EmpSessionUser empPrincipal = (EmpSessionUser)
-    // empSession.getAttribute("empSessionUser");
-    // log.debug("디버그 : 세션값" + empPrincipal.getEmployeeId());
-    // if (empPrincipal != null) {
-    // return new ResponseDto<>(1, "성공", new
-    // NoticeHaveResumeRespDto(noticeService.getNoticeDetail(noticeId),
-    // resumeService.getMyResumeList(empPrincipal.getEmployeeId())));
-    // } else {
-    // return new ResponseDto<>(1, "성공", noticeService.getNoticeDetail(noticeId));
-    // }
-    // }
+    @GetMapping("/es/emp/noticeDetail/{noticeId}")
+    public ResponseDto<?> getNoticeDetailWithResume(@PathVariable Integer noticeId) {// 개인회원 입장에서 채용공고보기
+        EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empSessionUser");
+        if (empPrincipal != null) {
+            return new ResponseDto<>(1, "성공", new NoticeHaveResumeRespDto(noticeService.getNoticeDetail(noticeId),
+                    resumeService.getMyResumeList(empPrincipal.getEmployeeId())));
+        } else {
+            return new ResponseDto<>(1, "성공", noticeService.getNoticeDetail(noticeId));
+        }
+    }
 
     @GetMapping("/emp/subscribeNotice/{employeeId}")
 
@@ -86,7 +85,7 @@ public class NoticeApiController {
 
     @GetMapping("/cs/co/noticeSave/{companyId}")
     public ResponseDto<?> 공고등록(@PathVariable Integer companyId) { // 등록폼을 가져오는 것
-        empSession.getAttribute("coprincipal");
+        session.getAttribute("companySessionUser");
         List<Job> jobPS = jobService.관심직무보기();
         return new ResponseDto<>(1, "통신성공", null);
     }

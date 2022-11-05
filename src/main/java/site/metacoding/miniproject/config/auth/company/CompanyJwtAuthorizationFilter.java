@@ -50,8 +50,8 @@ public class CompanyJwtAuthorizationFilter implements Filter {
       CompanySessionUser companySessionUser = new CompanySessionUser(
           Company.builder().companyId(companyId).companyUsername(companyUsername).build());
 
-      HttpSession coSession = req.getSession();
-      coSession.setAttribute("companySessionUser", companySessionUser);
+      HttpSession session = req.getSession();
+      session.setAttribute("companySessionUser", companySessionUser);
     } catch (Exception e) {
       filterResponse("토큰 검증 실패", resp);
     }
