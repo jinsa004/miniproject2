@@ -2,6 +2,8 @@ package site.metacoding.miniproject.dto.notice;
 
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.miniproject.domain.intro.Intro;
+import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.domain.notice.Notice;
 
 public class NoticeRespDto {

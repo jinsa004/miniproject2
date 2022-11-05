@@ -38,7 +38,6 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "공고 지원 성공", resumeService.지원하기(applicationSaveReqDto));
     }
 
-
     @GetMapping("/es/emp/mypage/resume/{employeeId}")
     public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
         return new ResponseDto<>(1, "내 이력서 불러오기 성공", resumeService.getMyResumeList(employeeId));
@@ -56,7 +55,7 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "메인 이력서 등록 성공", resumeService.메인이력서등록(resumeUpdateMainReqDto));
     }
 
-    @DeleteMapping("/es/emp/resumeDelete/{resumeId}")
+    @DeleteMapping("/es/emp/resume/delete/{resumeId}")
     public @ResponseBody ResponseDto<?> deleteResume(@PathVariable Integer resumeId) {
         resumeService.이력서삭제(resumeId);
         return new ResponseDto<>(1, "이력서 삭제 성공", null);
@@ -100,12 +99,12 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "성공", resumeService.findByJobCodeToResumeList(jobCode));
     }
 
-    @GetMapping("/co/matchingResume/{companyId}")
+    @GetMapping("/cs/co/matchingResume/{companyId}")
     public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
         return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
     }
 
-    @GetMapping("/co/resume/detail/{resumeId}")
+    @GetMapping("/cs/co/resume/detail/{resumeId}")
     public ResponseDto<?> getResumeDetail(@PathVariable Integer resumeId) {
         // Company companyPS = (Company) session.getAttribute("coprincipal"); 세션
         return new ResponseDto<>(1, "성공", resumeService.이력서상세보기(resumeId));

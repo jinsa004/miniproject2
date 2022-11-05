@@ -7,7 +7,6 @@
           VALUES(#{resumeId}, #{noticeId}, NOW())
     </insert>
 
-    
 	<select id="findById" resultType="site.metacoding.miniproject.domain.application.Application">
 		SELECT *
 		FROM application
