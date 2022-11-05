@@ -1,7 +1,5 @@
 package site.metacoding.miniproject.api;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,18 +24,15 @@ public class EmployeeApiController {
 
     private final IntroService introService;
     private final EmployeeService employeeService;
-    private final HttpSession session;
 
     // 로그인
     @PostMapping("/emp/login")
-    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
-            HttpServletResponse response) {
-        EmpSessionUser empPrincipal = employeeService.로그인(empLoginReqDto);
-        if (empPrincipal == null) {
+    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto) {
+        EmpSessionUser empSessionUser = employeeService.로그인(empLoginReqDto);
+        if (empSessionUser == null) {
             return new ResponseDto<>(-1, "로그인실패", null);
         }
-        session.setAttribute("empprincipal", empPrincipal);
-        return new ResponseDto<>(1, "로그인성공", null);
+        return new ResponseDto<>(1, "로그인성공", empSessionUser);
     }
 
     @PostMapping("/emp/join")

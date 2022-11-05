@@ -2,6 +2,8 @@ package site.metacoding.miniproject.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,19 +25,19 @@ public class EmployeeService {
     private final EmployeeDao employeeDao;
     private final EmpCheckDao empCheckDao;
     private final SHA256 sha256;
+    private final HttpSession empSession;
 
     @Transactional(readOnly = true)
     public EmpSessionUser 로그인(EmpLoginReqDto empLoginReqDto) {
-        Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
-
+        EmpSessionUser empSessionUser = (EmpSessionUser) empSession.getAttribute("empSessionUser");
+        Employee employeePS = employeeDao.findByEmployeeUsername(empSessionUser.getEmployeeUsername());
+        String encPassword = sha256.encrypt(empLoginReqDto.getEmployeePassword());
         if (employeePS != null &&
-                employeePS.getEmployeePassword().equals(empLoginReqDto.getEmployeePassword())) {
-            return new EmpSessionUser(employeePS);
+                employeePS.getEmployeePassword().equals(encPassword)) {
+            return empSessionUser;
         } else {
             throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
-
         }
-
     }
 
     @Transactional

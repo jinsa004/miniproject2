@@ -1,4 +1,4 @@
-package site.metacoding.miniproject.config.auth.Employee;
+package site.metacoding.miniproject.config.auth.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,6 +63,7 @@ public class EmpJwtAuthenticationFilter implements Filter {
         // 패스워드 체크
         SHA256 sh = new SHA256();
         String encPassword = sh.encrypt(empLoginReqDto.getEmployeePassword());
+        log.debug("디버그 : 비번" + encPassword);
         if (!employeePS.getEmployeePassword().equals(encPassword)) {
             filterResponse("패스워드가 틀렸습니다.", resp);
             return;
@@ -81,9 +82,6 @@ public class EmpJwtAuthenticationFilter implements Filter {
 
         // JWT토큰 응답
         filterJwtResponse(jwtToken, employeePS, resp);
-
-        // 디스패처 서블릿 입장 또는 Filter체인 타기
-        chain.doFilter(req, resp);
 
     }
 

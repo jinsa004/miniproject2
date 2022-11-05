@@ -1,4 +1,4 @@
-package site.metacoding.miniproject.config.auth.Employee;
+package site.metacoding.miniproject.config.auth.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,8 +50,8 @@ public class EmpJwtAuthorizationFilter implements Filter {
             String employeeUsername = decodedJWT.getClaim("employeeUsername").asString();
             EmpSessionUser empSessionUser = new EmpSessionUser(
                     Employee.builder().employeeId(employeeId).employeeUsername(employeeUsername).build());
-            HttpSession session = req.getSession();
-            session.setAttribute("empSessionUser", empSessionUser);
+            HttpSession empSession = req.getSession();
+            empSession.setAttribute("empSessionUser", empSessionUser);
         } catch (Exception e) {
             filterResponse("토큰 검증 실패", resp);
         }

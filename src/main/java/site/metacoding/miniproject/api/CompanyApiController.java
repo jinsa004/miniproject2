@@ -1,6 +1,5 @@
 package site.metacoding.miniproject.api;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,7 +102,7 @@ public class CompanyApiController {
         IntroSaveRespDto introSaveRespDto = introService.saveIntro(introSaveReqDto);
         return new ResponseDto<>(1, "성공", introSaveRespDto);
     }
-    
+
     @PutMapping("/cs/co/intro/update/{introId}")
     public ResponseDto<?> updateIntro(@PathVariable Integer introId, @RequestBody IntroUpdateReqDto introUpdateReqDto) {
         // SessionUser sessionUser = (SessionUser)
