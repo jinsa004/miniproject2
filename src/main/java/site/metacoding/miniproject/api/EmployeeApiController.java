@@ -47,6 +47,11 @@ public class EmployeeApiController {
         return new ResponseDto<>(1, "회원가입 성공", empJoinRespDto);
     }
 
+    @GetMapping("/emp/companyList")
+    public ResponseDto<?> findAll() {
+        return new ResponseDto<>(1, "성공", introService.findAll());
+    }
+
     // 개인이 보는기업소개 상세보기
     @GetMapping("/emp/companyIntroDetail/{introId}")
     public ResponseDto<?> findByDetail(@PathVariable Integer introId, Integer principalId) {
