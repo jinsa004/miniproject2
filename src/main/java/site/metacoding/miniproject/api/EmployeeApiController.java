@@ -54,7 +54,7 @@ public class EmployeeApiController {
     }
 
     // 구독하기
-    @PostMapping("/emp/subscribe")
+    @PostMapping("/es/emp/subscribe")
     public ResponseDto<?> insertSub(@RequestBody SubscribeSaveReqDto subscribeSaveReqDto) {
         // Employee principal = (Employee) session.getAttribute("empprincipal");
         SubscribeSaveRespDto subscribeSaveRespDto = introService.구독하기(subscribeSaveReqDto);

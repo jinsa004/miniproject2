@@ -33,17 +33,18 @@ public class ResumeApiController {
 
     /* =============================개인회원========================================= */
 
-    @PostMapping("/emp/resume/applicate")
+    @PostMapping("/es/emp/resume/applicate")
     public @ResponseBody ResponseDto<?> applicateByResumeId(@RequestBody ApplicationSaveReqDto applicationSaveReqDto) {
         return new ResponseDto<>(1, "공고 지원 성공", resumeService.지원하기(applicationSaveReqDto));
     }
 
-    @GetMapping("/emp/mypage/resume/{employeeId}")
-    public @ResponseBody ResponseDto<?> mypageResumeList(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
+
+    @GetMapping("/es/emp/mypage/resume/{employeeId}")
+    public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
         return new ResponseDto<>(1, "내 이력서 불러오기 성공", resumeService.getMyResumeList(employeeId));
     }
 
-    @PutMapping("/emp/resume/setMain/{resumeId}")
+    @PutMapping("/es/emp/resume/setMain/{resumeId}")
     public @ResponseBody ResponseDto<?> setMainResume(@PathVariable Integer resumeId) {
         ResumeUpdateMainReqDto resumeUpdateMainReqDto = new ResumeUpdateMainReqDto();
 
@@ -55,23 +56,23 @@ public class ResumeApiController {
         return new ResponseDto<>(1, "메인 이력서 등록 성공", resumeService.메인이력서등록(resumeUpdateMainReqDto));
     }
 
-    @DeleteMapping("/emp/resume/delete/{resumeId}")
+    @DeleteMapping("/es/emp/resumeDelete/{resumeId}")
     public @ResponseBody ResponseDto<?> deleteResume(@PathVariable Integer resumeId) {
         resumeService.이력서삭제(resumeId);
         return new ResponseDto<>(1, "이력서 삭제 성공", null);
     }
 
-    @GetMapping("/emp/resume/{resumeId}")
+    @GetMapping("/es/emp/resume/{resumeId}")
     public ResponseDto<?> findResumeById(@PathVariable Integer resumeId) {
         return new ResponseDto<>(1, "이력서 한건 불러오기 성공", resumeService.이력서상세보기(resumeId));
     }
 
-    @PostMapping("/emp/resume/save")
+    @PostMapping("/es/s/emp/resume/save")
     public ResponseDto<?> insertResume(@RequestBody ResumeSaveReqDto resumeSaveReqDto) {
         return new ResponseDto<>(1, "이력서 등록 성공", resumeService.이력서작성(resumeSaveReqDto));
     }
 
-    @PutMapping("/emp/resume/update/{resumeId}")
+    @PutMapping("/es/emp/resume/update/{resumeId}")
     public ResponseDto<?> updateResume(@PathVariable Integer resumeId,
             @RequestBody ResumeUpdateReqDto resumeUpdateReqDto) {
         resumeUpdateReqDto.setResumeId(resumeId);
