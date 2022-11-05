@@ -162,30 +162,25 @@ public class CompanyApiControllerTest {
 		resultActions.andExpect(status().isOk());
 		resultActions.andExpect(jsonPath("$.data.companyName").value("삼성전자"));
 	}
-	// 기업 업데이트
-	// @Test
-	// public void updateCompany_test() throws Exception {
-	// // given
-	// Integer companyId = 1;
-	// Company companyPS = companyDao.findById(companyId);
-	// CompanyUpdateReqDto companyUpdateReqDto = new CompanyUpdateReqDto();
-	// companyUpdateReqDto.setCompanyId(companyId);
-	// companyUpdateReqDto.setCompanyName(companyPS.getCompanyName());
-	// companyUpdateReqDto.setCompanyNumber(companyPS.getCompanyNumber());
-	// String body = om.writeValueAsString(companyUpdateReqDto);
 
-	// // when
-	// ResultActions resultActions = mvc
-	// .perform(put("/cs/co/company/update/" +
-	// companyUpdateReqDto.getCompanyId()).content(body)
-	// .contentType(APPLICATION_JSON)
-	// .accept(APPLICATION_JSON));
-	// // then
+	// 기업 수정
+	@Test
+	public void updateCompany_test() throws Exception {
+		// given
+		CompanyUpdateReqDto companyUpdateReqDto = new CompanyUpdateReqDto();
+		String body = om.writeValueAsString(companyUpdateReqDto);
 
-	// MvcResult mvcResult = resultActions.andReturn();
-	// System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-	// resultActions.andExpect(jsonPath("$.code").value(1));
-	// }
+		// when
+		ResultActions resultActions = mvc
+				.perform(put("").content(body)
+						.contentType(APPLICATION_JSON)
+						.accept(APPLICATION_JSON));
+		// then
+
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(jsonPath("$.code").value(1));
+	}
 
 	// 기업 탈퇴
 	@Test
@@ -203,6 +198,22 @@ public class CompanyApiControllerTest {
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
 		resultActions.andExpect(jsonPath("$.code").value(1L));
 
+	}
+
+	// 로그아웃
+	@Test
+	public void logout_test() throws Exception {
+		// given
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(delete("")
+						.accept(APPLICATION_JSON));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(jsonPath("$.code").value(1L));
 	}
 
 }
