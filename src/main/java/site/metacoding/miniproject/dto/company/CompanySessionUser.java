@@ -1,5 +1,6 @@
 package site.metacoding.miniproject.dto.company;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.miniproject.domain.company.Company;
@@ -18,5 +19,11 @@ public class CompanySessionUser {
   public Company toEntity() {
     return Company.builder()
         .companyId(companyId).companyUsername(companyUsername).build();
+  }
+
+  @Builder
+  public CompanySessionUser(Integer companyId, String companyUsername) {
+    this.companyId = companyId;
+    this.companyUsername = companyUsername;
   }
 }
