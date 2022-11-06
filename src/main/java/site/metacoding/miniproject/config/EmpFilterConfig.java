@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.metacoding.miniproject.config.auth.Employee.EmpJwtAuthenticationFilter;
-import site.metacoding.miniproject.config.auth.Employee.EmpJwtAuthorizationFilter;
+import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthenticationFilter;
+import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthorizationFilter;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 
 @Slf4j
@@ -17,7 +17,7 @@ public class EmpFilterConfig {
     private final EmployeeDao employeeDao;
 
     @Bean
-    public FilterRegistrationBean<EmpJwtAuthenticationFilter> jwtAuthenticationFilterRegister() {// IoC등록 서버실행시
+    public FilterRegistrationBean<EmpJwtAuthenticationFilter> empJwtAuthenticationFilterRegister() {// IoC등록 서버실행시
         log.debug("디버그 : 개인회원 인증 필터 등록");
         FilterRegistrationBean<EmpJwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
                 new EmpJwtAuthenticationFilter(employeeDao));
@@ -27,7 +27,7 @@ public class EmpFilterConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<EmpJwtAuthorizationFilter> jwtAuthorizationFilterRegister() {// IoC등록 서버실행시
+    public FilterRegistrationBean<EmpJwtAuthorizationFilter> empJwtAuthorizationFilterRegister() {// IoC등록 서버실행시
         log.debug("디버그 : 개인회원 인가 필터 등록");
         FilterRegistrationBean<EmpJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
                 new EmpJwtAuthorizationFilter());

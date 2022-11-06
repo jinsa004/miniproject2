@@ -1,4 +1,4 @@
-package site.metacoding.miniproject.config.auth.Employee;
+package site.metacoding.miniproject.config.auth.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
