@@ -54,8 +54,8 @@ public class NoticeApiController {
 
     @GetMapping("/es/emp/matchingNotice/{employeeId}")
     public ResponseDto<?> matchingNoticeList(@PathVariable Integer employeeId) {
-        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
-        if (employeeId.equals(empSessionUser.getEmployeeId())) {
+        EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empSessionUser");
+        if (employeeId.equals(empPrincipal.getEmployeeId())) {
             return new ResponseDto<>(1, "성공",
                     noticeService.findMachingNoticeList(employeeId));
         }
