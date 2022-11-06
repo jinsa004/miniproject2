@@ -30,14 +30,12 @@ public class EmployeeApiController {
 
     // 로그인
     @PostMapping("/emp/login")
-    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
-            HttpServletResponse response) {
-        EmpSessionUser empPrincipal = employeeService.로그인(empLoginReqDto);
-        if (empPrincipal == null) {
+    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto) {
+        EmpSessionUser empSessionUser = employeeService.로그인(empLoginReqDto);
+        if (empSessionUser == null) {
             return new ResponseDto<>(-1, "로그인실패", null);
         }
-        session.setAttribute("empprincipal", empPrincipal);
-        return new ResponseDto<>(1, "로그인성공", null);
+        return new ResponseDto<>(1, "로그인성공", empSessionUser);
     }
 
     @PostMapping("/emp/join")

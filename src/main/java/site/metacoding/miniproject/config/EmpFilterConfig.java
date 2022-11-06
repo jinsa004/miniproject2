@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.metacoding.miniproject.config.auth.Employee.EmpJwtAuthenticationFilter;
-import site.metacoding.miniproject.config.auth.Employee.EmpJwtAuthorizationFilter;
+import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthenticationFilter;
+import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthorizationFilter;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 
 @Slf4j
