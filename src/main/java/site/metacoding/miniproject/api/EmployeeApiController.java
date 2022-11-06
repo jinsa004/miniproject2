@@ -1,7 +1,5 @@
 package site.metacoding.miniproject.api;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +24,6 @@ public class EmployeeApiController {
 
     private final IntroService introService;
     private final EmployeeService employeeService;
-    private final HttpSession session;
 
     // 로그인
     @PostMapping("/emp/login")

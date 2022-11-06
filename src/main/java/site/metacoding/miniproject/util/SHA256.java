@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class SHA256 {
 
     public String encrypt(String text) {
-        text += "-솔트";
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(text.getBytes());

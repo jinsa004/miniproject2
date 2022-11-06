@@ -62,6 +62,7 @@ public class EmpJwtAuthenticationFilter implements Filter {
         // 패스워드 체크
         SHA256 sh = new SHA256();
         String encPassword = sh.encrypt(empLoginReqDto.getEmployeePassword());
+        log.debug("디버그 : 비번" + encPassword);
         if (!employeePS.getEmployeePassword().equals(encPassword)) {
             filterResponse("패스워드가 틀렸습니다.", resp);
             return;
