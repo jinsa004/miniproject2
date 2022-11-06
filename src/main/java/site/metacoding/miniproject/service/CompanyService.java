@@ -50,9 +50,9 @@ public class CompanyService {
     for (Integer jobId : companyJoinReqDto.getJobIds()) {
       coCheckDao.insert(companyPS.getCompanyId(), jobId);
     }
+
     List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
     return new CompanyJoinRespDto(companyPS, coCheckList);
-
   }
 
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {

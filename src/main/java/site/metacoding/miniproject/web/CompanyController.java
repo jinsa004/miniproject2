@@ -42,7 +42,7 @@
 // private final IntroService introService;
 // private final JobService jobService;
 
-// @PostMapping("/co/login")
+// @PostMapping("/co/login2")
 // public @ResponseBody ResponseDto<?> login(@RequestBody CompanyLoginReqDto
 // companyLoginReqDto,
 // HttpServletResponse response) {
@@ -142,7 +142,7 @@
 // // return new ResponseDto<>(1, "수정성공", null);
 // // }
 
-// @PostMapping("/co/join")
+// @PostMapping("/co/join2")
 // public @ResponseBody ResponseDto<?> companyJoin(@RequestBody
 // CompanyJoinReqDto companyJoinReqDto) {
 // companyService.회원가입(companyJoinReqDto);

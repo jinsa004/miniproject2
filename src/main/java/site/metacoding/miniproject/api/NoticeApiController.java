@@ -92,6 +92,7 @@ public class NoticeApiController {
 
     @PostMapping("/cs/co/notice/save")
     public ResponseDto<?> saveNotice(@RequestBody NoticeSaveReqDto noticeSaveReqDto) {
+        session.getAttribute("companySessionUser");
         return new ResponseDto<>(1, "통신성공",
                 noticeService.saveNotice(noticeSaveReqDto));
     }
