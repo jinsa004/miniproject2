@@ -3,7 +3,6 @@ package site.metacoding.miniproject.config.auth.employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.util.SHA256;
 
 @Slf4j
@@ -82,7 +81,6 @@ public class EmpJwtAuthenticationFilter implements Filter {
 
         // JWT토큰 응답
         filterJwtResponse(jwtToken, employeePS, resp);
-
     }
 
     private void filterResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {

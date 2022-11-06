@@ -63,7 +63,8 @@ public class CompanyReqDto {
 
     public Company toEntity() {
       return Company.builder()
-          .companyNumber(companyNumber).companyName(companyName).companyEmail(companyEmail).companyTel(companyTel)
+          .companyNumber(companyNumber).companyName(companyName).companyEmail(companyEmail)
+          .companyTel(companyTel)
           .companyLocation(companyLocation).companyUsername(companyUsername).companyPassword(companyPassword)
           .build();
     }
