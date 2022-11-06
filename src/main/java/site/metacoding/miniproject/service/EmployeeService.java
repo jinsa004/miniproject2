@@ -27,15 +27,13 @@ public class EmployeeService {
     @Transactional(readOnly = true)
     public EmpSessionUser 로그인(EmpLoginReqDto empLoginReqDto) {
         Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
-
+        String encPassword = sha256.encrypt(empLoginReqDto.getEmployeePassword());
         if (employeePS != null &&
-                employeePS.getEmployeePassword().equals(empLoginReqDto.getEmployeePassword())) {
+                employeePS.getEmployeePassword().equals(encPassword)) {
             return new EmpSessionUser(employeePS);
         } else {
             throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
-
         }
-
     }
 
     @Transactional
