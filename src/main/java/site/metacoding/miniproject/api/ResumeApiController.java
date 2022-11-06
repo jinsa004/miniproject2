@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.dto.ResponseDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
@@ -112,8 +113,12 @@ public class ResumeApiController {
 
     @GetMapping("/cs/co/matchingResume/{companyId}")
     public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
-        return new ResponseDto<>(1, "성공",
-                resumeService.findMachingResumeList(companyId));
+        CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
+        if (companyId.equals(coPrincipal.getCompanyId())) {
+            return new ResponseDto<>(1, "성공",
+                    resumeService.findMachingResumeList(companyId));
+        }
+        return new ResponseDto<>(-1, "기업회원 id가 달라 매칭리스트를 볼 권한이 없습니다", null);
     }
 
     @GetMapping("/cs/co/resume/detail/{resumeId}")
