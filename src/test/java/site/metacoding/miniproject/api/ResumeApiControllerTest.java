@@ -7,11 +7,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -20,8 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.miniproject.domain.company.Company;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.resume.ResumeDao;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
@@ -44,17 +50,27 @@ public class ResumeApiControllerTest {
 	@Autowired
 	private ResumeDao resumeDao;
 
-	// private MockHttpSession session;
+	private MockHttpSession session;
+
+	@BeforeEach
+	public void empSessionInit() {
+		session = new MockHttpSession();
+		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+
+		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
+		session.setAttribute("companySessionUser", new CompanySessionUser(company));
+	}
 
 	// ==================== 개인 화면 ====================== //
 
 	@Test
 	public void mypageResumeList_test() throws Exception {
 		// given
-		Integer employeeId = 1;
+		EmpSessionUser sessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/es/emp/mypage/resume/" + employeeId)
+				.perform(get("/es/emp/mypage/resume/" + sessionUser.getEmployeeId())
 						.accept(APPLICATION_JSON));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -88,7 +104,7 @@ public class ResumeApiControllerTest {
 	@Test
 	public void deleteResume_test() throws Exception {
 		// given
-		Integer resumeId = 4;
+		Integer resumeId = 6;
 
 		// when
 		ResultActions resultActions = mvc
@@ -108,11 +124,7 @@ public class ResumeApiControllerTest {
 		Resume resumePS = resumeDao.findById(resumeId);
 		ResumeUpdateReqDto resumeUpdateReqDto = new ResumeUpdateReqDto();
 		resumeUpdateReqDto.setResumeId(resumeId);
-		resumeUpdateReqDto.setResumeTitle(resumePS.getResumeTitle());
-		resumeUpdateReqDto.setHighschoolName(resumePS.getHighschoolName());
-		resumeUpdateReqDto.setHighschoolStartdate(resumePS.getHighschoolStartdate());
-		resumeUpdateReqDto.setHighschoolEnddate(resumePS.getHighschoolEnddate());
-		resumeUpdateReqDto.setHighschoolMajor(resumePS.getHighschoolMajor());
+		resumeUpdateReqDto.setResumeTitle("영운고고고고고고고고고");
 		resumeUpdateReqDto.setJobId(resumePS.getJobId());
 
 		String body = om.writeValueAsString(resumeUpdateReqDto);
@@ -132,10 +144,10 @@ public class ResumeApiControllerTest {
 	@Test
 	public void setMainResume_test() throws Exception {
 		// given
-		Integer employeeId = 1;
+		EmpSessionUser sessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 		Integer resumeId = 6;
 		ResumeUpdateMainReqDto resumeUpdateMainReqDto = new ResumeUpdateMainReqDto();
-		resumeUpdateMainReqDto.setEmployeeId(employeeId);
+		resumeUpdateMainReqDto.setEmployeeId(sessionUser.getEmployeeId());
 		resumeUpdateMainReqDto.setResumeId(resumeId);
 		String body = om.writeValueAsString(resumeUpdateMainReqDto);
 
@@ -220,11 +232,12 @@ public class ResumeApiControllerTest {
 	@Test
 	public void getCompanyMatchingList_test() throws Exception {
 		// given
-		Integer companyId = 1;
+		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+		log.debug("디버그 : " + companySessionUser.getCompanyId());
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/matchingResume/" + companyId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/matchingResume/" + companySessionUser.getCompanyId()).accept(APPLICATION_JSON));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();

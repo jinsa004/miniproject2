@@ -26,7 +26,7 @@ public class EmpFilterConfig {
         return bean;
     }
 
-    @Bean
+    // @Bean
     public FilterRegistrationBean<EmpJwtAuthorizationFilter> empJwtAuthorizationFilterRegister() {// IoC등록 서버실행시
         log.debug("디버그 : 개인회원 인가 필터 등록");
         FilterRegistrationBean<EmpJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
