@@ -1,6 +1,5 @@
 package site.metacoding.miniproject.api;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,11 +7,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
+import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyJoinRespDto;
 import site.metacoding.miniproject.dto.company.CompanyRespDto.CompanyUpdateRespDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
@@ -28,9 +31,19 @@ public class CompanyApiController {
     private final CompanyService companyService;
     private final JobService jobService;
 
+    @PostMapping("/co/login")
+    public ResponseDto<?> login(@RequestBody CompanyLoginReqDto companyLoginReqDto) {
+        CompanySessionUser companySessionUser = companyService.로그인(companyLoginReqDto);
+        if (companySessionUser == null) {
+            return new ResponseDto<>(-1, "로그인실패", null);
+        }
+        return new ResponseDto<>(1, "로그인성공", companySessionUser);
+    }
+
     @PostMapping("/co/join")
     public ResponseDto<?> companyJoin(@RequestBody CompanyJoinReqDto companyJoinReqDto) { // 기업 회원가입
-        return new ResponseDto<>(1, "회원가입성공", companyService.join(companyJoinReqDto));
+        CompanyJoinRespDto companyJoinRespDtp = companyService.join(companyJoinReqDto);
+        return new ResponseDto<>(1, "회원가입성공", companyJoinRespDtp);
     }
 
     @GetMapping("/cs/co/company/detail/{companyId}")

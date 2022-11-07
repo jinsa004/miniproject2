@@ -11,7 +11,6 @@ public class EmpReqDto {
     @Setter
     @Getter
     public static class EmpJoinReqDto { // 로그인 전 로직들 전부다 앞에 엔티티 안붙임. POST /user -> /join
-        private Integer employeeId;
         private String employeeName;
         private String employeeBirth;
         private String employeeSex;
@@ -22,9 +21,8 @@ public class EmpReqDto {
         private String employeeTel;
         private List<Integer> jobIds;
 
-        public Employee toEmpEntity() {
+        public Employee toEntity() {
             return Employee.builder()
-                    .employeeId(employeeId)
                     .employeeName(employeeName)
                     .employeeBirth(employeeBirth)
                     .employeeSex(employeeSex)

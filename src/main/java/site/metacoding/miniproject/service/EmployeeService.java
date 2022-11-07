@@ -2,6 +2,8 @@ package site.metacoding.miniproject.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,7 @@ import site.metacoding.miniproject.dto.check.employee.EmpCheckRespDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
 import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpJoinRespDto;
+import site.metacoding.miniproject.util.SHA256;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 
 @RequiredArgsConstructor
@@ -21,24 +24,28 @@ public class EmployeeService {
 
     private final EmployeeDao employeeDao;
     private final EmpCheckDao empCheckDao;
+    private final SHA256 sha256;
+    private final HttpSession session;
 
     @Transactional(readOnly = true)
     public EmpSessionUser 로그인(EmpLoginReqDto empLoginReqDto) {
         Employee employeePS = employeeDao.findByEmployeeUsername(empLoginReqDto.getEmployeeUsername());
-
+        String encPassword = sha256.encrypt(empLoginReqDto.getEmployeePassword());
         if (employeePS != null &&
-                employeePS.getEmployeePassword().equals(empLoginReqDto.getEmployeePassword())) {
+                employeePS.getEmployeePassword().equals(encPassword)) {
             return new EmpSessionUser(employeePS);
         } else {
             throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
-
         }
-
     }
 
     @Transactional
     public EmpJoinRespDto employeeJoin(EmpJoinReqDto empJoinReqDto) {
-        Employee employeePS = empJoinReqDto.toEmpEntity();
+        // 비밀번호 해시
+        String encPassword = sha256.encrypt(empJoinReqDto.getEmployeePassword());
+        empJoinReqDto.setEmployeePassword(encPassword);
+
+        Employee employeePS = empJoinReqDto.toEntity();
         employeeDao.insert(employeePS);
         // employeeDao.insert(employee);
 

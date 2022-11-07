@@ -1,7 +1,7 @@
 package site.metacoding.miniproject.api;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,14 +30,12 @@ public class EmployeeApiController {
 
     // 로그인
     @PostMapping("/emp/login")
-    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto,
-            HttpServletResponse response) {
-        EmpSessionUser empPrincipal = employeeService.로그인(empLoginReqDto);
-        if (empPrincipal == null) {
+    public ResponseDto<?> login(@RequestBody EmpLoginReqDto empLoginReqDto) {
+        EmpSessionUser empSessionUser = employeeService.로그인(empLoginReqDto);
+        if (empSessionUser == null) {
             return new ResponseDto<>(-1, "로그인실패", null);
         }
-        session.setAttribute("empprincipal", empPrincipal);
-        return new ResponseDto<>(1, "로그인성공", null);
+        return new ResponseDto<>(1, "로그인성공", empSessionUser);
     }
 
     @PostMapping("/emp/join")
@@ -47,6 +45,11 @@ public class EmployeeApiController {
         return new ResponseDto<>(1, "회원가입 성공", empJoinRespDto);
     }
 
+    @GetMapping("/emp/companyList")
+    public ResponseDto<?> findAll() {
+        return new ResponseDto<>(1, "성공", introService.findAll());
+    }
+
     // 개인이 보는기업소개 상세보기
     @GetMapping("/emp/companyIntroDetail/{introId}")
     public ResponseDto<?> findByDetail(@PathVariable Integer introId, Integer principalId) {
@@ -54,7 +57,7 @@ public class EmployeeApiController {
     }
 
     // 구독하기
-    @PostMapping("/emp/subscribe")
+    @PostMapping("/es/emp/subscribe")
     public ResponseDto<?> insertSub(@RequestBody SubscribeSaveReqDto subscribeSaveReqDto) {
         // Employee principal = (Employee) session.getAttribute("empprincipal");
         SubscribeSaveRespDto subscribeSaveRespDto = introService.구독하기(subscribeSaveReqDto);

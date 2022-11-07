@@ -2,6 +2,9 @@ package site.metacoding.miniproject.service;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,14 +29,18 @@ public class CompanyService {
   private final CompanyDao companyDao;
   private final CoCheckDao coCheckDao;
   private final SHA256 sha256;
+  private final HttpSession session;
 
-  public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
+  @Transactional(readOnly = true)
+  public CompanySessionUser 로그인(CompanyLoginReqDto companyLoginReqDto) {
     Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
+    String encPassword = sha256.encrypt(companyLoginReqDto.getCompanyPassword());
     if (companyPS != null &&
-        companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword())) {
+        companyPS.getCompanyPassword().equals(encPassword)) {
       return new CompanySessionUser(companyPS);
+    } else {
+      throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
     }
-    return null;
   }
 
   @Transactional
@@ -47,6 +54,7 @@ public class CompanyService {
     for (Integer jobId : companyJoinReqDto.getJobIds()) {
       coCheckDao.insert(companyPS.getCompanyId(), jobId);
     }
+
     List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
     return new CompanyJoinRespDto(companyPS, coCheckList);
 
@@ -54,15 +62,9 @@ public class CompanyService {
 
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {
     Company companyPS = companyDao.findById(companyId);
-
-    if (companyPS != null) {
-      List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
-      CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS, coCheckList);
-      return companyDetailRespDto;
-    } else {
-      throw new RuntimeException("해당 " + companyId + "로 상세보기를 할 수 없습니다.");
-    }
-
+    List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
+    CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS, coCheckList);
+    return companyDetailRespDto;
   }
 
   public CompanyUpdateRespDto updateCompany(Integer companyId, CompanyUpdateReqDto companyUpdateReqDto) {
@@ -81,13 +83,17 @@ public class CompanyService {
   }
 
   public void deleteCompany(Integer companyId) {
-
     Company companyPS = companyDao.findById(companyId);
-    if (companyPS != null) {
-      companyDao.deleteById(companyId);
-      coCheckDao.deleteById(companyId);
-    } else {
+    if (companyPS == null) {
       throw new RuntimeException("해당 " + companyId + "로 삭제를 할 수 없습니다.");
+    }
+    CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
+    System.out.println("디버그 : " + coPrincipal.getCompanyId());
+    if (coPrincipal.getCompanyId().equals(companyPS.getCompanyId())) {
+      companyDao.deleteById(companyPS.getCompanyId());
+      coCheckDao.deleteById(companyPS.getCompanyId());
+    } else {
+      throw new RuntimeException("해당 게시글을 지울 권한이 없습니다.");
     }
   }
 
