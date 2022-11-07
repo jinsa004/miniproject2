@@ -1,6 +1,5 @@
 package site.metacoding.miniproject.api;
 
-import java.util.Date;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,16 +19,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.company.Company;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.notice.NoticeDao;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 
@@ -52,23 +50,14 @@ public class NoticeApiControllerTest {
 
 	private MockHttpSession session;
 
-	@BeforeEach // 최초 트랜잭션이 실행됨. BeforeEach는 각각의 테스트가 실행되기 직전에 먼저 실행되는 것.**
-	public void sessionInit() {
+	@BeforeEach
+	public void empSessionInit() {
 		session = new MockHttpSession();
-		Date expire = new Date(System.currentTimeMillis() + (1000 * 60 * 60));
+		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
-		String jwtToken = JWT.create()
-				.withSubject("메타코딩")
-				.withExpiresAt(expire)
-				.withClaim("companyId", 1)
-				.withClaim("companyUsername", "jinsa")
-				.sign(Algorithm.none());
-		DecodedJWT decodedJWT = JWT.decode(jwtToken);
-		Integer companyId = decodedJWT.getClaim("companyId").asInt();
-		String companyUsername = decodedJWT.getClaim("companyUsername").asString();
-		CompanySessionUser companySessionUser = new CompanySessionUser(
-				Company.builder().companyId(companyId).companyUsername(companyUsername).build());
-		session.setAttribute("companySessionUser", companySessionUser);
+		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
+		session.setAttribute("companySessionUser", new CompanySessionUser(company));
 	}
 
 	@Test
