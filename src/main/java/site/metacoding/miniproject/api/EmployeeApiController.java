@@ -10,13 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import site.metacoding.miniproject.domain.employee.Employee;
-import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
-import site.metacoding.miniproject.dto.employee.EmpRespDto.EmpJoinRespDto;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.subscribe.SubscribeReqDto.SubscribeSaveReqDto;
 import site.metacoding.miniproject.dto.subscribe.SubscribeRespDto.SubscribeSaveRespDto;
@@ -30,7 +26,6 @@ public class EmployeeApiController {
     private final IntroService introService;
     private final EmployeeService employeeService;
     private final HttpSession session;
-    private final EmployeeDao employeeDao;
 
     // 로그인
     @PostMapping("/emp/login")
