@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
@@ -31,16 +33,20 @@ public class ResumeApiController {
     private final IntroService introService;
     private final HttpSession session;
 
-    /* =============================개인회원========================================= */
+    /*
+     * =============================개인회원=========================================
+     */
 
     @PostMapping("/es/emp/resume/applicate")
     public @ResponseBody ResponseDto<?> applicateByResumeId(@RequestBody ApplicationSaveReqDto applicationSaveReqDto) {
-        return new ResponseDto<>(1, "공고 지원 성공", resumeService.지원하기(applicationSaveReqDto));
+        return new ResponseDto<>(1, "공고 지원 성공",
+                resumeService.지원하기(applicationSaveReqDto));
     }
 
     @GetMapping("/es/emp/mypage/resume/{employeeId}")
     public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
-        return new ResponseDto<>(1, "내 이력서 불러오기 성공", resumeService.getMyResumeList(employeeId));
+        return new ResponseDto<>(1, "내 이력서 불러오기 성공",
+                resumeService.getMyResumeList(employeeId));
     }
 
     @PutMapping("/es/emp/resume/setMain/{resumeId}")
@@ -52,7 +58,8 @@ public class ResumeApiController {
 
         resumeUpdateMainReqDto.setEmployeeId(employeeId);
         resumeUpdateMainReqDto.setResumeId(resumeId);
-        return new ResponseDto<>(1, "메인 이력서 등록 성공", resumeService.메인이력서등록(resumeUpdateMainReqDto));
+        return new ResponseDto<>(1, "메인 이력서 등록 성공",
+                resumeService.메인이력서등록(resumeUpdateMainReqDto));
     }
 
     @DeleteMapping("/es/emp/resume/delete/{resumeId}")
@@ -63,22 +70,27 @@ public class ResumeApiController {
 
     @GetMapping("/es/emp/resume/{resumeId}")
     public ResponseDto<?> findResumeById(@PathVariable Integer resumeId) {
-        return new ResponseDto<>(1, "이력서 한건 불러오기 성공", resumeService.이력서상세보기(resumeId));
+        return new ResponseDto<>(1, "이력서 한건 불러오기 성공",
+                resumeService.이력서상세보기(resumeId));
     }
 
-    @PostMapping("/es/s/emp/resume/save")
+    @PostMapping("/es/emp/resume/save")
     public ResponseDto<?> insertResume(@RequestBody ResumeSaveReqDto resumeSaveReqDto) {
-        return new ResponseDto<>(1, "이력서 등록 성공", resumeService.이력서작성(resumeSaveReqDto));
+        return new ResponseDto<>(1, "이력서 등록 성공",
+                resumeService.이력서작성(resumeSaveReqDto));
     }
 
     @PutMapping("/es/emp/resume/update/{resumeId}")
     public ResponseDto<?> updateResume(@PathVariable Integer resumeId,
             @RequestBody ResumeUpdateReqDto resumeUpdateReqDto) {
         resumeUpdateReqDto.setResumeId(resumeId);
-        return new ResponseDto<>(1, "이력서 수정 성공", resumeService.이력서수정(resumeUpdateReqDto));
+        return new ResponseDto<>(1, "이력서 수정 성공",
+                resumeService.이력서수정(resumeUpdateReqDto));
     }
 
-    /* =============================기업회원========================================= */
+    /*
+     * =============================기업회원=========================================
+     */
 
     @GetMapping("/co")
     public ResponseDto<?> getAllResumeList() { // 기업회원이 보는 이력서리스트
@@ -96,7 +108,8 @@ public class ResumeApiController {
 
     @GetMapping("/co/resume")
     public ResponseDto<?> getJobResumeList(@RequestParam("jobCode") Integer jobCode) {
-        return new ResponseDto<>(1, "성공", resumeService.findByJobCodeToResumeList(jobCode));
+        return new ResponseDto<>(1, "성공",
+                resumeService.findByJobCodeToResumeList(jobCode));
     }
 
     @GetMapping("/cs/co/matchingResume/{companyId}")

@@ -17,23 +17,23 @@ public class CompanyFilterConfig {
 
   private final CompanyDao companyDao;
 
-  @Bean
-  public FilterRegistrationBean<CompanyJwtAuthenticationFilter> jwtAuthenticationFilterRegister() {
+  // @Bean
+  public FilterRegistrationBean<CompanyJwtAuthenticationFilter> coJwtAuthenticationFilterRegister() {
     log.debug("디버그 : 인증 필터 등록");
     FilterRegistrationBean<CompanyJwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
         new CompanyJwtAuthenticationFilter(companyDao));
     bean.addUrlPatterns("/co/login");
-    bean.setOrder(1);
+    bean.setOrder(3);
     return bean;
   }
 
-  @Bean
-  public FilterRegistrationBean<CompanyJwtAuthorizationFilter> jwtAuthorizationFilterRegister() {
+  // @Bean
+  public FilterRegistrationBean<CompanyJwtAuthorizationFilter> coJwtAuthorizationFilterRegister() {
     log.debug("디버그 : 인가 필터 등록");
     FilterRegistrationBean<CompanyJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
         new CompanyJwtAuthorizationFilter());
     bean.addUrlPatterns("/cs/*");
-    bean.setOrder(2);
+    bean.setOrder(4);
     return bean;
   }
 

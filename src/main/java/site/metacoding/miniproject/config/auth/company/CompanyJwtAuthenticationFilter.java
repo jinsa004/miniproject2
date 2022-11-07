@@ -71,8 +71,8 @@ public class CompanyJwtAuthenticationFilter implements Filter {
     String jwtToken = JWT.create()
         .withSubject("메타코딩")
         .withExpiresAt(expire)
-        .withClaim("id", companyPS.getCompanyId())
-        .withClaim("username", companyPS.getCompanyUsername())
+        .withClaim("companyId", companyPS.getCompanyId())
+        .withClaim("companyUsername", companyPS.getCompanyUsername())
         .sign(Algorithm.HMAC512("취직"));
     log.debug("디버그 : " + jwtToken);
 

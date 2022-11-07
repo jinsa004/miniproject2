@@ -27,13 +27,16 @@ public class CompanyService {
   private final CoCheckDao coCheckDao;
   private final SHA256 sha256;
 
-  public CompanySessionUser login(CompanyLoginReqDto companyLoginReqDto) {
+  @Transactional(readOnly = true)
+  public CompanySessionUser 로그인(CompanyLoginReqDto companyLoginReqDto) {
     Company companyPS = companyDao.findByCompanyUsername(companyLoginReqDto.getCompanyUsername());
+    String encPassword = sha256.encrypt(companyLoginReqDto.getCompanyPassword());
     if (companyPS != null &&
-        companyPS.getCompanyPassword().equals(companyLoginReqDto.getCompanyPassword())) {
+        companyPS.getCompanyPassword().equals(encPassword)) {
       return new CompanySessionUser(companyPS);
+    } else {
+      throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
     }
-    return null;
   }
 
   @Transactional
@@ -47,9 +50,9 @@ public class CompanyService {
     for (Integer jobId : companyJoinReqDto.getJobIds()) {
       coCheckDao.insert(companyPS.getCompanyId(), jobId);
     }
+
     List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
     return new CompanyJoinRespDto(companyPS, coCheckList);
-
   }
 
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {

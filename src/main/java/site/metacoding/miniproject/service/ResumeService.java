@@ -3,6 +3,8 @@ package site.metacoding.miniproject.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,7 @@ import site.metacoding.miniproject.domain.application.Application;
 import site.metacoding.miniproject.domain.application.ApplicationDao;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.resume.ResumeDao;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
@@ -32,6 +35,7 @@ public class ResumeService {
 
     private final ResumeDao resumeDao;
     private final ApplicationDao applicationDao;
+    private final HttpSession session;
 
     @Transactional
     public ApplicationSaveRespDto 지원하기(ApplicationSaveReqDto applicationSaveReqDto) {
@@ -77,30 +81,50 @@ public class ResumeService {
 
     @Transactional
     public ResumeDetailRespDto 이력서상세보기(Integer resumeId) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+
         Resume resumePS = resumeDao.findById(resumeId);
-        if (resumePS != null) {
-            return new ResumeDetailRespDto(resumePS);
-        } else {
+
+        if (resumePS == null) {
             throw new RuntimeException("해당" + resumeId + "가 없습니다.");
         }
 
+        if (empSessionUser.getEmployeeId() != resumePS.getEmployeeId()) {
+            log.debug("디버그1 : " + empSessionUser.getEmployeeId());
+            throw new RuntimeException("해당" + resumePS.getEmployeeId() + "를 볼 할 권한이 없습니다.");
+        }
+
+        return new ResumeDetailRespDto(resumePS);
     }
 
     @Transactional
     public ResumeUpdateRespDto 이력서수정(ResumeUpdateReqDto resumeUpdateReqDto) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+
         Resume resume = resumeUpdateReqDto.toEntity();
         Resume resumePS = resumeDao.findById(resume.getResumeId());
-        if (resumePS != null) {
-            resumeDao.update(resume);
-            return new ResumeUpdateRespDto(resume);
-        } else {
+
+        if (resumePS == null) {
             throw new RuntimeException("해당" + resume.getResumeId() + "로 수정을 할 수 없습니다.");
         }
+
+        if (empSessionUser.getEmployeeId() != resumePS.getEmployeeId()) {
+            log.debug("디버그1 : " + empSessionUser.getEmployeeId());
+            throw new RuntimeException("해당" + resumePS.getEmployeeId() + "를 수정 할 권한이 없습니다.");
+        }
+
+        resumeDao.update(resume);
+        return new ResumeUpdateRespDto(resume);
 
     }
 
     @Transactional
     public List<ResumeMyListRespDto> getMyResumeList(Integer employeeId) { // 메서드이름수정
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+        if (empSessionUser.getEmployeeId() != employeeId) {
+            log.debug("디버그1 : " + empSessionUser.getEmployeeId());
+            throw new RuntimeException("해당" + employeeId + "를 볼 권한이 없습니다.");
+        }
         List<Resume> resumeList = resumeDao.findByEmployeeId(employeeId);
         List<ResumeMyListRespDto> resumeMyListRespDto = new ArrayList<>();
         for (Resume resume : resumeList) {
@@ -110,11 +134,16 @@ public class ResumeService {
     }
 
     public void 이력서삭제(Integer resumeId) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
         Resume resumePS = resumeDao.findById(resumeId);
-        if (resumePS != null) {
-            resumeDao.deleteById(resumeId);
-        } else {
-            throw new RuntimeException("해당" + resumeId + "로 수정을 할 수 없습니다.");
+        if (resumePS == null) {
+            throw new RuntimeException("해당" + resumeId + "가 없습니다.");
         }
+        if (empSessionUser.getEmployeeId() != resumePS.getEmployeeId()) {
+            log.debug("디버그1 : " + empSessionUser.getEmployeeId());
+            throw new RuntimeException("해당" + resumeId + "를 삭제 할 권한이 없습니다.");
+        }
+
+        resumeDao.deleteById(resumeId);
     }
 }

@@ -6,18 +6,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,10 +27,12 @@ import com.jayway.jsonpath.JsonPath;
 
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.company.CompanyDao;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
-import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 
@@ -58,7 +56,17 @@ public class CompanyApiControllerTest {
 
 	private static HttpHeaders headers;
 
-	// private MockHttpSession session;
+	private MockHttpSession session;
+
+	@BeforeEach
+	public void empSessionInit() {
+		session = new MockHttpSession();
+		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+
+		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
+		session.setAttribute("companySessionUser", new CompanySessionUser(company));
+	}
 
 	// 기업소개 등록 테스트
 	@Test
@@ -75,7 +83,7 @@ public class CompanyApiControllerTest {
 		ResultActions resultActions = mvc
 				.perform(post("/cs/co/intro/insert").content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 		// then
 
 		MvcResult mvcResult = resultActions.andReturn();
@@ -90,7 +98,7 @@ public class CompanyApiControllerTest {
 		Integer companyId = 1;
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/companyIntroDetail/" + companyId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/companyIntroDetail/" + companyId).accept(APPLICATION_JSON).session(session));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
@@ -114,7 +122,7 @@ public class CompanyApiControllerTest {
 		ResultActions resultActions = mvc
 				.perform(put("/cs/co/intro/update/" + introUpdateReqDto.getIntroId()).content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 		// then
 
 		MvcResult mvcResult = resultActions.andReturn();
@@ -164,23 +172,23 @@ public class CompanyApiControllerTest {
 	}
 
 	// 기업 수정
-	// @Test
-	// public void updateCompany_test() throws Exception {
-	// // given
-	// CompanyUpdateReqDto companyUpdateReqDto = new CompanyUpdateReqDto();
-	// String body = om.writeValueAsString(companyUpdateReqDto);
+	@Test
+	public void updateCompany_test() throws Exception {
+		// given
+		CompanyUpdateReqDto companyUpdateReqDto = new CompanyUpdateReqDto();
+		String body = om.writeValueAsString(companyUpdateReqDto);
 
-	// // when
-	// ResultActions resultActions = mvc
-	// .perform(put("").content(body)
-	// .contentType(APPLICATION_JSON)
-	// .accept(APPLICATION_JSON));
-	// // then
+		// when
+		ResultActions resultActions = mvc
+				.perform(put("").content(body)
+						.contentType(APPLICATION_JSON)
+						.accept(APPLICATION_JSON));
+		// then
 
-	// MvcResult mvcResult = resultActions.andReturn();
-	// System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-	// resultActions.andExpect(jsonPath("$.code").value(1));
-	// }
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(jsonPath("$.code").value(1));
+	}
 
 	// 기업 탈퇴
 	@Test
@@ -201,19 +209,19 @@ public class CompanyApiControllerTest {
 	}
 
 	// 로그아웃
-	// @Test
-	// public void logout_test() throws Exception {
-	// // given
+	@Test
+	public void logout_test() throws Exception {
+		// given
 
-	// // when
-	// ResultActions resultActions = mvc
-	// .perform(delete("")
-	// .accept(APPLICATION_JSON));
+		// when
+		ResultActions resultActions = mvc
+				.perform(delete("")
+						.accept(APPLICATION_JSON));
 
-	// // then
-	// MvcResult mvcResult = resultActions.andReturn();
-	// System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-	// resultActions.andExpect(jsonPath("$.code").value(1L));
-	// }
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(jsonPath("$.code").value(1L));
+	}
 
 }

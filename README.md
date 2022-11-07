@@ -15,7 +15,7 @@ create table employee(
     employee_birth VARCHAR(24) NOT NULL,
     employee_sex VARCHAR(8) NOT null,
     employee_username VARCHAR(24) NOT null,
-    employee_password VARCHAR(128) NOT null,
+    employee_password VARCHAR(256) NOT null,
     employee_email VARCHAR(64) NOT null,
     employee_tel VARCHAR(24) NOT NULL ,
     employee_location VARCHAR(128) NOT null
@@ -52,7 +52,7 @@ create table company(
     company_tel VARCHAR(24) NOT null,
     company_location VARCHAR(256) NOT null,
     company_username VARCHAR(24) NOT null,
-    company_password VARCHAR(128) NOT null
+    company_password VARCHAR(256) NOT null
 );
 
 create table intro(

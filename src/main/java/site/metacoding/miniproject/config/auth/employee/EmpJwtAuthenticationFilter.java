@@ -1,10 +1,8 @@
-package site.metacoding.miniproject.config.auth.Employee;
+package site.metacoding.miniproject.config.auth.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Optional;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,19 +10,17 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.util.SHA256;
 
 @Slf4j
@@ -63,6 +59,7 @@ public class EmpJwtAuthenticationFilter implements Filter {
         // 패스워드 체크
         SHA256 sh = new SHA256();
         String encPassword = sh.encrypt(empLoginReqDto.getEmployeePassword());
+        log.debug("디버그 : 비번" + encPassword);
         if (!employeePS.getEmployeePassword().equals(encPassword)) {
             filterResponse("패스워드가 틀렸습니다.", resp);
             return;
@@ -81,10 +78,6 @@ public class EmpJwtAuthenticationFilter implements Filter {
 
         // JWT토큰 응답
         filterJwtResponse(jwtToken, employeePS, resp);
-
-        // 디스패처 서블릿 입장 또는 Filter체인 타기
-        chain.doFilter(req, resp);
-
     }
 
     private void filterResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {
