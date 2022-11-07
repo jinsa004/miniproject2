@@ -3,6 +3,8 @@ package site.metacoding.miniproject.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.notice.NoticeDao;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeAllRespDto;
@@ -27,6 +30,7 @@ import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeUpdateRespDto;
 public class NoticeService {
 
     private final NoticeDao noticeDao;
+    private final HttpSession session;
 
     @Transactional
     public List<NoticeAllRespDto> findNoticeAllList() { // 개인회원이 채용공고 전체 목록보기
@@ -51,12 +55,6 @@ public class NoticeService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<NoticeSubscribeRespDto> subsNoticeAll(Integer employeeId) {
-        return noticeDao.findSubsByEmployeeId(employeeId).stream()
-                .map((notice) -> new NoticeSubscribeRespDto(notice)).collect(Collectors.toList());
-    }
-
     @Transactional
     public NoticeSaveRespDto saveNotice(NoticeSaveReqDto noticeSaveReqDto) {
         Notice noticePS = noticeSaveReqDto.toEntity();
@@ -69,28 +67,48 @@ public class NoticeService {
 
     @Transactional(readOnly = true)
     public List<NoticeFindByCompanyIdRespDto> findByCompanyIdToNotice(Integer companyId) {
-        return noticeDao.findByCompanyId(companyId).stream().map((notice) -> new NoticeFindByCompanyIdRespDto(notice))
-                .collect(Collectors.toList());
+        CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
+        return noticeDao.findByCompanyId(coPrincipal.getCompanyId())
+                .stream().map((notice) -> new NoticeFindByCompanyIdRespDto(notice)).collect(Collectors.toList());
     }
 
     @Transactional
     public NoticeUpdateRespDto updateNotice(Integer noticeId, NoticeUpdateReqDto NoticeUpdateReqDto) {
         Notice noticePS = noticeDao.findById(noticeId);
-        noticePS.update(NoticeUpdateReqDto);
-        noticeDao.update(noticePS);
-        noticeDao.findById(noticePS.getNoticeId());
-        NoticeUpdateRespDto noticeUpdateRespDto = new NoticeUpdateRespDto(noticePS);
-        return noticeUpdateRespDto;
+        if (noticePS == null) {
+            throw new RuntimeException("해당 " + noticeId + "로 수정할 수 없습니다.");
+        }
+        CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
+        if (coPrincipal.getCompanyId().equals(noticePS.getCompanyId())) {
+            noticePS.update(NoticeUpdateReqDto);
+            noticeDao.update(noticePS);
+            noticeDao.findById(noticePS.getNoticeId());
+            NoticeUpdateRespDto noticeUpdateRespDto = new NoticeUpdateRespDto(noticePS);
+            return noticeUpdateRespDto;
+        } else {
+            throw new RuntimeException("해당 게시글을 수정할 권한이 없습니다.");
+        }
     }
 
     @Transactional
     public void deleteNotice(Integer noticeId) {
         Notice noticePS = noticeDao.findById(noticeId); // 영속화
-        if (noticePS != null) {
-            noticeDao.deleteById(noticePS.getNoticeId());
-        } else {
+        if (noticePS == null) {
             throw new RuntimeException("해당 " + noticeId + "로 삭제를 할 수 없습니다.");
         }
+        CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
+        log.debug("디버그 company : " + coPrincipal.getCompanyId());
+        if (coPrincipal.getCompanyId().equals(noticePS.getCompanyId())) {
+            noticeDao.deleteById(noticePS.getNoticeId());
+        } else {
+            throw new RuntimeException("해당 게시글을 지울 권한이 없습니다.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<NoticeSubscribeRespDto> subsNoticeAll(Integer employeeId) {
+        return noticeDao.findSubsByEmployeeId(employeeId).stream()
+                .map((notice) -> new NoticeSubscribeRespDto(notice)).collect(Collectors.toList());
     }
 
     @Transactional
