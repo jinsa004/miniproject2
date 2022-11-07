@@ -54,9 +54,15 @@ public class CompanyService {
 
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {
     Company companyPS = companyDao.findById(companyId);
-    List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
-    CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS, coCheckList);
-    return companyDetailRespDto;
+
+    if (companyPS != null) {
+      List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
+      CompanyDetailRespDto companyDetailRespDto = new CompanyDetailRespDto(companyPS, coCheckList);
+      return companyDetailRespDto;
+    } else {
+      throw new RuntimeException("해당 " + companyId + "로 상세보기를 할 수 없습니다.");
+    }
+
   }
 
   public CompanyUpdateRespDto updateCompany(Integer companyId, CompanyUpdateReqDto companyUpdateReqDto) {
