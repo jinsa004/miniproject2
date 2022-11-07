@@ -182,7 +182,7 @@ public class CompanyApiControllerTest {
 		ResultActions resultActions = mvc
 				.perform(put("").content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 		// then
 
 		MvcResult mvcResult = resultActions.andReturn();
@@ -199,7 +199,7 @@ public class CompanyApiControllerTest {
 		// when
 		ResultActions resultActions = mvc
 				.perform(delete("/cs/co/company/delete/" + companyId)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
