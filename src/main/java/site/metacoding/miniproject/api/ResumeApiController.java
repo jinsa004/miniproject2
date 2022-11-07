@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.dto.ResponseDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
@@ -28,6 +28,7 @@ import site.metacoding.miniproject.service.ResumeService;
 @RequiredArgsConstructor
 @RestController
 public class ResumeApiController {
+
     private final ResumeService resumeService;
     private final JobService jobService;
     private final IntroService introService;
