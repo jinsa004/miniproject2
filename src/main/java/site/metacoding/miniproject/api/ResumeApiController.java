@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.dto.ResponseDto;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
@@ -28,6 +28,7 @@ import site.metacoding.miniproject.service.ResumeService;
 @RequiredArgsConstructor
 @RestController
 public class ResumeApiController {
+
     private final ResumeService resumeService;
     private final JobService jobService;
     private final IntroService introService;
@@ -40,11 +41,12 @@ public class ResumeApiController {
     @PostMapping("/es/emp/resume/applicate")
     public @ResponseBody ResponseDto<?> applicateByResumeId(@RequestBody ApplicationSaveReqDto applicationSaveReqDto) {
         return new ResponseDto<>(1, "공고 지원 성공",
-                resumeService.지원하기(applicationSaveReqDto));
+                resumeService.applicateByResumeId(applicationSaveReqDto));
     }
 
     @GetMapping("/es/emp/mypage/resume/{employeeId}")
     public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
+
         return new ResponseDto<>(1, "내 이력서 불러오기 성공",
                 resumeService.getMyResumeList(employeeId));
     }
@@ -59,25 +61,25 @@ public class ResumeApiController {
         resumeUpdateMainReqDto.setEmployeeId(employeeId);
         resumeUpdateMainReqDto.setResumeId(resumeId);
         return new ResponseDto<>(1, "메인 이력서 등록 성공",
-                resumeService.메인이력서등록(resumeUpdateMainReqDto));
+                resumeService.setMainResume(resumeUpdateMainReqDto));
     }
 
     @DeleteMapping("/es/emp/resume/delete/{resumeId}")
     public @ResponseBody ResponseDto<?> deleteResume(@PathVariable Integer resumeId) {
-        resumeService.이력서삭제(resumeId);
+        resumeService.deleteResume(resumeId);
         return new ResponseDto<>(1, "이력서 삭제 성공", null);
     }
 
     @GetMapping("/es/emp/resume/{resumeId}")
     public ResponseDto<?> findResumeById(@PathVariable Integer resumeId) {
         return new ResponseDto<>(1, "이력서 한건 불러오기 성공",
-                resumeService.이력서상세보기(resumeId));
+                resumeService.empFindById(resumeId));
     }
 
     @PostMapping("/es/emp/resume/save")
     public ResponseDto<?> insertResume(@RequestBody ResumeSaveReqDto resumeSaveReqDto) {
         return new ResponseDto<>(1, "이력서 등록 성공",
-                resumeService.이력서작성(resumeSaveReqDto));
+                resumeService.insertResume(resumeSaveReqDto));
     }
 
     @PutMapping("/es/emp/resume/update/{resumeId}")
@@ -85,7 +87,7 @@ public class ResumeApiController {
             @RequestBody ResumeUpdateReqDto resumeUpdateReqDto) {
         resumeUpdateReqDto.setResumeId(resumeId);
         return new ResponseDto<>(1, "이력서 수정 성공",
-                resumeService.이력서수정(resumeUpdateReqDto));
+                resumeService.updateResume(resumeUpdateReqDto));
     }
 
     /*
@@ -120,6 +122,6 @@ public class ResumeApiController {
     @GetMapping("/cs/co/resume/detail/{resumeId}")
     public ResponseDto<?> getResumeDetail(@PathVariable Integer resumeId) {
         // Company companyPS = (Company) session.getAttribute("coprincipal"); 세션
-        return new ResponseDto<>(1, "성공", resumeService.이력서상세보기(resumeId));
+        return new ResponseDto<>(1, "성공", resumeService.coFindById(resumeId));
     }
 }
