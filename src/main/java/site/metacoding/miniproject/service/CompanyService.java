@@ -88,7 +88,7 @@ public class CompanyService {
       throw new RuntimeException("해당 " + companyId + "로 삭제를 할 수 없습니다.");
     }
     CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
-    System.out.println("디버그 : " + coPrincipal.getCompanyId());
+    System.out.println("디버그 세션: " + coPrincipal.getCompanyId());
     if (coPrincipal.getCompanyId().equals(companyPS.getCompanyId())) {
       companyDao.deleteById(companyPS.getCompanyId());
       coCheckDao.deleteById(companyPS.getCompanyId());
