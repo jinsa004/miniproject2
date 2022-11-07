@@ -137,9 +137,8 @@ public class ResumeService {
         EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
         Resume resumePS = resumeDao.findById(resumeId);
         if (resumePS == null) {
-            throw new RuntimeException("해당" + resumeId + "거 없습니다.");
+            throw new RuntimeException("해당" + resumeId + "가 없습니다.");
         }
-
         if (empSessionUser.getEmployeeId() != resumePS.getEmployeeId()) {
             log.debug("디버그1 : " + empSessionUser.getEmployeeId());
             throw new RuntimeException("해당" + resumeId + "를 삭제 할 권한이 없습니다.");
