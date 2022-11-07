@@ -42,7 +42,6 @@ public class ResumeApiController {
                 resumeService.지원하기(applicationSaveReqDto));
     }
 
-
     @GetMapping("/es/emp/mypage/resume/{employeeId}")
     public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
         return new ResponseDto<>(1, "내 이력서 불러오기 성공",
@@ -114,12 +113,7 @@ public class ResumeApiController {
 
     @GetMapping("/cs/co/matchingResume/{companyId}")
     public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
-        CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
-        if (companyId.equals(coPrincipal.getCompanyId())) {
-            return new ResponseDto<>(1, "성공",
-                    resumeService.findMachingResumeList(companyId));
-        }
-        return new ResponseDto<>(-1, "기업회원 id가 달라 매칭리스트를 볼 권한이 없습니다", null);
+        return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
     }
 
     @GetMapping("/cs/co/resume/detail/{resumeId}")
