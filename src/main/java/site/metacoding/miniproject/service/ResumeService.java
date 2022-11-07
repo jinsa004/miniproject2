@@ -114,7 +114,7 @@ public class ResumeService {
         if (resumePS != null) {
             resumeDao.deleteById(resumeId);
         } else {
-            throw new RuntimeException("해당" + resumeId + "로 수정을 할 수 없습니다.");
+            throw new RuntimeException("해당" + resumeId + "로 삭제 할 수 없습니다.");
         }
     }
 }

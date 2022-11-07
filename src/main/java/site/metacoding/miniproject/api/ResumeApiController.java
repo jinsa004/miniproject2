@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
@@ -73,7 +73,7 @@ public class ResumeApiController {
                 resumeService.이력서상세보기(resumeId));
     }
 
-    @PostMapping("/es/s/emp/resume/save")
+    @PostMapping("/es/emp/resume/save")
     public ResponseDto<?> insertResume(@RequestBody ResumeSaveReqDto resumeSaveReqDto) {
         return new ResponseDto<>(1, "이력서 등록 성공",
                 resumeService.이력서작성(resumeSaveReqDto));
@@ -113,12 +113,7 @@ public class ResumeApiController {
 
     @GetMapping("/cs/co/matchingResume/{companyId}")
     public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
-        CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
-        if (companyId.equals(coPrincipal.getCompanyId())) {
-            return new ResponseDto<>(1, "성공",
-                    resumeService.findMachingResumeList(companyId));
-        }
-        return new ResponseDto<>(-1, "기업회원 id가 달라 매칭리스트를 볼 권한이 없습니다", null);
+        return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
     }
 
     @GetMapping("/cs/co/resume/detail/{resumeId}")
