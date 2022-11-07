@@ -16,7 +16,7 @@ import site.metacoding.miniproject.domain.employee.EmployeeDao;
 public class EmpFilterConfig {
     private final EmployeeDao employeeDao;
 
-    @Bean
+    // @Bean
     public FilterRegistrationBean<EmpJwtAuthenticationFilter> empJwtAuthenticationFilterRegister() {// IoC등록 서버실행시
         log.debug("디버그 : 개인회원 인증 필터 등록");
         FilterRegistrationBean<EmpJwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
