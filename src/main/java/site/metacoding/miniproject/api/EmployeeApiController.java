@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.miniproject.domain.employee.Employee;
+import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
@@ -29,6 +31,7 @@ public class EmployeeApiController {
     private final IntroService introService;
     private final EmployeeService employeeService;
     private final HttpSession session;
+    private final EmployeeDao employeeDao;
 
     // 로그인
     @PostMapping("/emp/login")
@@ -43,7 +46,6 @@ public class EmployeeApiController {
     @PostMapping("/emp/join")
     public ResponseDto<?> employeeJoin(@RequestBody EmpJoinReqDto empJoinReqDto) {
         EmpJoinRespDto empJoinRespDto = employeeService.employeeJoin(empJoinReqDto);
-        // employeeService.employeeJoin(empJoinReqDto);
         return new ResponseDto<>(1, "회원가입 성공", empJoinRespDto);
     }
 
@@ -76,11 +78,20 @@ public class EmployeeApiController {
 
     @DeleteMapping("/es/emp/delete/{employeeId}")
     public ResponseDto<?> deleteEmployee(@PathVariable Integer employeeId) {
+
         EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empSessionUser");
         if (employeeId.equals(empPrincipal.getEmployeeId())) {
             employeeService.deleteEmployee(employeeId);
             return new ResponseDto<>(1, "회원탈퇴성공", null);
         }
-        return new ResponseDto<>(1, "개인회원 정보가 불일치하여 회원탈퇴 권한이 없습니다.", null);
+        return new ResponseDto<>(-1, "개인회원 정보가 불일치하여 회원탈퇴 권한이 없습니다.", null);
     }
+    // Junit delete 테스트 코드
+    // Employee employeePS = employeeDao.findById(employeeId);
+    // if (employeePS != null) {
+    // employeeService.deleteEmployee(employeeId);
+    // return new ResponseDto<>(1, "회원탈퇴성공", null);
+    // }
+    // return new ResponseDto<>(-1, "해당 개인회원이 존재하지 않습니다", null);
+    // }
 }

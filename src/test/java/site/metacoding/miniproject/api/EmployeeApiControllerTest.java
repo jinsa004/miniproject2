@@ -90,4 +90,17 @@ public class EmployeeApiControllerTest {
 		resultActions.andExpect(jsonPath("$.data.introId").value(3));
 	}
 
+	@Test
+	public void deleteEmployee_test() throws Exception {
+		// given
+		Integer employeeId = 100;
+		// when
+		ResultActions resultActions = mvc
+				.perform(delete("/es/emp/delete/" + employeeId).accept(APPLICATION_JSON));
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(jsonPath("$.code").value(1));
+		resultActions.andExpect(status().isOk());
+	}
 }
