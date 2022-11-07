@@ -54,13 +54,13 @@ public class EmployeeService {
         }
         List<EmpCheckRespDto> jobCheckList = empCheckDao.findAll(employeePS.getEmployeeId());
 
-        return new EmpJoinRespDto(employeePS, jobCheckList);
+        EmpJoinRespDto empJoinRespDto = new EmpJoinRespDto(employeePS, jobCheckList);
+        return empJoinRespDto;
     }
-    /*
-     * public void employeeDelete(Integer employeeId) {
-     * employeeDao.deleteById(employeeId);
-     * }
-     */
+
+    public void deleteEmployee(Integer employeeId) {
+        employeeDao.deleteById(employeeId);
+    }
 
     /*
      * public List<EmpCheck> 관심분야값보기(Integer employeeId) {
