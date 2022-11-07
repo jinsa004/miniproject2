@@ -28,98 +28,100 @@ import site.metacoding.miniproject.service.ResumeService;
 @RequiredArgsConstructor
 @RestController
 public class ResumeApiController {
-  private final ResumeService resumeService;
-  private final JobService jobService;
-  private final IntroService introService;
-  private final HttpSession session;
 
-  /*
-   * =============================개인회원=========================================
-   */
+    private final ResumeService resumeService;
+    private final JobService jobService;
+    private final IntroService introService;
+    private final HttpSession session;
 
-  @PostMapping("/es/emp/resume/applicate")
-  public @ResponseBody ResponseDto<?> applicateByResumeId(@RequestBody ApplicationSaveReqDto applicationSaveReqDto) {
-    return new ResponseDto<>(1, "공고 지원 성공",
-        resumeService.지원하기(applicationSaveReqDto));
-  }
+    /*
+     * =============================개인회원=========================================
+     */
 
-  @GetMapping("/es/emp/mypage/resume/{employeeId}")
-  public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
-    return new ResponseDto<>(1, "내 이력서 불러오기 성공",
-        resumeService.getMyResumeList(employeeId));
-  }
+    @PostMapping("/es/emp/resume/applicate")
+    public @ResponseBody ResponseDto<?> applicateByResumeId(@RequestBody ApplicationSaveReqDto applicationSaveReqDto) {
+        return new ResponseDto<>(1, "공고 지원 성공",
+                resumeService.applicateByResumeId(applicationSaveReqDto));
+    }
 
-  @PutMapping("/es/emp/resume/setMain/{resumeId}")
-  public @ResponseBody ResponseDto<?> setMainResume(@PathVariable Integer resumeId) {
-    ResumeUpdateMainReqDto resumeUpdateMainReqDto = new ResumeUpdateMainReqDto();
+    @GetMapping("/es/emp/mypage/resume/{employeeId}")
+    public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
 
-    // given (세션 구현되면 수정하면 됨)
-    Integer employeeId = 1;
+        return new ResponseDto<>(1, "내 이력서 불러오기 성공",
+                resumeService.getMyResumeList(employeeId));
+    }
 
-    resumeUpdateMainReqDto.setEmployeeId(employeeId);
-    resumeUpdateMainReqDto.setResumeId(resumeId);
-    return new ResponseDto<>(1, "메인 이력서 등록 성공",
-        resumeService.메인이력서등록(resumeUpdateMainReqDto));
-  }
+    @PutMapping("/es/emp/resume/setMain/{resumeId}")
+    public @ResponseBody ResponseDto<?> setMainResume(@PathVariable Integer resumeId) {
+        ResumeUpdateMainReqDto resumeUpdateMainReqDto = new ResumeUpdateMainReqDto();
 
-  @DeleteMapping("/es/emp/resume/delete/{resumeId}")
-  public @ResponseBody ResponseDto<?> deleteResume(@PathVariable Integer resumeId) {
-    resumeService.이력서삭제(resumeId);
-    return new ResponseDto<>(1, "이력서 삭제 성공", null);
-  }
+        // given (세션 구현되면 수정하면 됨)
+        Integer employeeId = 1;
 
-  @GetMapping("/es/emp/resume/{resumeId}")
-  public ResponseDto<?> findResumeById(@PathVariable Integer resumeId) {
-    return new ResponseDto<>(1, "이력서 한건 불러오기 성공",
-        resumeService.이력서상세보기(resumeId));
-  }
+        resumeUpdateMainReqDto.setEmployeeId(employeeId);
+        resumeUpdateMainReqDto.setResumeId(resumeId);
+        return new ResponseDto<>(1, "메인 이력서 등록 성공",
+                resumeService.setMainResume(resumeUpdateMainReqDto));
+    }
 
-  @PostMapping("/es/emp/resume/save")
-  public ResponseDto<?> insertResume(@RequestBody ResumeSaveReqDto resumeSaveReqDto) {
-    return new ResponseDto<>(1, "이력서 등록 성공",
-        resumeService.이력서작성(resumeSaveReqDto));
-  }
+    @DeleteMapping("/es/emp/resume/delete/{resumeId}")
+    public @ResponseBody ResponseDto<?> deleteResume(@PathVariable Integer resumeId) {
+        resumeService.deleteResume(resumeId);
+        return new ResponseDto<>(1, "이력서 삭제 성공", null);
+    }
 
-  @PutMapping("/es/emp/resume/update/{resumeId}")
-  public ResponseDto<?> updateResume(@PathVariable Integer resumeId,
-      @RequestBody ResumeUpdateReqDto resumeUpdateReqDto) {
-    resumeUpdateReqDto.setResumeId(resumeId);
-    return new ResponseDto<>(1, "이력서 수정 성공",
-        resumeService.이력서수정(resumeUpdateReqDto));
-  }
+    @GetMapping("/es/emp/resume/{resumeId}")
+    public ResponseDto<?> findResumeById(@PathVariable Integer resumeId) {
+        return new ResponseDto<>(1, "이력서 한건 불러오기 성공",
+                resumeService.empFindById(resumeId));
+    }
 
-  /*
-   * =============================기업회원=========================================
-   */
+    @PostMapping("/es/emp/resume/save")
+    public ResponseDto<?> insertResume(@RequestBody ResumeSaveReqDto resumeSaveReqDto) {
+        return new ResponseDto<>(1, "이력서 등록 성공",
+                resumeService.insertResume(resumeSaveReqDto));
+    }
 
-  @GetMapping("/co")
-  public ResponseDto<?> getAllResumeList() { // 기업회원이 보는 이력서리스트
-    // List<Job> jobPS = jobService.관심직무보기();
-    // model.addAttribute("jobPS", jobPS);
-    // jobPS 일단 필요없어서 주석처리해놓음
+    @PutMapping("/es/emp/resume/update/{resumeId}")
+    public ResponseDto<?> updateResume(@PathVariable Integer resumeId,
+            @RequestBody ResumeUpdateReqDto resumeUpdateReqDto) {
+        resumeUpdateReqDto.setResumeId(resumeId);
+        return new ResponseDto<>(1, "이력서 수정 성공",
+                resumeService.updateResume(resumeUpdateReqDto));
+    }
 
-    // Company principal = (Company) session.getAttribute("coprincipal");
-    // if (principal != null) {
-    // Intro introPS = introService.마이페이지설정(principal.getCompanyId());
-    // model.addAttribute("introPS", introPS);
-    // }
-    return new ResponseDto<>(1, "성공", resumeService.findResumeAllList());
-  }
+    /*
+     * =============================기업회원=========================================
+     */
 
-  @GetMapping("/co/resume")
-  public ResponseDto<?> getJobResumeList(@RequestParam("jobCode") Integer jobCode) {
-    return new ResponseDto<>(1, "성공",
-        resumeService.findByJobCodeToResumeList(jobCode));
-  }
+    @GetMapping("/co")
+    public ResponseDto<?> getAllResumeList() { // 기업회원이 보는 이력서리스트
+        // List<Job> jobPS = jobService.관심직무보기();
+        // model.addAttribute("jobPS", jobPS);
+        // jobPS 일단 필요없어서 주석처리해놓음
 
-  @GetMapping("/cs/co/matchingResume/{companyId}")
-  public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
-    return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
-  }
+        // Company principal = (Company) session.getAttribute("coprincipal");
+        // if (principal != null) {
+        // Intro introPS = introService.마이페이지설정(principal.getCompanyId());
+        // model.addAttribute("introPS", introPS);
+        // }
+        return new ResponseDto<>(1, "성공", resumeService.findResumeAllList());
+    }
 
-  @GetMapping("/cs/co/resume/detail/{resumeId}")
-  public ResponseDto<?> getResumeDetail(@PathVariable Integer resumeId) {
-    // Company companyPS = (Company) session.getAttribute("coprincipal"); 세션
-    return new ResponseDto<>(1, "성공", resumeService.이력서상세보기(resumeId));
-  }
+    @GetMapping("/co/resume")
+    public ResponseDto<?> getJobResumeList(@RequestParam("jobCode") Integer jobCode) {
+        return new ResponseDto<>(1, "성공",
+                resumeService.findByJobCodeToResumeList(jobCode));
+    }
+
+    @GetMapping("/cs/co/matchingResume/{companyId}")
+    public ResponseDto<?> getCompanyMatchingList(@PathVariable Integer companyId) {
+        return new ResponseDto<>(1, "성공", resumeService.findMachingResumeList(companyId));
+    }
+
+    @GetMapping("/cs/co/resume/detail/{resumeId}")
+    public ResponseDto<?> getResumeDetail(@PathVariable Integer resumeId) {
+        // Company companyPS = (Company) session.getAttribute("coprincipal"); 세션
+        return new ResponseDto<>(1, "성공", resumeService.coFindById(resumeId));
+    }
 }
