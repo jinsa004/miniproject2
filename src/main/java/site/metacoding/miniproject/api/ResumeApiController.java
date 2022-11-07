@@ -42,6 +42,7 @@ public class ResumeApiController {
                 resumeService.지원하기(applicationSaveReqDto));
     }
 
+
     @GetMapping("/es/emp/mypage/resume/{employeeId}")
     public @ResponseBody ResponseDto<?> mypageResumeInsert(@PathVariable Integer employeeId) {// 이력서 편집, 대표이력서선택
         return new ResponseDto<>(1, "내 이력서 불러오기 성공",

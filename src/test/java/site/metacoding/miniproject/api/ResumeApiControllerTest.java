@@ -55,7 +55,7 @@ public class ResumeApiControllerTest {
 		// when
 		ResultActions resultActions = mvc
 				.perform(get("/es/emp/mypage/resume/" + employeeId)
-				.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		log.debug("디버그 : " + mvcResult.getResponse().getContentAsString());
