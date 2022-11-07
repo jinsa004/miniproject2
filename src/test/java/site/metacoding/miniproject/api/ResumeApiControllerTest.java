@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.resume.ResumeDao;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
@@ -25,6 +27,7 @@ import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 
+@Slf4j
 @ActiveProfiles("test")
 // @Sql("classpath:truncate.sql")
 @Transactional
@@ -51,10 +54,11 @@ public class ResumeApiControllerTest {
 		Integer employeeId = 1;
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/emp/mypage/resume/" + employeeId).accept(APPLICATION_JSON));
+				.perform(get("/es/emp/mypage/resume/" + employeeId)
+				.accept(APPLICATION_JSON));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		log.debug("디버그 : " + mvcResult.getResponse().getContentAsString());
 		resultActions.andExpect(status().isOk());
 		resultActions.andExpect(jsonPath("$.data.[0]resumeTitle").value("asdf"));
 	}
@@ -71,7 +75,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(post("/emp/resume/save").content(body)
+				.perform(post("/es/emp/resume/save").content(body)
 						.contentType(APPLICATION_JSON)
 						.accept(APPLICATION_JSON));
 		// then
@@ -88,7 +92,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(delete("/emp/resume/delete/" + resumeId)
+				.perform(delete("/es/emp/resume/delete/" + resumeId)
 						.accept(APPLICATION_JSON));
 		// then
 
@@ -115,7 +119,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(put("/emp/resume/update/" + resumeUpdateReqDto.getResumeId()).content(body)
+				.perform(put("/es/emp/resume/update/" + resumeUpdateReqDto.getResumeId()).content(body)
 						.contentType(APPLICATION_JSON)
 						.accept(APPLICATION_JSON));
 		// then
@@ -137,7 +141,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(put("/emp/resume/setMain/" + resumeId).content(body)
+				.perform(put("/es/emp/resume/setMain/" + resumeId).content(body)
 						.contentType(APPLICATION_JSON)
 						.accept(APPLICATION_JSON));
 		// then
@@ -160,7 +164,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(post("/emp/resume/applicate").content(body)
+				.perform(post("/es/emp/resume/applicate").content(body)
 						.contentType(APPLICATION_JSON)
 						.accept(APPLICATION_JSON));
 		// then
@@ -176,7 +180,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/emp/resume/" + resumeId).accept(APPLICATION_JSON));
+				.perform(get("/es/emp/resume/" + resumeId).accept(APPLICATION_JSON));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -220,7 +224,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/co/matchingResume/" + companyId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/matchingResume/" + companyId).accept(APPLICATION_JSON));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -235,7 +239,7 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/co/resume/detail/" + resumeId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/resume/detail/" + resumeId).accept(APPLICATION_JSON));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
