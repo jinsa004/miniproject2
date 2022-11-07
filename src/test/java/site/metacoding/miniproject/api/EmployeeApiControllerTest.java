@@ -50,7 +50,7 @@ public class EmployeeApiControllerTest {
 	@BeforeEach
 	public void empSessionInit() {
 		session = new MockHttpSession();
-		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		Employee employee = Employee.builder().employeeId(100).employeeUsername("jinsa").build();
 		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
 		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
@@ -93,14 +93,16 @@ public class EmployeeApiControllerTest {
 	@Test
 	public void deleteEmployee_test() throws Exception {
 		// given
-		Integer employeeId = 100;
+		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 		// when
 		ResultActions resultActions = mvc
-				.perform(delete("/es/emp/delete/" + employeeId).accept(APPLICATION_JSON));
+				.perform(delete("/es/emp/delete/" + empSessionUser.getEmployeeId())
+						.session(session)
+						.accept(APPLICATION_JSON));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.code").value(1));
 		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.code").value(1));
 	}
 }

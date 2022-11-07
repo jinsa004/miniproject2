@@ -54,7 +54,8 @@ public class EmployeeService {
         }
         List<EmpCheckRespDto> jobCheckList = empCheckDao.findAll(employeePS.getEmployeeId());
 
-        return new EmpJoinRespDto(employeePS, jobCheckList);
+        EmpJoinRespDto empJoinRespDto = new EmpJoinRespDto(employeePS, jobCheckList);
+        return empJoinRespDto;
     }
 
     public void deleteEmployee(Integer employeeId) {

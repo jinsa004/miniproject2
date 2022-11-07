@@ -17,7 +17,7 @@ public class CompanyFilterConfig {
 
   private final CompanyDao companyDao;
 
-  // @Bean
+  @Bean
   public FilterRegistrationBean<CompanyJwtAuthenticationFilter> coJwtAuthenticationFilterRegister() {
     log.debug("디버그 : 인증 필터 등록");
     FilterRegistrationBean<CompanyJwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
@@ -27,7 +27,7 @@ public class CompanyFilterConfig {
     return bean;
   }
 
-  // @Bean
+  @Bean
   public FilterRegistrationBean<CompanyJwtAuthorizationFilter> coJwtAuthorizationFilterRegister() {
     log.debug("디버그 : 인가 필터 등록");
     FilterRegistrationBean<CompanyJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
