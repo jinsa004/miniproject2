@@ -18,9 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.employee.Employee;
@@ -74,7 +72,8 @@ public class NoticeApiControllerTest {
 		ResultActions resultActions = mvc
 				.perform(post("/cs/co/notice/save").content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -89,7 +88,9 @@ public class NoticeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/" + companyId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/notice/" + companyId)
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -100,7 +101,7 @@ public class NoticeApiControllerTest {
 	@Test
 	public void updateNotice_test() throws Exception {
 		// given
-		Integer noticeId = 6;
+		Integer noticeId = 1;
 		Notice noticePS = noticeDao.findById(noticeId);
 		NoticeUpdateReqDto noticeUpdateReqDto = new NoticeUpdateReqDto();
 		noticeUpdateReqDto.setNoticeTitle("테스트중");
@@ -114,7 +115,7 @@ public class NoticeApiControllerTest {
 		ResultActions resultActions = mvc
 				.perform(put("/cs/co/notice/update/" + noticePS.getNoticeId()).content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -125,12 +126,12 @@ public class NoticeApiControllerTest {
 	@Test
 	public void deleteNotice_test() throws Exception {
 		// given
-		Integer noticeId = 6;
+		Integer noticeId = 1;
 
 		// when
 		ResultActions resultActions = mvc
 				.perform(delete("/cs/co/notice/delete/" + noticeId)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -146,7 +147,9 @@ public class NoticeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/" + companyId + "/detail/" + noticeId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/notice/" + companyId + "/detail/" + noticeId)
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
