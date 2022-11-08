@@ -70,7 +70,6 @@ public class NoticeApiController {
     }
 
     @GetMapping("/emp/subscribeNotice/{employeeId}")
-
     public ResponseDto<?> subsNoticeAll(@PathVariable Integer employeeId) {
         return new ResponseDto<>(1, "통신성공", noticeService.subsNoticeAll(employeeId));
     }

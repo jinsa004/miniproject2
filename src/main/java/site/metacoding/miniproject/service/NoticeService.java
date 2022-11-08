@@ -42,8 +42,8 @@ public class NoticeService {
 
     @Transactional
     public List<NoticeJobRespDto> findByJobCodeToNoticeList(Integer jobCode) { // 개인회원이 채용공고 분야별 목록보기 (필터기능)
-        return noticeDao.findByJobCodeToNotice(jobCode).stream().map((notice) -> new NoticeJobRespDto(notice))
-                .collect(Collectors.toList());
+        List<NoticeJobRespDto> noticeJobRespDto = noticeDao.findByJobCodeToNotice(jobCode);
+        return noticeJobRespDto;
     }
 
     @Transactional

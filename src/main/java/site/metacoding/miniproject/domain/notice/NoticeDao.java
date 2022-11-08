@@ -2,10 +2,12 @@ package site.metacoding.miniproject.domain.notice;
 
 import java.util.List;
 
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeJobRespDto;
+
 public interface NoticeDao {
 	public List<Notice> findAll();
 
-	public List<Notice> findByJobCodeToNotice(Integer jobCode);
+	public List<NoticeJobRespDto> findByJobCodeToNotice(Integer jobCode);
 
 	public Notice findById(Integer noticeId);
 
