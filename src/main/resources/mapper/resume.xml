@@ -42,11 +42,9 @@
 
 	<select id="findByEmployeeId" resultType="site.metacoding.miniproject.domain.resume.Resume">
 		SELECT *
-		FROM resume r
-		INNER JOIN job j
-		ON r.job_id = j.job_id
-		WHERE r.employee_id=#{employeeId}
-  </select>
+		FROM resume
+		WHERE employee_id=#{employeeId}
+  	</select>
 
 	<update id="updateMain">
 		UPDATE resume

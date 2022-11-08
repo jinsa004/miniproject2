@@ -14,11 +14,9 @@
 	</select>
 
 	<select id="findAll" resultType="site.metacoding.miniproject.domain.notice.Notice">
-		SELECT n.*, i.new_image_name
-		FROM notice n
-		LEFT OUTER JOIN intro_image i
-		ON n.company_id = i.company_id
-		ORDER BY n.notice_period DESC
+		SELECT *
+		FROM notice
+		ORDER BY notice_period DESC
 	</select>
 
 	<select id="findByCompanyId" resultType="site.metacoding.miniproject.domain.notice.Notice">
@@ -67,16 +65,13 @@
 		ORDER BY ns.notice_period DESC;
 	</select>
 
-	<select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.domain.notice.Notice">
-		SELECT ni.*
-		FROM (SELECT n.*, i.new_image_name
+	<select id="findByJobCodeToNotice" resultType="site.metacoding.miniproject.dto.notice.NoticeRespDto$NoticeJobRespDto">
+		SELECT *
 		FROM notice n
-		LEFT OUTER JOIN intro_image i
-		ON n.company_id = i.company_id) ni
 		INNER JOIN job j
-		ON ni.job_id = j.job_id
+		ON n.job_id = j.job_id
 		WHERE j.job_code = #{jobCode}
-		ORDER BY ni.notice_period DESC
+		ORDER BY n.notice_period DESC
 	</select>
 
 	<select id="findMatchingByJobId" resultType="site.metacoding.miniproject.domain.notice.Notice">
