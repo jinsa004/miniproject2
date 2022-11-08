@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -34,7 +36,7 @@ import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDt
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 
 @ActiveProfiles("test")
-// @Sql("classpath:truncate.sql")
+@Sql("classpath:testdatabase.sql")
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)

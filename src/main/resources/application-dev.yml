@@ -1,24 +1,22 @@
 server:
-  port: 8081
-  servlet:
-    encoding:
-      charset: utf-8
+    port: 8001
+    servlet:
+        context-path: /
+        encoding:
+            charset: utf-8
 
 spring:
-  datasource:
-    url: jdbc:h2:mem:test;MODE=MYSQL
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  sql.init.mode: always
-  sql.init.schema-locations: classpath:testdatabase.sql
-
-  output:
-    ansi:
-      enabled: always
+    datasource:
+        url: jdbc:mariadb://127.0.0.1:3306/jobsite
+        driver-class-name: org.mariadb.jdbc.Driver
+        username: green
+        password: green1234
+    output:
+        ansi:
+            enabled: always
 
 logging:
-  level:
-    '[org.springframework.boot.web]': DEBUG
+    level:
+        "[site.metacoding.miniproject]": DEBUG
 
-# debug info warn error
+spring.main.allow-bean-definition-overriding: true
