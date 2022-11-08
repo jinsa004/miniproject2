@@ -13,26 +13,12 @@ public class EmpRespDto {
     @Getter
     public static class EmpJoinRespDto {
         private Integer employeeId;
-        private String employeeName;
-        private String employeeBirth;
-        private String employeeSex;
         private String employeeUsername;
-        private String employeePassword;
-        private String employeeEmail;
-        private String employeeLocation;
-        private String employeeTel;
         private List<EmpCheckRespDto> jobCheckList;
 
         public EmpJoinRespDto(Employee employee, List<EmpCheckRespDto> jobCheckList) {
             this.employeeId = employee.getEmployeeId();
-            this.employeeName = employee.getEmployeeName();
-            this.employeeBirth = employee.getEmployeeBirth();
-            this.employeeSex = employee.getEmployeeSex();
             this.employeeUsername = employee.getEmployeeUsername();
-            this.employeePassword = employee.getEmployeePassword();
-            this.employeeEmail = employee.getEmployeeEmail();
-            this.employeeLocation = employee.getEmployeeLocation();
-            this.employeeTel = employee.getEmployeeTel();
             this.jobCheckList = jobCheckList;
         }
     }
