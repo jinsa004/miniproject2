@@ -218,7 +218,7 @@ public class ResumeApiControllerTest {
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("최선을 다하겠습니다.."));
+		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("완성하겠습니다."));
 	}
 
 	@Test
