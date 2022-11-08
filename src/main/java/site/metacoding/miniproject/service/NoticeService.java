@@ -111,6 +111,9 @@ public class NoticeService {
     @Transactional
     public NoticeDetailRespDto getNoticeDetail(Integer noticeId) { // 메서드이름 수정
         Notice noticePS = noticeDao.findByNoticeIdToNoticeDetail(noticeId);
+        if (noticePS == null) {
+            throw new RuntimeException("해당 " + noticeId + "로 조회할 수 없습니다.");
+        }
         NoticeDetailRespDto noticeDetailRespDto = new NoticeDetailRespDto(noticePS);
         return noticeDetailRespDto;
     }

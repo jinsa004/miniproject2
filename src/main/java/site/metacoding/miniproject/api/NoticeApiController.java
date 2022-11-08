@@ -111,9 +111,8 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "공고 삭제 성공", null);
     }
 
-    @GetMapping("/cs/co/notice/{companyId}/detail/{noticeId}")
-    public ResponseDto<?> noticeDetail(@PathVariable Integer companyId,
-            @PathVariable Integer noticeId) {
+    @GetMapping("/co/notice/detail/{noticeId}")
+    public ResponseDto<?> noticeDetail(@PathVariable Integer noticeId) {
         return new ResponseDto<>(1, "통신성공", noticeService.getNoticeDetail(noticeId));
     }
 }
