@@ -149,7 +149,7 @@ public class NoticeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/detail/" + noticeId)
+				.perform(get("/co/notice/detail/" + noticeId)
 						.accept(APPLICATION_JSON)
 						.session(session));
 
