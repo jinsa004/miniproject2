@@ -11,7 +11,7 @@
 	<select id="findAll" resultType="site.metacoding.miniproject.domain.company.Company"></select>
 
 	<select id="findById" resultType="site.metacoding.miniproject.domain.company.Company">
-		SELECT * FROM company WHERE company_Id=#{companyId}
+		SELECT * FROM company WHERE company_id=#{companyId}
 	</select>
 
 	<select id="findByCompanyUsername" resultType="site.metacoding.miniproject.domain.company.Company">

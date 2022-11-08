@@ -41,7 +41,6 @@ public class IntroRespDto {
     public static class IntroFindByCompanyIdRespDto {
         private Integer introId;
         private Integer companyId;
-        private String companyName;
         private String introBirth;
         private String introTask;
         private String introSal;
@@ -54,7 +53,6 @@ public class IntroRespDto {
         public IntroFindByCompanyIdRespDto(Intro intro) {
             this.introId = intro.getIntroId();
             this.companyId = intro.getCompanyId();
-            this.companyName = intro.getCompanyName();
             this.introBirth = intro.getIntroBirth();
             this.introTask = intro.getIntroTask();
             this.introSal = intro.getIntroSal();
@@ -71,7 +69,6 @@ public class IntroRespDto {
     public static class IntroFindByDetailRespDto {
         private Integer introId;
         private Integer companyId;
-        private String companyName;
         private String introBirth;
         private String introTask;
         private String introSal;
@@ -86,7 +83,6 @@ public class IntroRespDto {
         public IntroFindByDetailRespDto(Intro intro) {
             this.introId = intro.getIntroId();
             this.companyId = intro.getCompanyId();
-            this.companyName = intro.getCompanyName();
             this.introBirth = intro.getIntroBirth();
             this.introTask = intro.getIntroTask();
             this.introSal = intro.getIntroSal();
@@ -104,12 +100,10 @@ public class IntroRespDto {
     @Getter
     public static class IntroAllRespDto {
         private Integer introId;
-        private String companyName;
         private String introTask;
 
         public IntroAllRespDto(Intro intro) {
             this.introId = intro.getIntroId();
-            this.companyName = intro.getCompanyName();
             this.introTask = intro.getIntroTask();
         }
     }
@@ -117,7 +111,6 @@ public class IntroRespDto {
     @Setter
     @Getter
     public static class IntroUpdateRespDto {
-        private String companyName;
         private String introBirth;
         private String introTask;
         private String introSal;
@@ -127,7 +120,6 @@ public class IntroRespDto {
         private Integer jobId;
 
         public IntroUpdateRespDto(Intro intro) {
-            this.companyName = intro.getCompanyName();
             this.introBirth = intro.getIntroBirth();
             this.introTask = intro.getIntroTask();
             this.introSal = intro.getIntroSal();

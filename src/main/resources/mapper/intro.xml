@@ -42,7 +42,7 @@
 		UPDATE intro i
 		RIGHT JOIN company c ON (c.company_id = i.company_id)
 		RIGHT JOIN job j ON (j.job_id = i.job_id)
-		SET c.company_name = #{companyName},
+		SET i.intro_coname = #{introConame},
 		i.intro_birth = #{introBirth},
 		i.intro_task = #{introTask},
 		i.intro_wellfare = #{introWellfare},

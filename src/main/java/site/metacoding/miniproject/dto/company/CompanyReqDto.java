@@ -60,6 +60,7 @@ public class CompanyReqDto {
     private String companyUsername;
     private String companyPassword;
     private List<Integer> jobIds;
+    public Object[] setJobIds;
 
     public Company toEntity() {
       return Company.builder()

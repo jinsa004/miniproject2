@@ -11,6 +11,7 @@ import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
 import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.domain.subscribe.SubscribeDao;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroAllRespDto;
@@ -66,8 +67,17 @@ public class IntroService {
     @Transactional
     // 기업소개 업데이트
     public IntroUpdateRespDto update(IntroUpdateReqDto introUpdateReqDto) {
-        introDao.update(introUpdateReqDto);
-        Intro introPS = introDao.findByIntroId(introUpdateReqDto.getIntroId());
+        Intro introPS = introDao.findByIntroId(introUpdateReqDto.getIntroId()); // 영속화
+        if (introPS == null) {
+            throw new RuntimeException("해당 " + introUpdateReqDto.getIntroId() + "로 수정를 할 수 없습니다.");
+        }
+        CompanySessionUser coPrincipal = (CompanySessionUser) session.getAttribute("companySessionUser");
+        log.debug("디버그 company : " + coPrincipal.getCompanyId());
+        if (coPrincipal.getCompanyId().equals(introPS.getCompanyId())) {
+            introDao.update(introUpdateReqDto);
+        } else {
+            throw new RuntimeException("기업소개를 수정할 권한이 없습니다.");
+        }
         IntroUpdateRespDto introUpdateRespDto = new IntroUpdateRespDto(introPS);
         return introUpdateRespDto;
     }

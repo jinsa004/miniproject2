@@ -6,25 +6,32 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import site.metacoding.miniproject.domain.company.Company;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.resume.Resume;
 import site.metacoding.miniproject.domain.resume.ResumeDao;
+import site.metacoding.miniproject.dto.company.CompanySessionUser;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 
+@Slf4j
 @ActiveProfiles("test")
 // @Sql("classpath:truncate.sql")
 @Transactional
@@ -41,39 +48,53 @@ public class ResumeApiControllerTest {
 	@Autowired
 	private ResumeDao resumeDao;
 
-	// private MockHttpSession session;
+	private MockHttpSession session;
+
+	@BeforeEach
+	public void empSessionInit() {
+		session = new MockHttpSession();
+		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
+		session.setAttribute("companySessionUser", new CompanySessionUser(company));
+
+		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+	}
 
 	// ==================== 개인 화면 ====================== //
 
 	@Test
 	public void mypageResumeList_test() throws Exception {
 		// given
-		Integer employeeId = 1;
+		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/emp/mypage/resume/" + employeeId).accept(APPLICATION_JSON));
+				.perform(get("/es/emp/mypage/resume/" + empSessionUser.getEmployeeId())
+						.accept(APPLICATION_JSON)
+						.session(session));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		log.debug("디버그 : " + mvcResult.getResponse().getContentAsString());
 		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.data.[0]resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.[0]resumeTitle").value("완성하겠습니다."));
 	}
 
 	@Test
 	public void insertResume_test() throws Exception {
 		// given
+		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 		ResumeSaveReqDto resumeSaveReqDto = new ResumeSaveReqDto();
 		resumeSaveReqDto.setResumeTitle("5252");
-		resumeSaveReqDto.setEmployeeId(2);
 		resumeSaveReqDto.setJobId(1);
+		resumeSaveReqDto.setEmployeeId(empSessionUser.getEmployeeId());
 
 		String body = om.writeValueAsString(resumeSaveReqDto);
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(post("/emp/resume/save").content(body)
+				.perform(post("/es/emp/resume/save").content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON)
+						.session(session));
 		// then
 
 		MvcResult mvcResult = resultActions.andReturn();
@@ -84,12 +105,13 @@ public class ResumeApiControllerTest {
 	@Test
 	public void deleteResume_test() throws Exception {
 		// given
-		Integer resumeId = 4;
+		Integer resumeId = 1;
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(delete("/emp/resume/delete/" + resumeId)
-						.accept(APPLICATION_JSON));
+				.perform(delete("/es/emp/resume/delete/" + resumeId)
+						.accept(APPLICATION_JSON)
+						.session(session));
 		// then
 
 		MvcResult mvcResult = resultActions.andReturn();
@@ -100,24 +122,21 @@ public class ResumeApiControllerTest {
 	@Test
 	public void updateResume_test() throws Exception {
 		// given
-		Integer resumeId = 4;
+		Integer resumeId = 1;
 		Resume resumePS = resumeDao.findById(resumeId);
 		ResumeUpdateReqDto resumeUpdateReqDto = new ResumeUpdateReqDto();
 		resumeUpdateReqDto.setResumeId(resumeId);
-		resumeUpdateReqDto.setResumeTitle(resumePS.getResumeTitle());
-		resumeUpdateReqDto.setHighschoolName(resumePS.getHighschoolName());
-		resumeUpdateReqDto.setHighschoolStartdate(resumePS.getHighschoolStartdate());
-		resumeUpdateReqDto.setHighschoolEnddate(resumePS.getHighschoolEnddate());
-		resumeUpdateReqDto.setHighschoolMajor(resumePS.getHighschoolMajor());
+		resumeUpdateReqDto.setResumeTitle("영운고고고고고고고고고");
 		resumeUpdateReqDto.setJobId(resumePS.getJobId());
 
 		String body = om.writeValueAsString(resumeUpdateReqDto);
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(put("/emp/resume/update/" + resumeUpdateReqDto.getResumeId()).content(body)
+				.perform(put("/es/emp/resume/update/" + resumeUpdateReqDto.getResumeId()).content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON)
+						.session(session));
 		// then
 
 		MvcResult mvcResult = resultActions.andReturn();
@@ -128,18 +147,19 @@ public class ResumeApiControllerTest {
 	@Test
 	public void setMainResume_test() throws Exception {
 		// given
-		Integer employeeId = 1;
-		Integer resumeId = 6;
+		EmpSessionUser sessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+		Integer resumeId = 1;
 		ResumeUpdateMainReqDto resumeUpdateMainReqDto = new ResumeUpdateMainReqDto();
-		resumeUpdateMainReqDto.setEmployeeId(employeeId);
+		resumeUpdateMainReqDto.setEmployeeId(sessionUser.getEmployeeId());
 		resumeUpdateMainReqDto.setResumeId(resumeId);
 		String body = om.writeValueAsString(resumeUpdateMainReqDto);
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(put("/emp/resume/setMain/" + resumeId).content(body)
+				.perform(put("/es/emp/resume/setMain/" + resumeId).content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON)
+						.session(session));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
@@ -150,7 +170,7 @@ public class ResumeApiControllerTest {
 	public void applicateByResumeId_test() throws Exception {
 
 		// when
-		Integer resumeId = 4;
+		Integer resumeId = 1;
 		Integer noticeId = 2;
 		ApplicationSaveReqDto applicationSaveReqDto = new ApplicationSaveReqDto();
 		applicationSaveReqDto.setResumeId(resumeId);
@@ -160,9 +180,10 @@ public class ResumeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(post("/emp/resume/applicate").content(body)
+				.perform(post("/es/emp/resume/applicate").content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON)
+						.session(session));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
@@ -172,16 +193,18 @@ public class ResumeApiControllerTest {
 	@Test
 	public void findResumeById() throws Exception {
 		// given
-		Integer resumeId = 4;
+		Integer resumeId = 1;
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/emp/resume/" + resumeId).accept(APPLICATION_JSON));
+				.perform(get("/es/emp/resume/" + resumeId)
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.resumeTitle").value("완성하겠습니다."));
 	}
 
 	// ====================== 기업 화면 ======================== //
@@ -195,7 +218,7 @@ public class ResumeApiControllerTest {
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("최선을 다하겠습니다.."));
 	}
 
 	@Test
@@ -210,37 +233,42 @@ public class ResumeApiControllerTest {
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("완성하겠습니다."));
 	}
 
 	@Test
 	public void getCompanyMatchingList_test() throws Exception {
 		// given
-		Integer companyId = 1;
+		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+		log.debug("디버그 : " + companySessionUser.getCompanyId());
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/co/matchingResume/" + companyId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/matchingResume/" + companySessionUser.getCompanyId())
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("완성하겠습니다."));
 	}
 
 	@Test
 	public void getResumeDetail_test() throws Exception {
 		// given
-		Integer resumeId = 4;
+		Integer resumeId = 1;
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/co/resume/detail/" + resumeId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/resume/detail/" + resumeId)
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.resumeTitle").value("완성하겠습니다."));
 	}
 
 }
