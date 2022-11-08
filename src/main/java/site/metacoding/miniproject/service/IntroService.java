@@ -12,6 +12,7 @@ import site.metacoding.miniproject.domain.intro.IntroDao;
 import site.metacoding.miniproject.domain.subscribe.Subscribe;
 import site.metacoding.miniproject.domain.subscribe.SubscribeDao;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroAllRespDto;
@@ -83,14 +84,23 @@ public class IntroService {
     }
 
     public SubscribeSaveRespDto 구독하기(SubscribeSaveReqDto subscribeSaveReqDto) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
         subscribeDao.insert(subscribeSaveReqDto);
-        log.debug("디버그 : " + subscribeSaveReqDto.getSubscribeId());
         Subscribe subscribePS = subscribeDao.findById(subscribeSaveReqDto.getSubscribeId());
-        SubscribeSaveRespDto subscribeSaveRespDto = new SubscribeSaveRespDto(subscribePS);
+        SubscribeSaveRespDto subscribeSaveRespDto = new SubscribeSaveRespDto(subscribePS, empSessionUser);
         return subscribeSaveRespDto;
     }
 
     public void 구독취소하기(Integer subscribeId) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+        Subscribe subscribePS = subscribeDao.findById(subscribeId);
+        if (subscribePS == null) {
+            throw new RuntimeException("해당" + subscribeId + "가 없습니다.");
+        }
+        if (empSessionUser.getEmployeeId() != subscribePS.getEmployeeId()) {
+            log.debug("디버그1 : " + empSessionUser.getEmployeeId());
+            throw new RuntimeException("해당" + subscribeId + "를 삭제 할 권한이 없습니다.");
+        }
         subscribeDao.deleteById(subscribeId);
     }
 }
