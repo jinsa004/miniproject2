@@ -2,10 +2,9 @@ package site.metacoding.miniproject.api;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.employee.Employee;
-import site.metacoding.miniproject.domain.employee.EmployeeDao;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 
@@ -38,17 +36,13 @@ public class EmployeeApiControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
-	@Autowired
-	private ObjectMapper om;
-	@Autowired
-	private EmployeeDao employeeDao;
 
 	private MockHttpSession session;
 
 	@BeforeEach
 	public void empSessionInit() {
 		session = new MockHttpSession();
-		Employee employee = Employee.builder().employeeId(100).employeeUsername("jinsa").build();
+		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
 		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
 		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();

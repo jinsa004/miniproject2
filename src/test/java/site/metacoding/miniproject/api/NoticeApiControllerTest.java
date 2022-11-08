@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,19 +50,21 @@ public class NoticeApiControllerTest {
 	@BeforeEach
 	public void empSessionInit() {
 		session = new MockHttpSession();
-		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+		// Employee employee =
+		// Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		// session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
-		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
+		Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
 		session.setAttribute("companySessionUser", new CompanySessionUser(company));
 	}
 
 	@Test
 	public void saveNotice_test() throws Exception {
 		// given
+		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
 		NoticeSaveReqDto noticeSaveReqDto = new NoticeSaveReqDto();
 		noticeSaveReqDto.setNoticeTitle("사원모집");
-		noticeSaveReqDto.setCompanyId(1);
+		noticeSaveReqDto.setCompanyId(companySessionUser.getCompanyId());
 		noticeSaveReqDto.setJobId(1);
 
 		String body = om.writeValueAsString(noticeSaveReqDto);
@@ -101,12 +102,14 @@ public class NoticeApiControllerTest {
 	@Test
 	public void updateNotice_test() throws Exception {
 		// given
+		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
 		Integer noticeId = 1;
 		Notice noticePS = noticeDao.findById(noticeId);
 		NoticeUpdateReqDto noticeUpdateReqDto = new NoticeUpdateReqDto();
 		noticeUpdateReqDto.setNoticeTitle("테스트중");
 		noticeUpdateReqDto.setNoticeDept("망한부서");
 		noticeUpdateReqDto.setNoticeTask("설거지");
+		noticeUpdateReqDto.setCompanyId(companySessionUser.getCompanyId());
 		noticePS.update(noticeUpdateReqDto);
 
 		String body = om.writeValueAsString(noticePS);

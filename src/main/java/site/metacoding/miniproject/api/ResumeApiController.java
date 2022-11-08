@@ -1,7 +1,5 @@
 package site.metacoding.miniproject.api;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,17 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.dto.ResponseDto;
-import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
-import site.metacoding.miniproject.service.IntroService;
-import site.metacoding.miniproject.service.JobService;
 import site.metacoding.miniproject.service.ResumeService;
 
 @Slf4j
@@ -30,9 +24,6 @@ import site.metacoding.miniproject.service.ResumeService;
 public class ResumeApiController {
 
     private final ResumeService resumeService;
-    private final JobService jobService;
-    private final IntroService introService;
-    private final HttpSession session;
 
     /*
      * =============================개인회원=========================================

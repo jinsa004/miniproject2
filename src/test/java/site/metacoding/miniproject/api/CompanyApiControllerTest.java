@@ -1,10 +1,14 @@
 package site.metacoding.miniproject.api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,27 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
+
 import site.metacoding.miniproject.domain.company.Company;
-import site.metacoding.miniproject.domain.company.CompanyDao;
-import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
-import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 
@@ -50,21 +47,18 @@ public class CompanyApiControllerTest {
   @Autowired
   private ObjectMapper om;
   @Autowired
-  private CompanyDao companyDao;
-  @Autowired
   private IntroDao introDao;
-
-  private static HttpHeaders headers;
 
   private MockHttpSession session;
 
   @BeforeEach
   public void empSessionInit() {
     session = new MockHttpSession();
-    Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-    session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+    // Employee employee =
+    // Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+    // session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
-    Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
+    Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
     session.setAttribute("companySessionUser", new CompanySessionUser(company));
   }
 
@@ -110,19 +104,24 @@ public class CompanyApiControllerTest {
   @Test
   public void updateIntro_test() throws Exception {
     // given
-    Integer introId = 4;
+    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+    Integer introId = 1;
     Intro introPS = introDao.findByIntroId(introId);
     IntroUpdateReqDto introUpdateReqDto = new IntroUpdateReqDto();
     introUpdateReqDto.setIntroId(introId);
     introUpdateReqDto.setIntroBirth(introPS.getIntroBirth());
     introUpdateReqDto.setIntroContent(introPS.getIntroContent());
+    introUpdateReqDto.setCompanyId(companySessionUser.getCompanyId());
+    introUpdateReqDto.setIntroConame("삼성");
+    introUpdateReqDto.setIntroTask("경비");
     String body = om.writeValueAsString(introUpdateReqDto);
 
     // when
     ResultActions resultActions = mvc
-        .perform(put("/cs/co/intro/update/" + introUpdateReqDto.getIntroId()).content(body)
+        .perform(put("/cs/co/intro/update/" + introId).content(body)
             .contentType(APPLICATION_JSON)
-            .accept(APPLICATION_JSON));
+            .accept(APPLICATION_JSON)
+            .session(session));
     // then
 
     MvcResult mvcResult = resultActions.andReturn();
@@ -179,7 +178,18 @@ public class CompanyApiControllerTest {
     // given
     CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
     CompanyUpdateReqDto companyUpdateReqDto = new CompanyUpdateReqDto();
-    companyUpdateReqDto.setCompanyName("삼성123");
+    List<Integer> jobIds = new ArrayList<>();
+    jobIds.add(1);
+    jobIds.add(2);
+    companyUpdateReqDto.setCompanyName("삼성");
+    companyUpdateReqDto.setCompanyNumber(123455);
+    companyUpdateReqDto.setCompanyEmail("jinsa004@Naver.com");
+    companyUpdateReqDto.setCompanyLocation("서면");
+    companyUpdateReqDto.setCompanyPassword("1234");
+    companyUpdateReqDto.setCompanyTel("010-7164-9311");
+    companyUpdateReqDto.setCompanyUsername("samsungman1234");
+    companyUpdateReqDto.setJobIds(jobIds);
+
     String body = om.writeValueAsString(companyUpdateReqDto);
 
     // when
@@ -204,19 +214,15 @@ public class CompanyApiControllerTest {
     // when
     ResultActions resultActions = mvc
         .perform(delete("/cs/co/company/delete/" + companySessionUser.getCompanyId())
-            .session(session)
-            .accept(APPLICATION_JSON));
+            .accept(APPLICATION_JSON)
+            .session(session));
 
     // then
     MvcResult mvcResult = resultActions.andReturn();
     System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
     resultActions.andExpect(status().isOk());
-    resultActions.andExpect(jsonPath("$.code").value(1L));
+    resultActions.andExpect(jsonPath("$.code").value(1));
 
-  }
-
-  private MockHttpServletRequestBuilder delete(String string) {
-    return null;
   }
 
   // 로그아웃
@@ -226,13 +232,13 @@ public class CompanyApiControllerTest {
 
     // when
     ResultActions resultActions = mvc
-        .perform(delete("/co/logout")
+        .perform(get("/co/logout")
             .accept(APPLICATION_JSON));
 
     // then
     MvcResult mvcResult = resultActions.andReturn();
     System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-    resultActions.andExpect(jsonPath("$.code").value(1L));
+    resultActions.andExpect(jsonPath("$.code").value(1));
   }
 
 }

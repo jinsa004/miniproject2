@@ -21,7 +21,6 @@ import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 import site.metacoding.miniproject.dto.intro.IntroRespDto.IntroSaveRespDto;
 import site.metacoding.miniproject.service.CompanyService;
 import site.metacoding.miniproject.service.IntroService;
-import site.metacoding.miniproject.service.JobService;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +28,6 @@ public class CompanyApiController {
 
   private final IntroService introService;
   private final CompanyService companyService;
-  private final JobService jobService;
 
   @PostMapping("/co/login")
   public ResponseDto<?> login(@RequestBody CompanyLoginReqDto companyLoginReqDto) {

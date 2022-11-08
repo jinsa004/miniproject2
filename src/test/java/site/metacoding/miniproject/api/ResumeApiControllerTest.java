@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.company.Company;
@@ -82,9 +81,11 @@ public class ResumeApiControllerTest {
 	@Test
 	public void insertResume_test() throws Exception {
 		// given
+		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 		ResumeSaveReqDto resumeSaveReqDto = new ResumeSaveReqDto();
 		resumeSaveReqDto.setResumeTitle("5252");
 		resumeSaveReqDto.setJobId(1);
+		resumeSaveReqDto.setEmployeeId(empSessionUser.getEmployeeId());
 
 		String body = om.writeValueAsString(resumeSaveReqDto);
 
@@ -217,7 +218,7 @@ public class ResumeApiControllerTest {
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("최선을 다하겠습니다.."));
 	}
 
 	@Test
@@ -232,7 +233,7 @@ public class ResumeApiControllerTest {
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("asdf"));
+		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("완성하겠습니다."));
 	}
 
 	@Test

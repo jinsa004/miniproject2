@@ -34,7 +34,8 @@ public class IntroReqDto {
     @Getter
     public static class IntroUpdateReqDto {
         private Integer introId;
-        private String companyName;
+        private Integer companyId;
+        private String introConame;
         private String introBirth;
         private String introTask;
         private String introSal;
@@ -44,7 +45,7 @@ public class IntroReqDto {
         private Integer jobId;
 
         public Intro toEntity() {
-            return Intro.builder().introId(introId).companyName(companyName).introBirth(introBirth)
+            return Intro.builder().introId(introId).introConame(introConame).introBirth(introBirth)
                     .introTask(introTask).introSal(introSal)
                     .introWellfare(introWellfare).introContent(introContent).introLocation(introLocation).jobId(jobId)
                     .build();
