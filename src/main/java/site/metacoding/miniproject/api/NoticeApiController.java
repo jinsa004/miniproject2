@@ -39,12 +39,12 @@ public class NoticeApiController {
     public ResponseDto<?> getAllNoticeList() {
         // List<Job> jobPS = jobService.관심직무보기();
         // model.addAttribute("jobPS", jobPS);
-        return new ResponseDto<>(1, "성공", noticeService.findNoticeAllList());
+        return new ResponseDto<>(1, "채용공고 전체보기 성공", noticeService.findNoticeAllList());
     }
 
     @GetMapping("/emp/notice")
     public ResponseDto<?> getJobNoticeList(@RequestParam("jobCode") Integer jobCode) {
-        return new ResponseDto<>(1, "성공",
+        return new ResponseDto<>(1, "채용공고 분야별 보기 성공",
                 noticeService.findByJobCodeToNoticeList(jobCode));
     }
 
@@ -52,7 +52,7 @@ public class NoticeApiController {
     public ResponseDto<?> matchingNoticeList(@PathVariable Integer employeeId) {
         EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empSessionUser");
         if (employeeId.equals(empPrincipal.getEmployeeId())) {
-            return new ResponseDto<>(1, "성공",
+            return new ResponseDto<>(1, "개인회원 매칭공고 보기 성공",
                     noticeService.findMachingNoticeList(employeeId));
         }
         return new ResponseDto<>(-1, "사용자 id가 달라 매칭리스트를 볼 권한이 없습니다", null);
@@ -62,10 +62,11 @@ public class NoticeApiController {
     public ResponseDto<?> getNoticeDetailWithResume(@PathVariable Integer noticeId) {// 개인회원 입장에서 채용공고보기
         EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empSessionUser");
         if (empPrincipal != null) {
-            return new ResponseDto<>(1, "성공", new NoticeHaveResumeRespDto(noticeService.getNoticeDetail(noticeId),
-                    resumeService.getMyResumeList(empPrincipal.getEmployeeId())));
+            return new ResponseDto<>(1, "공고 이력서 리스트와 함께 보기 성공",
+                    new NoticeHaveResumeRespDto(noticeService.getNoticeDetail(noticeId),
+                            resumeService.getMyResumeList(empPrincipal.getEmployeeId())));
         } else {
-            return new ResponseDto<>(1, "성공", noticeService.getNoticeDetail(noticeId));
+            return new ResponseDto<>(1, "공고 자세히 보기 성공", noticeService.getNoticeDetail(noticeId));
         }
     }
 
