@@ -146,11 +146,10 @@ public class NoticeApiControllerTest {
 	public void noticeDetail_test() throws Exception {
 		// given
 		Integer noticeId = 1;
-		Integer companyId = 1;
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/" + companyId + "/detail/" + noticeId)
+				.perform(get("/cs/co/notice/detail/" + noticeId)
 						.accept(APPLICATION_JSON)
 						.session(session));
 
