@@ -55,6 +55,7 @@ public class CompanyService {
 
     List<CoCheckRespDto> coCheckList = coCheckDao.findByCompanyId(companyPS.getCompanyId());
     return new CompanyJoinRespDto(companyPS, coCheckList);
+
   }
 
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {

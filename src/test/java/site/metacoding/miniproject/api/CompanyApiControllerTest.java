@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
+import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
