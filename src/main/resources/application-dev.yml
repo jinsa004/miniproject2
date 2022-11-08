@@ -6,13 +6,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:h2:mem:test;MODE=MYSQL
     driver-class-name: org.h2.Driver
     username: sa
-    password: 
-  h2:
-    console:
-      enabled: true
+    password:
+  sql.init.mode: always
+  sql.init.schema-locations: classpath:testdatabase.sql
 
   jpa:
     open-in-view: true
