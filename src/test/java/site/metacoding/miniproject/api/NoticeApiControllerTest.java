@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.employee.Employee;
@@ -53,19 +50,21 @@ public class NoticeApiControllerTest {
 	@BeforeEach
 	public void empSessionInit() {
 		session = new MockHttpSession();
-		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+		// Employee employee =
+		// Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		// session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
-		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
+		Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
 		session.setAttribute("companySessionUser", new CompanySessionUser(company));
 	}
 
 	@Test
 	public void saveNotice_test() throws Exception {
 		// given
+		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
 		NoticeSaveReqDto noticeSaveReqDto = new NoticeSaveReqDto();
 		noticeSaveReqDto.setNoticeTitle("사원모집");
-		noticeSaveReqDto.setCompanyId(1);
+		noticeSaveReqDto.setCompanyId(companySessionUser.getCompanyId());
 		noticeSaveReqDto.setJobId(1);
 
 		String body = om.writeValueAsString(noticeSaveReqDto);
@@ -74,7 +73,8 @@ public class NoticeApiControllerTest {
 		ResultActions resultActions = mvc
 				.perform(post("/cs/co/notice/save").content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -89,7 +89,9 @@ public class NoticeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/" + companyId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/notice/" + companyId)
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -100,12 +102,14 @@ public class NoticeApiControllerTest {
 	@Test
 	public void updateNotice_test() throws Exception {
 		// given
-		Integer noticeId = 6;
+		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+		Integer noticeId = 1;
 		Notice noticePS = noticeDao.findById(noticeId);
 		NoticeUpdateReqDto noticeUpdateReqDto = new NoticeUpdateReqDto();
 		noticeUpdateReqDto.setNoticeTitle("테스트중");
 		noticeUpdateReqDto.setNoticeDept("망한부서");
 		noticeUpdateReqDto.setNoticeTask("설거지");
+		noticeUpdateReqDto.setCompanyId(companySessionUser.getCompanyId());
 		noticePS.update(noticeUpdateReqDto);
 
 		String body = om.writeValueAsString(noticePS);
@@ -114,7 +118,7 @@ public class NoticeApiControllerTest {
 		ResultActions resultActions = mvc
 				.perform(put("/cs/co/notice/update/" + noticePS.getNoticeId()).content(body)
 						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -125,12 +129,12 @@ public class NoticeApiControllerTest {
 	@Test
 	public void deleteNotice_test() throws Exception {
 		// given
-		Integer noticeId = 6;
+		Integer noticeId = 1;
 
 		// when
 		ResultActions resultActions = mvc
 				.perform(delete("/cs/co/notice/delete/" + noticeId)
-						.accept(APPLICATION_JSON));
+						.accept(APPLICATION_JSON).session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
@@ -142,11 +146,12 @@ public class NoticeApiControllerTest {
 	public void noticeDetail_test() throws Exception {
 		// given
 		Integer noticeId = 1;
-		Integer companyId = 1;
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/" + companyId + "/detail/" + noticeId).accept(APPLICATION_JSON));
+				.perform(get("/cs/co/notice/detail/" + noticeId)
+						.accept(APPLICATION_JSON)
+						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();

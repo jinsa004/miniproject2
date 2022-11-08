@@ -50,7 +50,7 @@ public class Intro {
 
 	public void update(IntroUpdateReqDto introUpdateReqDto) {
 		this.introId = introUpdateReqDto.getIntroId();
-		this.companyName = introUpdateReqDto.getCompanyName();
+		this.companyName = introUpdateReqDto.getIntroConame();
 		this.introBirth = introUpdateReqDto.getIntroBirth();
 		this.introTask = introUpdateReqDto.getIntroTask();
 		this.introSal = introUpdateReqDto.getIntroSal();

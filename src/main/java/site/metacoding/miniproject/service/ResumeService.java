@@ -2,12 +2,9 @@ package site.metacoding.miniproject.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.domain.application.Application;
@@ -38,7 +35,14 @@ public class ResumeService {
     private final HttpSession session;
 
     @Transactional
-    public ApplicationSaveRespDto 지원하기(ApplicationSaveReqDto applicationSaveReqDto) {
+    public ApplicationSaveRespDto applicateByResumeId(ApplicationSaveReqDto applicationSaveReqDto) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+        Resume resumePS = resumeDao.findById(applicationSaveReqDto.getResumeId());
+
+        if (resumePS.getEmployeeId() != empSessionUser.getEmployeeId()) {
+            throw new RuntimeException("해당" + applicationSaveReqDto.getResumeId() + "로 수정을 할 수 없습니다.");
+        }
+
         Application applicationPS = applicationSaveReqDto.toEntity();
         applicationDao.insert(applicationPS);
         applicationPS = applicationDao.findById(applicationPS.getApplicationId());
@@ -46,10 +50,19 @@ public class ResumeService {
     }
 
     @Transactional
-    public List<ResumeUpdateMainRespDto> 메인이력서등록(ResumeUpdateMainReqDto resumeUpdateMainReqDto) {
-        Resume resumePS = resumeUpdateMainReqDto.toEntity();
-        resumeDao.updateMain(resumePS.getResumeId());
-        List<Resume> resumeList = resumeDao.findByEmployeeId(resumePS.getEmployeeId());
+    public List<ResumeUpdateMainRespDto> setMainResume(ResumeUpdateMainReqDto resumeUpdateMainReqDto) {
+        EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+        Resume resumePS1 = resumeDao.findById(resumeUpdateMainReqDto.getResumeId());
+
+        if (resumePS1 == null || resumePS1.getEmployeeId() != empSessionUser.getEmployeeId()) {
+            throw new RuntimeException("해당" + resumeUpdateMainReqDto.getResumeId() + "로 수정을 할 수 없습니다.");
+        }
+
+        Resume resumePS2 = resumeUpdateMainReqDto.toEntity();
+
+        resumeDao.updateMain(resumePS2.getResumeId());
+
+        List<Resume> resumeList = resumeDao.findByEmployeeId(resumePS2.getEmployeeId());
         List<ResumeUpdateMainRespDto> resumeUpdateMainRespDtoList = new ArrayList<>();
         for (Resume resume : resumeList) {
             resumeUpdateMainRespDtoList.add(new ResumeUpdateMainRespDto(resume));
@@ -71,7 +84,8 @@ public class ResumeService {
     }
 
     @Transactional
-    public ResumeSaveRespDto 이력서작성(ResumeSaveReqDto resumeSaveReqDto) {
+    public ResumeSaveRespDto insertResume(ResumeSaveReqDto resumeSaveReqDto) {
+
         Resume resumePS = resumeSaveReqDto.toEntity();
         resumeDao.insert(resumePS);
         log.debug("디버그 : " + resumePS.getResumeId());
@@ -80,7 +94,7 @@ public class ResumeService {
     }
 
     @Transactional
-    public ResumeDetailRespDto 이력서상세보기(Integer resumeId) {
+    public ResumeDetailRespDto empFindById(Integer resumeId) {
         EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 
         Resume resumePS = resumeDao.findById(resumeId);
@@ -98,7 +112,18 @@ public class ResumeService {
     }
 
     @Transactional
-    public ResumeUpdateRespDto 이력서수정(ResumeUpdateReqDto resumeUpdateReqDto) {
+    public ResumeDetailRespDto coFindById(Integer resumeId) {
+        Resume resumePS = resumeDao.findById(resumeId);
+
+        if (resumePS == null) {
+            throw new RuntimeException("해당" + resumeId + "가 없습니다.");
+        }
+
+        return new ResumeDetailRespDto(resumePS);
+    }
+
+    @Transactional
+    public ResumeUpdateRespDto updateResume(ResumeUpdateReqDto resumeUpdateReqDto) {
         EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
 
         Resume resume = resumeUpdateReqDto.toEntity();
@@ -133,7 +158,7 @@ public class ResumeService {
         return resumeMyListRespDto;
     }
 
-    public void 이력서삭제(Integer resumeId) {
+    public void deleteResume(Integer resumeId) {
         EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
         Resume resumePS = resumeDao.findById(resumeId);
         if (resumePS == null) {

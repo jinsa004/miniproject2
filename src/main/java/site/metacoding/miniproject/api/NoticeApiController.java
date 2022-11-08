@@ -1,7 +1,5 @@
 package site.metacoding.miniproject.api;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,15 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.metacoding.miniproject.domain.job.Job;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeRespDto.NoticeHaveResumeRespDto;
-import site.metacoding.miniproject.service.JobService;
 import site.metacoding.miniproject.service.NoticeService;
 import site.metacoding.miniproject.service.ResumeService;
 
@@ -32,7 +29,6 @@ public class NoticeApiController {
 
     private final NoticeService noticeService;
     private final ResumeService resumeService;
-    private final JobService jobService;
     private final HttpSession session;
 
     /*
@@ -86,7 +82,6 @@ public class NoticeApiController {
     @GetMapping("/cs/co/noticeSave/{companyId}")
     public ResponseDto<?> 공고등록(@PathVariable Integer companyId) { // 등록폼을 가져오는 것
         session.getAttribute("companySessionUser");
-        List<Job> jobPS = jobService.관심직무보기();
         return new ResponseDto<>(1, "통신성공", null);
     }
 
@@ -116,9 +111,8 @@ public class NoticeApiController {
         return new ResponseDto<>(1, "공고 삭제 성공", null);
     }
 
-    @GetMapping("/cs/co/notice/{companyId}/detail/{noticeId}")
-    public ResponseDto<?> noticeDetail(@PathVariable Integer companyId,
-            @PathVariable Integer noticeId) {
+    @GetMapping("/co/notice/detail/{noticeId}")
+    public ResponseDto<?> noticeDetail(@PathVariable Integer noticeId) {
         return new ResponseDto<>(1, "통신성공", noticeService.getNoticeDetail(noticeId));
     }
 }
