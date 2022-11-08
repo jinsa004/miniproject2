@@ -31,7 +31,6 @@ import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 
-@Slf4j
 @ActiveProfiles("test")
 // @Sql("classpath:truncate.sql")
 @Transactional
@@ -73,7 +72,6 @@ public class ResumeApiControllerTest {
 						.session(session));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
-		log.debug("디버그 : " + mvcResult.getResponse().getContentAsString());
 		resultActions.andExpect(status().isOk());
 		resultActions.andExpect(jsonPath("$.data.[0]resumeTitle").value("완성하겠습니다."));
 	}
@@ -240,7 +238,6 @@ public class ResumeApiControllerTest {
 	public void getCompanyMatchingList_test() throws Exception {
 		// given
 		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
-		log.debug("디버그 : " + companySessionUser.getCompanyId());
 
 		// when
 		ResultActions resultActions = mvc

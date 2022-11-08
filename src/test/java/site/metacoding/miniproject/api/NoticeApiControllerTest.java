@@ -28,7 +28,6 @@ import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 
-@Slf4j
 @ActiveProfiles("test")
 // @Sql("classpath:truncate.sql")
 @Transactional
