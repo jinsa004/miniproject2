@@ -78,6 +78,23 @@ public class NoticeApiControllerTest {
 	}
 
 	@Test
+	public void getJobNoticeList_test() throws Exception {
+		// given
+		Integer jobCode = 1;
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(get("/emp/notice?jobCode=" + jobCode)
+						.accept(APPLICATION_JSON));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.data.[0]jobCode").value(1));
+	}
+
+	@Test
 	public void saveNotice_test() throws Exception {
 		// given
 		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
