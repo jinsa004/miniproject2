@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.resume.Resume;
@@ -31,12 +34,11 @@ import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 
-@Slf4j
 @ActiveProfiles("test")
-// @Sql("classpath:truncate.sql")
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
+@WebAppConfiguration
 public class ResumeApiControllerTest {
 
 	private static final String APPLICATION_JSON = "application/json; charset=utf-8";
@@ -73,7 +75,7 @@ public class ResumeApiControllerTest {
 						.session(session));
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
-		log.debug("디버그 : " + mvcResult.getResponse().getContentAsString());
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
 		resultActions.andExpect(status().isOk());
 		resultActions.andExpect(jsonPath("$.data.[0]resumeTitle").value("완성하겠습니다."));
 	}
@@ -218,7 +220,7 @@ public class ResumeApiControllerTest {
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.[0].resumeTitle").value("최선을 다하겠습니다.."));
+		resultActions.andExpect(jsonPath("$.data.[1].resumeTitle").value("완성하겠습니다."));
 	}
 
 	@Test
@@ -240,7 +242,6 @@ public class ResumeApiControllerTest {
 	public void getCompanyMatchingList_test() throws Exception {
 		// given
 		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
-		log.debug("디버그 : " + companySessionUser.getCompanyId());
 
 		// when
 		ResultActions resultActions = mvc
