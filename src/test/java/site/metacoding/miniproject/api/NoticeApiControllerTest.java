@@ -113,6 +113,24 @@ public class NoticeApiControllerTest {
 	}
 
 	@Test
+	public void getNoticeDetailWithResume_test() throws Exception {
+		// given
+		Integer noticeId = 1;
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(get("/es/emp/noticeDetail/" + noticeId)
+						.accept(APPLICATION_JSON)
+						.session(session));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.data.resumeMyListRespDto.[0]employeeId").value(1));
+	}
+
+	@Test
 	public void saveNotice_test() throws Exception {
 		// given
 		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
