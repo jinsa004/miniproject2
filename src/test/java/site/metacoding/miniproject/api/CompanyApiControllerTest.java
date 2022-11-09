@@ -18,23 +18,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
 
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
-import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;

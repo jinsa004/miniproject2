@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
@@ -22,7 +21,6 @@ import site.metacoding.miniproject.dto.resume.ResumeRespDto.NoticeHaveResumeResp
 import site.metacoding.miniproject.service.NoticeService;
 import site.metacoding.miniproject.service.ResumeService;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class NoticeApiController {

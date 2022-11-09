@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ApplicationSaveReqDto;
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeSaveReqDto;
@@ -18,7 +18,6 @@ import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateMainReqDt
 import site.metacoding.miniproject.dto.resume.ResumeReqDto.ResumeUpdateReqDto;
 import site.metacoding.miniproject.service.ResumeService;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class ResumeApiController {
