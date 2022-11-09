@@ -27,10 +27,10 @@ import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 
 @ActiveProfiles("test")
-// @Sql("classpath:truncate.sql")
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
+@WebAppConfiguration
 public class EmployeeApiControllerTest {
 
 	private static final String APPLICATION_JSON = "application/json; charset=utf-8";

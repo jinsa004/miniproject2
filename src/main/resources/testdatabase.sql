@@ -110,9 +110,9 @@ VALUES('전영재', '1993-08-05', '남', 'wjsdudwo', '1234', 'wjsdudwox@naver.co
 insert into employee(employee_name, employee_birth, employee_sex, employee_username, employee_password, employee_email, employee_tel, employee_location) 
 VALUES('정회지', '1999-11-22', '여', 'hj12', '1234', 'hj12@naver.com', '010-2222-3333', '부산');
 insert into resume(resume_title, employee_id, highschool_name, highschool_startdate, highschool_enddate, highschool_major, univ_name, univ_startdate, univ_enddate, univ_major, univ_grades, prev_co, career_period, career_position, career_department, career_task, job_id, is_main, created_at) 
-VALUES('완성하겠습니다.', 1, NULL, "영운고", '2009-03-01', '2012-02-01', "문과", NULL, NULL, NULL, NULL, "김해여객", "1년", "주임", "영업관리부", "사무업무", 1, 0, NOW());
+VALUES('완성하겠습니다.', 1, NULL, '영운고', '2009-03-01', '2012-02-01', '문과', NULL, NULL, NULL, NULL, '김해여객', '1년', '주임', '영업관리부', '사무업무', 1, 0, NOW());
 insert into resume(resume_title, employee_id, highschool_name, highschool_startdate, highschool_enddate, highschool_major, univ_name, univ_startdate, univ_enddate, univ_major, univ_grades, prev_co, career_period, career_position, career_department, career_task, job_id, is_main, created_at) 
-VALUES('최선을 다하겠습니다..', 2, NULL, NULL, NULL,  NULL, "서면대", '2012-03-01', '2018-02-01', "영어영문학과", 3.3, "보성엔진", "1년", "사원", "해외영업", "무역관리", 2, 0, NOW());
+VALUES('최선을 다하겠습니다..', 2, NULL, NULL, NULL,  NULL, '서면대', '2012-03-01', '2018-02-01', '영어영문학과', 3.3, '보성엔진', '1년', '사원', '해외영업', '무역관리', 2, 0, NOW());
 INSERT INTO company
 (company_number, company_name, company_email, company_tel, company_location, company_username, company_password)
 VALUES(621070, '삼성전자', 'aabb@samsung.com', '02-1234-1234', '부산시 부산진구 어디어디',  'samsungman1234', 'q1w2e3r4');
@@ -138,15 +138,15 @@ VALUES(2, '프론트엔드 개발자 모집합니다.', '2022-10-30', '프론트
 INSERT INTO notice(company_id, notice_title, notice_period, notice_dept, notice_position, notice_task, notice_sal, notice_qual, notice_career, notice_wellfare, job_id)
 VALUES(3,'flutter 풀스택 개발자 모집합니다.', '2022-10-30', '풀스택개발', '사원', 'flutter 코딩', '3600만원', '고졸', '3년', '경조사비 제공, 분기별 보너스 지급', 3);
 insert into job(job_name, job_code) 
-VALUES("프론트엔드", 1);
+VALUES('프론트엔드', 1);
 insert into job(job_name, job_code) 
-VALUES("백엔드", 2);
+VALUES('백엔드', 2);
 insert into job(job_name, job_code) 
-VALUES("풀스택", 3);
+VALUES('풀스택', 3);
 insert into job(job_name, job_code) 
-VALUES("안드로이드", 4);
+VALUES('안드로이드', 4);
 insert into job(job_name, job_code) 
-VALUES("IOS", 5);
+VALUES('IOS', 5);
 insert into subscribe(employee_id, company_id) 
 VALUES(1,1);
 insert into subscribe(employee_id, company_id) 

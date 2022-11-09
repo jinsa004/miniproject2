@@ -1,0 +1,10 @@
+drop table employee;
+drop table resume;
+drop table company;
+drop table intro;
+drop table notice;
+drop table job;
+drop table subscribe;
+drop table application;
+drop table emp_check;
+drop table co_check;

@@ -10,9 +10,14 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
-  sql.init.mode: always
-  sql.init.schema-locations: classpath:testdatabase.sql
-
+  mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER
+  sql:
+    init:
+      encoding: utf-8
+      schema-locations: classpath:testdatabase.sql
+      mode: always
+      
+      
   output:
     ansi:
       enabled: always

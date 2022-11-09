@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -39,10 +41,10 @@ import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 
 @ActiveProfiles("test")
-// @Sql("classpath:truncate.sql")
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
+@WebAppConfiguration
 public class CompanyApiControllerTest {
 
   private static final String APPLICATION_JSON = "application/json; charset=utf-8";
@@ -163,7 +165,8 @@ public class CompanyApiControllerTest {
   // 기업회원정보 보기
   @Test
   public void findByCompanyIdToCompanyDetail_test() throws Exception {
-    // given
+    // givenc:\Users\GGG\AppData\Local\Programs\Microsoft VS
+    // Code\resources\app\out\vs\code\electron-sandbox\workbench\workbench.html
     CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
     // when
     ResultActions resultActions = mvc
@@ -174,7 +177,7 @@ public class CompanyApiControllerTest {
     MvcResult mvcResult = resultActions.andReturn();
     System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
     resultActions.andExpect(status().isOk());
-    resultActions.andExpect(jsonPath("$.data.companyName").value("삼성전자"));
+    resultActions.andExpect(jsonPath("$.data.companyUsername").value("samsungman1234"));
   }
 
   // 기업 수정

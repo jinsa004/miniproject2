@@ -30,10 +30,10 @@ import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 
 @ActiveProfiles("test")
-// @Sql("classpath:truncate.sql")
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
+@WebAppConfiguration
 public class NoticeApiControllerTest {
 
 	private static final String APPLICATION_JSON = "application/json; charset=utf-8";

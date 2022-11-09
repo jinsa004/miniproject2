@@ -39,18 +39,16 @@
 	</select>
 
 	<update id="update">
-		UPDATE intro i
-		RIGHT JOIN company c ON (c.company_id = i.company_id)
-		RIGHT JOIN job j ON (j.job_id = i.job_id)
-		SET i.intro_coname = #{introConame},
-		i.intro_birth = #{introBirth},
-		i.intro_task = #{introTask},
-		i.intro_wellfare = #{introWellfare},
-		i.intro_sal = #{introSal},
-		i.intro_content = #{introContent},
-		i.intro_location = #{introLocation},
-		i.job_id = #{jobId}
-		WHERE i.intro_id = #{introId}
+		UPDATE intro
+		SET intro_coname = #{introConame},
+		intro_birth = #{introBirth},
+		intro_task = #{introTask},
+		intro_wellfare = #{introWellfare},
+		intro_sal = #{introSal},
+		intro_content = #{introContent},
+		intro_location = #{introLocation},
+		job_id = #{jobId}
+		WHERE intro_id = #{introId}
 	</update>
 
 	<delete id="deleteById"></delete>
@@ -58,7 +56,7 @@
 	<select id="findByDetail" resultType="site.metacoding.miniproject.domain.intro.Intro">
 		SELECT i.*,
 		s.subscribe_id subscribeId,	
-		if(s.subscribe_id IS NULL, 0 ,1) isSubed,
+		decode(s.subscribe_id, null, false ,true) isSubed,
 		j.job_name,
 		j.job_code,
 		c.company_name
