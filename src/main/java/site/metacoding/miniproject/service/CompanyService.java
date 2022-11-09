@@ -58,6 +58,7 @@ public class CompanyService {
 
   }
 
+  @Transactional(readOnly = true)
   public CompanyDetailRespDto findByCompanyIdToCompanyDetail(Integer companyId) {
     Company companyPS = companyDao.findById(companyId);
     // List<CoCheckRespDto> coCheckList =

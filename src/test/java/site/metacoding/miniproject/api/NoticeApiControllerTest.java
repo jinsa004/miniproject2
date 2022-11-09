@@ -103,7 +103,7 @@ public class NoticeApiControllerTest {
 	public void updateNotice_test() throws Exception {
 		// given
 		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
-		Integer noticeId = 1;
+		Integer noticeId = 2;
 		Notice noticePS = noticeDao.findById(noticeId);
 		NoticeUpdateReqDto noticeUpdateReqDto = new NoticeUpdateReqDto();
 		noticeUpdateReqDto.setNoticeTitle("테스트중");
@@ -149,13 +149,13 @@ public class NoticeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/detail/" + noticeId)
+				.perform(get("/co/notice/detail/" + noticeId)
 						.accept(APPLICATION_JSON)
 						.session(session));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.code").value(1));
+		resultActions.andExpect(jsonPath("$.data.noticeTitle").value("백엔드 개발자 모집중"));
 	}
 }

@@ -173,7 +173,7 @@ public class CompanyApiControllerTest {
     MvcResult mvcResult = resultActions.andReturn();
     System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
     resultActions.andExpect(status().isOk());
-    resultActions.andExpect(jsonPath("$.data.companyName").value("삼성전자"));
+    resultActions.andExpect(jsonPath("$.data.companyUsername").value("samsungman1234"));
   }
 
   // 기업 수정
