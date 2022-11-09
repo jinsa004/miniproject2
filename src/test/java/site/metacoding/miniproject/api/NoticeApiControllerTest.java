@@ -95,6 +95,24 @@ public class NoticeApiControllerTest {
 	}
 
 	@Test
+	public void matchingNoticeList_test() throws Exception {
+		// given
+		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(get("/es/emp/matchingNotice/" + empSessionUser.getEmployeeId())
+						.accept(APPLICATION_JSON)
+						.session(session));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.data.[0]jobId").value(1));
+	}
+
+	@Test
 	public void saveNotice_test() throws Exception {
 		// given
 		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");

@@ -48,8 +48,8 @@ public class NoticeService {
 
     @Transactional
     public List<NoticeMatchingRespDto> findMachingNoticeList(Integer employeeId) { // 개인회원이 매칭리스트 공고 보기
-        return noticeDao.findMatchingByJobId(employeeId).stream().map((notice) -> new NoticeMatchingRespDto(notice))
-                .collect(Collectors.toList());
+        List<NoticeMatchingRespDto> noticeMatchingRespDtoList = noticeDao.findMatchingByJobId(employeeId);
+        return noticeMatchingRespDtoList;
     }
 
     @Transactional

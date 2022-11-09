@@ -3,6 +3,7 @@ package site.metacoding.miniproject.domain.notice;
 import java.util.List;
 
 import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeJobRespDto;
+import site.metacoding.miniproject.dto.notice.NoticeRespDto.NoticeMatchingRespDto;
 
 public interface NoticeDao {
 	public List<Notice> findAll();
@@ -11,7 +12,7 @@ public interface NoticeDao {
 
 	public Notice findById(Integer noticeId);
 
-	public List<Notice> findMatchingByJobId(Integer employeeId);
+	public List<NoticeMatchingRespDto> findMatchingByJobId(Integer employeeId);
 
 	public void insert(Notice notice);
 
