@@ -7,8 +7,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,11 +29,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
+import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
@@ -53,14 +62,19 @@ public class CompanyApiControllerTest {
   private MockHttpSession session;
 
   @BeforeEach
-  public void empSessionInit() {
-    session = new MockHttpSession();
-    // Employee employee =
-    // Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-    // session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+  public void sessionToInitPerson() {
 
-    Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
-    session.setAttribute("companySessionUser", new CompanySessionUser(company));
+    session = new MockHttpSession();
+
+    Company companyPS = Company.builder().companyId(1).companyUsername("samsungman1234").build();
+    session.setAttribute("companySessionUser", new CompanySessionUser(companyPS));
+    Date expire = new Date(System.currentTimeMillis() + (1000 * 60 * 60));
+    String jwtToken = JWT.create()
+        .withSubject("메타코딩")
+        .withExpiresAt(expire)
+        .withClaim("companyId", companyPS.getCompanyId())
+        .withClaim("companyUsername", companyPS.getCompanyUsername())
+        .sign(Algorithm.HMAC512("취직")); // Authorization
   }
 
   // 기업소개 등록 테스트
