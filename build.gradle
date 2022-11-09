@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
