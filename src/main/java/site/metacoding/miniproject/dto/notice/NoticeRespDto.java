@@ -127,18 +127,6 @@ public class NoticeRespDto {
         private String noticeQual;
         private String noticeTask;
         private Integer jobCode;
-
-        // public NoticeJobRespDto(Notice notice) {
-        // this.noticeId = notice.getNoticeId();
-        // this.companyId = notice.getCompanyId();
-        // this.noticeTitle = notice.getNoticeTitle();
-        // this.noticePeriod = notice.getNoticePeriod();
-        // this.noticeDept = notice.getNoticeDept();
-        // this.noticePosition = notice.getNoticePosition();
-        // this.noticeQual = notice.getNoticeQual();
-        // this.noticeTask = notice.getNoticeTask();
-        // this.jobCode =
-        // }
     }
 
     @Setter
@@ -152,17 +140,7 @@ public class NoticeRespDto {
         private String noticePosition;
         private String noticeQual;
         private String noticeTask;
-
-        public NoticeMatchingRespDto(Notice notice) {
-            this.noticeId = notice.getNoticeId();
-            this.companyId = notice.getCompanyId();
-            this.noticeTitle = notice.getNoticeTitle();
-            this.noticePeriod = notice.getNoticePeriod();
-            this.noticeDept = notice.getNoticeDept();
-            this.noticePosition = notice.getNoticePosition();
-            this.noticeQual = notice.getNoticeQual();
-            this.noticeTask = notice.getNoticeTask();
-        }
+        private Integer jobId;
     }
 
     @Setter

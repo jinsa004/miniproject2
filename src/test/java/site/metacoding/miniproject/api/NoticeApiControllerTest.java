@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import site.metacoding.miniproject.domain.company.Company;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.notice.Notice;
 import site.metacoding.miniproject.domain.notice.NoticeDao;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeSaveReqDto;
 import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 
@@ -50,12 +53,81 @@ public class NoticeApiControllerTest {
 	@BeforeEach
 	public void empSessionInit() {
 		session = new MockHttpSession();
-		// Employee employee =
-		// Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-		// session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+
+		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
 		Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
 		session.setAttribute("companySessionUser", new CompanySessionUser(company));
+	}
+
+	@Test
+	public void getAllNoticeList_test() throws Exception {
+		// given
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(get("/")
+						.accept(APPLICATION_JSON));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.data.[0]noticeTitle").value("백엔드 개발자 모집중"));
+	}
+
+	@Test
+	public void getJobNoticeList_test() throws Exception {
+		// given
+		Integer jobCode = 1;
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(get("/emp/notice?jobCode=" + jobCode)
+						.accept(APPLICATION_JSON));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.data.[0]jobCode").value(1));
+	}
+
+	@Test
+	public void matchingNoticeList_test() throws Exception {
+		// given
+		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(get("/es/emp/matchingNotice/" + empSessionUser.getEmployeeId())
+						.accept(APPLICATION_JSON)
+						.session(session));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.data.[0]jobId").value(1));
+	}
+
+	@Test
+	public void getNoticeDetailWithResume_test() throws Exception {
+		// given
+		Integer noticeId = 1;
+
+		// when
+		ResultActions resultActions = mvc
+				.perform(get("/es/emp/noticeDetail/" + noticeId)
+						.accept(APPLICATION_JSON)
+						.session(session));
+
+		// then
+		MvcResult mvcResult = resultActions.andReturn();
+		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(jsonPath("$.data.resumeMyListRespDto.[0]employeeId").value(1));
 	}
 
 	@Test

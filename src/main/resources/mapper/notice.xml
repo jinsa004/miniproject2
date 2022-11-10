@@ -74,7 +74,7 @@
 		ORDER BY n.notice_period DESC
 	</select>
 
-	<select id="findMatchingByJobId" resultType="site.metacoding.miniproject.domain.notice.Notice">
+	<select id="findMatchingByJobId" resultType="site.metacoding.miniproject.dto.notice.NoticeRespDto$NoticeMatchingRespDto">
 		SELECT n.*
 		FROM notice n
 		INNER JOIN (SELECT c.job_id
