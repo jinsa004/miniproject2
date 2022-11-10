@@ -27,10 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import site.metacoding.miniproject.domain.company.Company;
+import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.intro.Intro;
 import site.metacoding.miniproject.domain.intro.IntroDao;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateReqDto;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
+import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroSaveReqDto;
 import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 
@@ -55,9 +57,8 @@ public class CompanyApiControllerTest {
   @BeforeEach
   public void empSessionInit() {
     session = new MockHttpSession();
-    // Employee employee =
-    // Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-    // session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+    Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+    session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
     Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
     session.setAttribute("companySessionUser", new CompanySessionUser(company));

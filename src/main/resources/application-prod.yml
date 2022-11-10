@@ -1,0 +1,22 @@
+server:
+    port: 8001
+    servlet:
+        context-path: /
+        encoding:
+            charset: utf-8
+
+spring:
+    datasource:
+        url: jdbc:mariadb://127.0.0.1:3306/jobsite
+        driver-class-name: org.mariadb.jdbc.Driver
+        username: green
+        password: green1234
+    output:
+        ansi:
+            enabled: always
+
+logging:
+    level:
+        "[site.metacoding.miniproject]": DEBUG
+
+spring.main.allow-bean-definition-overriding: true
