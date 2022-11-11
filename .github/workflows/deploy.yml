@@ -32,7 +32,7 @@ jobs:
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
         shell: bash
 
-      EB에 CD 하기 위해 추가 작성
+      #EB에 CD 하기 위해 추가 작성
       - name: Generate deployment package
         run: |
           mkdir -p deploy
