@@ -12,7 +12,7 @@ import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthorizationFilte
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 
 @Slf4j
-@Profile("dev")
+@Profile("prod")
 @Configuration
 @RequiredArgsConstructor
 public class EmpFilterConfig {

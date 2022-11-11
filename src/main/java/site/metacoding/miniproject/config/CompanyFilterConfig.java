@@ -12,7 +12,7 @@ import site.metacoding.miniproject.config.auth.company.CompanyJwtAuthorizationFi
 import site.metacoding.miniproject.domain.company.CompanyDao;
 
 @Slf4j
-@Profile("dev")
+@Profile("prod")
 @Configuration
 @RequiredArgsConstructor
 public class CompanyFilterConfig {
