@@ -3,6 +3,7 @@ package site.metacoding.miniproject.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +12,13 @@ import site.metacoding.miniproject.config.auth.employee.EmpJwtAuthorizationFilte
 import site.metacoding.miniproject.domain.employee.EmployeeDao;
 
 @Slf4j
+@Profile("prod")
 @Configuration
 @RequiredArgsConstructor
 public class EmpFilterConfig {
     private final EmployeeDao employeeDao;
 
-    // @Bean
+    @Bean
     public FilterRegistrationBean<EmpJwtAuthenticationFilter> empJwtAuthenticationFilterRegister() {// IoC등록 서버실행시
         log.debug("디버그 : 개인회원 인증 필터 등록");
         FilterRegistrationBean<EmpJwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
@@ -26,7 +28,7 @@ public class EmpFilterConfig {
         return bean;
     }
 
-    // @Bean
+    @Bean
     public FilterRegistrationBean<EmpJwtAuthorizationFilter> empJwtAuthorizationFilterRegister() {// IoC등록 서버실행시
         log.debug("디버그 : 개인회원 인가 필터 등록");
         FilterRegistrationBean<EmpJwtAuthorizationFilter> bean = new FilterRegistrationBean<>(

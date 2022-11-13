@@ -67,14 +67,14 @@ public class NoticeApiControllerTest {
 
 		// when
 		ResultActions resultActions = mvc
-				.perform(get("/")
+				.perform(get("/emp/main")
 						.accept(APPLICATION_JSON));
 
 		// then
 		MvcResult mvcResult = resultActions.andReturn();
 		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
 		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.data.[0]noticeTitle").value("백엔드 개발자 모집중"));
+		resultActions.andExpect(jsonPath("$.data.[0].noticeTitle").value("백엔드 개발자 모집중"));
 	}
 
 	@Test

@@ -1,0 +1,19 @@
+server:
+    port: 5000
+    servlet:
+        context-path: /
+        encoding:
+            charset: utf-8
+
+spring:
+  datasource:
+    url: jdbc:mariadb://${rds.hostname}:${rds.port}/${rds.db.name} 
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${rds.username}
+    password: ${rds.password}
+
+logging:
+    level:
+        "[site.metacoding.miniproject]": INFO
+
+spring.main.allow-bean-definition-overriding: true

@@ -32,8 +32,12 @@ public class NoticeApiController {
     /*
      * =============================개인회원=========================================
      */
+    @GetMapping("/")
+    public String home() {
+        return "ok";
+    }
 
-    @GetMapping({ "/emp/main", "emp", "/" })
+    @GetMapping({ "/emp/main", "/emp" })
     public ResponseDto<?> getAllNoticeList() {
         // List<Job> jobPS = jobService.관심직무보기();
         // model.addAttribute("jobPS", jobPS);
