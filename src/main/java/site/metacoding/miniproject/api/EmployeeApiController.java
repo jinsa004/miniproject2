@@ -1,15 +1,13 @@
 package site.metacoding.miniproject.api;
 
 import javax.servlet.http.HttpSession;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpJoinReqDto;
 import site.metacoding.miniproject.dto.employee.EmpReqDto.EmpLoginReqDto;
@@ -39,7 +37,11 @@ public class EmployeeApiController {
 
   @PostMapping("/emp/join")
   public ResponseDto<?> employeeJoin(@RequestBody EmpJoinReqDto empJoinReqDto) {
-    return new ResponseDto<>(1, "회원가입 성공", employeeService.employeeJoin(empJoinReqDto));
+    return new ResponseDto<>(
+      1,
+      "회원가입 성공",
+      employeeService.employeeJoin(empJoinReqDto)
+    );
   }
 
   @GetMapping("/emp/companyList")
@@ -48,15 +50,26 @@ public class EmployeeApiController {
   }
 
   // 개인이 보는기업소개 상세보기
-  @GetMapping("/emp/companyIntroDetail/{introId}")
-  public ResponseDto<?> findByDetail(@PathVariable Integer introId, Integer principalId) {
-    return new ResponseDto<>(1, "성공", introService.findByDetail(introId, principalId));
+  @GetMapping("/emp/intro/detail/{introId}")
+  public ResponseDto<?> findByDetail(
+    @PathVariable Integer introId,
+    Integer principalId
+  ) {
+    return new ResponseDto<>(
+      1,
+      "성공",
+      introService.findByDetail(introId, principalId)
+    );
   }
 
   // 구독하기
   @PostMapping("/es/emp/subscribe")
-  public ResponseDto<?> insertSub(@RequestBody SubscribeSaveReqDto subscribeSaveReqDto) {
-    SubscribeSaveRespDto subscribeSaveRespDto = introService.구독하기(subscribeSaveReqDto);
+  public ResponseDto<?> insertSub(
+    @RequestBody SubscribeSaveReqDto subscribeSaveReqDto
+  ) {
+    SubscribeSaveRespDto subscribeSaveRespDto = introService.구독하기(
+      subscribeSaveReqDto
+    );
     return new ResponseDto<>(1, "구독성공", subscribeSaveRespDto);
   }
 
@@ -69,11 +82,17 @@ public class EmployeeApiController {
 
   @DeleteMapping("/es/emp/delete/{employeeId}")
   public ResponseDto<?> deleteEmployee(@PathVariable Integer employeeId) {
-    EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute("empSessionUser");
+    EmpSessionUser empPrincipal = (EmpSessionUser) session.getAttribute(
+      "empSessionUser"
+    );
     if (employeeId.equals(empPrincipal.getEmployeeId())) {
       employeeService.deleteEmployee(employeeId);
       return new ResponseDto<>(1, "회원탈퇴성공", null);
     }
-    return new ResponseDto<>(-1, "개인회원 정보가 불일치하여 회원탈퇴 권한이 없습니다.", null);
+    return new ResponseDto<>(
+      -1,
+      "개인회원 정보가 불일치하여 회원탈퇴 권한이 없습니다.",
+      null
+    );
   }
 }

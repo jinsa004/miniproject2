@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
-
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.dto.company.CompanySessionUser;
@@ -33,69 +32,93 @@ import site.metacoding.miniproject.dto.employee.EmpSessionUser;
 @WebAppConfiguration
 public class EmployeeApiControllerTest {
 
-	private static final String APPLICATION_JSON = "application/json; charset=utf-8";
+  private static final String APPLICATION_JSON =
+    "application/json; charset=utf-8";
 
-	@Autowired
-	private MockMvc mvc;
+  @Autowired
+  private MockMvc mvc;
 
-	private MockHttpSession session;
+  private MockHttpSession session;
 
-	@BeforeEach
-	public void empSessionInit() {
-		session = new MockHttpSession();
-		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+  @BeforeEach
+  public void empSessionInit() {
+    session = new MockHttpSession();
+    Employee employee = Employee
+      .builder()
+      .employeeId(1)
+      .employeeUsername("jinsa")
+      .build();
+    session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
-		Company company = Company.builder().companyId(1).companyUsername("삼성전자").build();
-		session.setAttribute("companySessionUser", new CompanySessionUser(company));
-	}
+    Company company = Company
+      .builder()
+      .companyId(1)
+      .companyUsername("삼성전자")
+      .build();
+    session.setAttribute("companySessionUser", new CompanySessionUser(company));
+  }
 
-	// 기업소개 목록보기
-	@Test
-	public void findAll_test() throws Exception {
-		// given
+  // 기업소개 목록보기
+  @Test
+  public void findAll_test() throws Exception {
+    // given
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(MockMvcRequestBuilders.get("/emp/companyList").accept(APPLICATION_JSON));
+    // when
+    ResultActions resultActions = mvc.perform(
+      MockMvcRequestBuilders.get("/emp/companyList").accept(APPLICATION_JSON)
+    );
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(MockMvcResultMatchers.status().isOk());
-		resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(1));
-		resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.data.[0].introTask").value("flutter 신규 앱 개발"));
-	}
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(1));
+    resultActions.andExpect(
+      MockMvcResultMatchers
+        .jsonPath("$.data.[0].introTask")
+        .value("flutter 신규 앱 개발")
+    );
+  }
 
-	// 유저측 기업소개 한건보기
-	// 기업입장에서 기업소개 상세보기
-	@Test
-	public void findByDetail_test() throws Exception {
-		// given
-		Integer introId = 3;
-		// when
-		ResultActions resultActions = mvc
-				.perform(get("/emp/companyIntroDetail/" + introId).accept(APPLICATION_JSON));
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.data.introId").value(3));
-	}
+  // 유저측 기업소개 한건보기
+  // 기업입장에서 기업소개 상세보기
+  @Test
+  public void findByDetail_test() throws Exception {
+    // given
+    Integer introId = 3;
+    // when
+    ResultActions resultActions = mvc.perform(
+      get("/emp/intro/detail/" + introId).accept(APPLICATION_JSON)
+    );
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.data.introId").value(3));
+  }
 
-	@Test
-	public void deleteEmployee_test() throws Exception {
-		// given
-		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
-		// when
-		ResultActions resultActions = mvc
-				.perform(delete("/es/emp/delete/" + empSessionUser.getEmployeeId())
-						.session(session)
-						.accept(APPLICATION_JSON));
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.code").value(1));
-	}
+  @Test
+  public void deleteEmployee_test() throws Exception {
+    // given
+    EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute(
+      "empSessionUser"
+    );
+    // when
+    ResultActions resultActions = mvc.perform(
+      delete("/es/emp/delete/" + empSessionUser.getEmployeeId())
+        .session(session)
+        .accept(APPLICATION_JSON)
+    );
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.code").value(1));
+  }
 }

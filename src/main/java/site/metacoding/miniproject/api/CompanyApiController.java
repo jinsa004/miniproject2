@@ -1,5 +1,6 @@
 package site.metacoding.miniproject.api;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.RequiredArgsConstructor;
 import site.metacoding.miniproject.dto.ResponseDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyJoinReqDto;
 import site.metacoding.miniproject.dto.company.CompanyReqDto.CompanyLoginReqDto;
@@ -30,8 +29,12 @@ public class CompanyApiController {
   private final CompanyService companyService;
 
   @PostMapping("/co/login")
-  public ResponseDto<?> login(@RequestBody CompanyLoginReqDto companyLoginReqDto) {
-    CompanySessionUser companySessionUser = companyService.로그인(companyLoginReqDto);
+  public ResponseDto<?> login(
+    @RequestBody CompanyLoginReqDto companyLoginReqDto
+  ) {
+    CompanySessionUser companySessionUser = companyService.로그인(
+      companyLoginReqDto
+    );
     if (companySessionUser == null) {
       return new ResponseDto<>(-1, "로그인실패", null);
     }
@@ -39,21 +42,36 @@ public class CompanyApiController {
   }
 
   @PostMapping("/co/join")
-  public ResponseDto<?> companyJoin(@RequestBody CompanyJoinReqDto companyJoinReqDto) { // 기업 회원가입
-    CompanyJoinRespDto companyJoinRespDtp = companyService.join(companyJoinReqDto);
+  public ResponseDto<?> companyJoin(
+    @RequestBody CompanyJoinReqDto companyJoinReqDto
+  ) { // 기업 회원가입
+    CompanyJoinRespDto companyJoinRespDtp = companyService.join(
+      companyJoinReqDto
+    );
     return new ResponseDto<>(1, "회원가입성공", companyJoinRespDtp);
   }
 
   @GetMapping("/cs/co/company/detail/{companyId}")
-  public ResponseDto<?> findByCompanyIdToCompanyDetail(@PathVariable Integer companyId) { // 기업회원정보보기
+  public ResponseDto<?> findByCompanyIdToCompanyDetail(
+    @PathVariable Integer companyId
+  ) { // 기업회원정보보기
     // Company companyPS = (Company) session.getAttribute("coprincipal");
-    return new ResponseDto<>(1, "성공", companyService.findByCompanyIdToCompanyDetail(companyId));
+    return new ResponseDto<>(
+      1,
+      "성공",
+      companyService.findByCompanyIdToCompanyDetail(companyId)
+    );
   }
 
   @PutMapping("/cs/co/company/update/{companyId}")
-  public ResponseDto<?> updateCompany(@PathVariable Integer companyId,
-      @RequestBody CompanyUpdateReqDto companyUpdateReqDto) {
-    CompanyUpdateRespDto companyUpdateRespDto = companyService.updateCompany(companyId, companyUpdateReqDto);
+  public ResponseDto<?> updateCompany(
+    @PathVariable Integer companyId,
+    @RequestBody CompanyUpdateReqDto companyUpdateReqDto
+  ) {
+    CompanyUpdateRespDto companyUpdateRespDto = companyService.updateCompany(
+      companyId,
+      companyUpdateReqDto
+    );
     // session.setAttribute("coprincipal", companyPS);
     return new ResponseDto<>(1, "수정성공", companyUpdateRespDto);
   }
@@ -65,9 +83,37 @@ public class CompanyApiController {
     return new ResponseDto<>(1, "기업탈퇴성공", null);
   }
 
-  @GetMapping("/cs/co/companyIntroDetail/{companyId}")
-  public ResponseDto<?> findByCompanyId(@PathVariable Integer companyId) {// 기업에서 기업소개 상세보기
-    return new ResponseDto<>(1, "성공", introService.findByCompanyId(companyId));
+  @PostMapping("/cs/co/intro/insert")
+  public ResponseDto<?> insertIntro(
+    @RequestBody IntroSaveReqDto introSaveReqDto
+  ) {
+    // SessionUser sessionUser = (SessionUser)
+    // session.getAttribute("sessionUser");
+    // introSaveReqDto.setSessionUser(sessionUser);
+    Integer companyId = 1;
+    introSaveReqDto.setCompanyId(companyId);
+    IntroSaveRespDto introSaveRespDto = introService.saveIntro(introSaveReqDto);
+    return new ResponseDto<>(1, "성공", introSaveRespDto);
+  }
+
+  @PutMapping("/cs/co/intro/update/{introId}")
+  public ResponseDto<?> updateIntro(
+    @PathVariable Integer introId,
+    @RequestBody IntroUpdateReqDto introUpdateReqDto
+  ) {
+    // SessionUser sessionUser = (SessionUser)
+    // session.getAttribute("sessionUser");
+    introUpdateReqDto.setIntroId(introId);
+    return new ResponseDto<>(1, "성공", introService.update(introUpdateReqDto));
+  }
+
+  @GetMapping("/cs/co/intro/detail/{companyId}")
+  public ResponseDto<?> findByCompanyId(@PathVariable Integer companyId) { // 기업에서 기업소개 상세보기
+    return new ResponseDto<>(
+      1,
+      "성공",
+      introService.findByCompanyId(companyId)
+    );
   }
 
   @GetMapping("/co/logout")
@@ -87,8 +133,14 @@ public class CompanyApiController {
   }
 
   @GetMapping("/co/passwordCheck")
-  public ResponseDto<Boolean> passwordCheck(String companyPassword, String companyPasswordSame) {
-    boolean isSame = companyService.passwordCheck(companyPassword, companyPasswordSame);
+  public ResponseDto<Boolean> passwordCheck(
+    String companyPassword,
+    String companyPasswordSame
+  ) {
+    boolean isSame = companyService.passwordCheck(
+      companyPassword,
+      companyPasswordSame
+    );
     if (isSame == false) {
       return new ResponseDto<Boolean>(-1, "실패", isSame);
     }
@@ -103,24 +155,4 @@ public class CompanyApiController {
     }
     return new ResponseDto<>(1, "성공", isSame);
   }
-
-  @PostMapping("/cs/co/intro/insert")
-  public ResponseDto<?> insertIntro(@RequestBody IntroSaveReqDto introSaveReqDto) {
-    // SessionUser sessionUser = (SessionUser)
-    // session.getAttribute("sessionUser");
-    // introSaveReqDto.setSessionUser(sessionUser);
-    Integer companyId = 1;
-    introSaveReqDto.setCompanyId(companyId);
-    IntroSaveRespDto introSaveRespDto = introService.saveIntro(introSaveReqDto);
-    return new ResponseDto<>(1, "성공", introSaveRespDto);
-  }
-
-  @PutMapping("/cs/co/intro/update/{introId}")
-  public ResponseDto<?> updateIntro(@PathVariable Integer introId, @RequestBody IntroUpdateReqDto introUpdateReqDto) {
-    // SessionUser sessionUser = (SessionUser)
-    // session.getAttribute("sessionUser");
-    introUpdateReqDto.setIntroId(introId);
-    return new ResponseDto<>(1, "성공", introService.update(introUpdateReqDto));
-  }
-
 }

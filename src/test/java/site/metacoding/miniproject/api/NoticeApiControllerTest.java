@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.notice.Notice;
@@ -39,195 +37,247 @@ import site.metacoding.miniproject.dto.notice.NoticeReqDto.NoticeUpdateReqDto;
 @WebAppConfiguration
 public class NoticeApiControllerTest {
 
-	private static final String APPLICATION_JSON = "application/json; charset=utf-8";
+  private static final String APPLICATION_JSON =
+    "application/json; charset=utf-8";
 
-	@Autowired
-	private MockMvc mvc;
-	@Autowired
-	private ObjectMapper om;
-	@Autowired
-	private NoticeDao noticeDao;
+  @Autowired
+  private MockMvc mvc;
 
-	private MockHttpSession session;
+  @Autowired
+  private ObjectMapper om;
 
-	@BeforeEach
-	public void empSessionInit() {
-		session = new MockHttpSession();
+  @Autowired
+  private NoticeDao noticeDao;
 
-		Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
-		session.setAttribute("empSessionUser", new EmpSessionUser(employee));
+  private MockHttpSession session;
 
-		Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
-		session.setAttribute("companySessionUser", new CompanySessionUser(company));
-	}
+  @BeforeEach
+  public void empSessionInit() {
+    session = new MockHttpSession();
 
-	@Test
-	public void getAllNoticeList_test() throws Exception {
-		// given
+    Employee employee = Employee
+      .builder()
+      .employeeId(1)
+      .employeeUsername("jinsa")
+      .build();
+    session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(get("/emp/main")
-						.accept(APPLICATION_JSON));
+    Company company = Company
+      .builder()
+      .companyId(1)
+      .companyUsername("samsungman1234")
+      .build();
+    session.setAttribute("companySessionUser", new CompanySessionUser(company));
+  }
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.data.[0].noticeTitle").value("백엔드 개발자 모집중"));
-	}
+  @Test
+  public void getAllNoticeList_test() throws Exception {
+    // given
 
-	@Test
-	public void getJobNoticeList_test() throws Exception {
-		// given
-		Integer jobCode = 1;
+    // when
+    ResultActions resultActions = mvc.perform(
+      get("/emp/main").accept(APPLICATION_JSON)
+    );
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(get("/emp/notice?jobCode=" + jobCode)
-						.accept(APPLICATION_JSON));
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(
+      jsonPath("$.data.[0].noticeTitle").value("백엔드 개발자 모집중")
+    );
+  }
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.data.[0]jobCode").value(1));
-	}
+  @Test
+  public void getJobNoticeList_test() throws Exception {
+    // given
+    Integer jobCode = 1;
 
-	@Test
-	public void matchingNoticeList_test() throws Exception {
-		// given
-		EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute("empSessionUser");
+    // when
+    ResultActions resultActions = mvc.perform(
+      get("/emp/notice?jobCode=" + jobCode).accept(APPLICATION_JSON)
+    );
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(get("/es/emp/matchingNotice/" + empSessionUser.getEmployeeId())
-						.accept(APPLICATION_JSON)
-						.session(session));
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.data.[0]jobCode").value(1));
+  }
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.data.[0]jobId").value(1));
-	}
+  @Test
+  public void matchingNoticeList_test() throws Exception {
+    // given
+    EmpSessionUser empSessionUser = (EmpSessionUser) session.getAttribute(
+      "empSessionUser"
+    );
 
-	@Test
-	public void getNoticeDetailWithResume_test() throws Exception {
-		// given
-		Integer noticeId = 1;
+    // when
+    ResultActions resultActions = mvc.perform(
+      get("/es/emp/matchingNotice/" + empSessionUser.getEmployeeId())
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(get("/es/emp/noticeDetail/" + noticeId)
-						.accept(APPLICATION_JSON)
-						.session(session));
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.data.[0]jobId").value(1));
+  }
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(status().isOk());
-		resultActions.andExpect(jsonPath("$.data.resumeMyListRespDto.[0]employeeId").value(1));
-	}
+  @Test
+  public void getNoticeDetailWithResume_test() throws Exception {
+    // given
+    Integer noticeId = 1;
 
-	@Test
-	public void saveNotice_test() throws Exception {
-		// given
-		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
-		NoticeSaveReqDto noticeSaveReqDto = new NoticeSaveReqDto();
-		noticeSaveReqDto.setNoticeTitle("사원모집");
-		noticeSaveReqDto.setCompanyId(companySessionUser.getCompanyId());
-		noticeSaveReqDto.setJobId(1);
+    // when
+    ResultActions resultActions = mvc.perform(
+      get("/es/emp/notice/detail/" + noticeId)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
 
-		String body = om.writeValueAsString(noticeSaveReqDto);
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(
+      jsonPath("$.data.resumeMyListRespDto.[0]employeeId").value(1)
+    );
+  }
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(post("/cs/co/notice/save").content(body)
-						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON)
-						.session(session));
+  @Test
+  public void saveNotice_test() throws Exception {
+    // given
+    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute(
+      "companySessionUser"
+    );
+    NoticeSaveReqDto noticeSaveReqDto = new NoticeSaveReqDto();
+    noticeSaveReqDto.setNoticeTitle("사원모집");
+    noticeSaveReqDto.setCompanyId(companySessionUser.getCompanyId());
+    noticeSaveReqDto.setJobId(1);
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.code").value(1));
-	}
+    String body = om.writeValueAsString(noticeSaveReqDto);
 
-	@Test
-	public void findByCompanyIdToNotice_test() throws Exception {
-		// given
-		Integer companyId = 1;
+    // when
+    ResultActions resultActions = mvc.perform(
+      post("/cs/co/notice/save")
+        .content(body)
+        .contentType(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(get("/cs/co/notice/" + companyId)
-						.accept(APPLICATION_JSON)
-						.session(session));
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(jsonPath("$.code").value(1));
+  }
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.code").value(1));
-	}
+  @Test
+  public void findByCompanyIdToNotice_test() throws Exception {
+    // given
+    Integer companyId = 1;
 
-	@Test
-	public void updateNotice_test() throws Exception {
-		// given
-		CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
-		Integer noticeId = 2;
-		Notice noticePS = noticeDao.findById(noticeId);
-		NoticeUpdateReqDto noticeUpdateReqDto = new NoticeUpdateReqDto();
-		noticeUpdateReqDto.setNoticeTitle("테스트중");
-		noticeUpdateReqDto.setNoticeDept("망한부서");
-		noticeUpdateReqDto.setNoticeTask("설거지");
-		noticeUpdateReqDto.setCompanyId(companySessionUser.getCompanyId());
-		noticePS.update(noticeUpdateReqDto);
+    // when
+    ResultActions resultActions = mvc.perform(
+      get("/cs/co/notice/" + companyId)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
 
-		String body = om.writeValueAsString(noticePS);
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(jsonPath("$.code").value(1));
+  }
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(put("/cs/co/notice/update/" + noticePS.getNoticeId()).content(body)
-						.contentType(APPLICATION_JSON)
-						.accept(APPLICATION_JSON).session(session));
+  @Test
+  public void updateNotice_test() throws Exception {
+    // given
+    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute(
+      "companySessionUser"
+    );
+    Integer noticeId = 2;
+    Notice noticePS = noticeDao.findById(noticeId);
+    NoticeUpdateReqDto noticeUpdateReqDto = new NoticeUpdateReqDto();
+    noticeUpdateReqDto.setNoticeTitle("테스트중");
+    noticeUpdateReqDto.setNoticeDept("망한부서");
+    noticeUpdateReqDto.setNoticeTask("설거지");
+    noticeUpdateReqDto.setCompanyId(companySessionUser.getCompanyId());
+    noticePS.update(noticeUpdateReqDto);
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.code").value(1));
-	}
+    String body = om.writeValueAsString(noticePS);
 
-	@Test
-	public void deleteNotice_test() throws Exception {
-		// given
-		Integer noticeId = 1;
+    // when
+    ResultActions resultActions = mvc.perform(
+      put("/cs/co/notice/update/" + noticePS.getNoticeId())
+        .content(body)
+        .contentType(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(delete("/cs/co/notice/delete/" + noticeId)
-						.accept(APPLICATION_JSON).session(session));
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(jsonPath("$.code").value(1));
+  }
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.code").value(1));
-	}
+  @Test
+  public void deleteNotice_test() throws Exception {
+    // given
+    Integer noticeId = 1;
 
-	@Test
-	public void noticeDetail_test() throws Exception {
-		// given
-		Integer noticeId = 1;
+    // when
+    ResultActions resultActions = mvc.perform(
+      delete("/cs/co/notice/delete/" + noticeId)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
 
-		// when
-		ResultActions resultActions = mvc
-				.perform(get("/co/notice/detail/" + noticeId)
-						.accept(APPLICATION_JSON)
-						.session(session));
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(jsonPath("$.code").value(1));
+  }
 
-		// then
-		MvcResult mvcResult = resultActions.andReturn();
-		System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-		resultActions.andExpect(jsonPath("$.data.noticeTitle").value("백엔드 개발자 모집중"));
-	}
+  @Test
+  public void noticeDetail_test() throws Exception {
+    // given
+    Integer noticeId = 1;
+
+    // when
+    ResultActions resultActions = mvc.perform(
+      get("/co/notice/detail/" + noticeId)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
+
+    // then
+    MvcResult mvcResult = resultActions.andReturn();
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
+    resultActions.andExpect(
+      jsonPath("$.data.noticeTitle").value("백엔드 개발자 모집중")
+    );
+  }
 }

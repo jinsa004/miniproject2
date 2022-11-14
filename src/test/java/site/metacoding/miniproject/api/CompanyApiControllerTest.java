@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import site.metacoding.miniproject.domain.company.Company;
 import site.metacoding.miniproject.domain.employee.Employee;
 import site.metacoding.miniproject.domain.intro.Intro;
@@ -43,12 +40,15 @@ import site.metacoding.miniproject.dto.intro.IntroReqDto.IntroUpdateReqDto;
 @WebAppConfiguration
 public class CompanyApiControllerTest {
 
-  private static final String APPLICATION_JSON = "application/json; charset=utf-8";
+  private static final String APPLICATION_JSON =
+    "application/json; charset=utf-8";
 
   @Autowired
   private MockMvc mvc;
+
   @Autowired
   private ObjectMapper om;
+
   @Autowired
   private IntroDao introDao;
 
@@ -57,10 +57,18 @@ public class CompanyApiControllerTest {
   @BeforeEach
   public void empSessionInit() {
     session = new MockHttpSession();
-    Employee employee = Employee.builder().employeeId(1).employeeUsername("jinsa").build();
+    Employee employee = Employee
+      .builder()
+      .employeeId(1)
+      .employeeUsername("jinsa")
+      .build();
     session.setAttribute("empSessionUser", new EmpSessionUser(employee));
 
-    Company company = Company.builder().companyId(1).companyUsername("samsungman1234").build();
+    Company company = Company
+      .builder()
+      .companyId(1)
+      .companyUsername("samsungman1234")
+      .build();
     session.setAttribute("companySessionUser", new CompanySessionUser(company));
   }
 
@@ -76,14 +84,18 @@ public class CompanyApiControllerTest {
     String body = om.writeValueAsString(introSaveReqDto);
 
     // when
-    ResultActions resultActions = mvc
-        .perform(post("/cs/co/intro/insert").content(body)
-            .contentType(APPLICATION_JSON)
-            .accept(APPLICATION_JSON));
+    ResultActions resultActions = mvc.perform(
+      post("/cs/co/intro/insert")
+        .content(body)
+        .contentType(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+    );
     // then
 
     MvcResult mvcResult = resultActions.andReturn();
-    System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
     resultActions.andExpect(jsonPath("$.code").value(1));
   }
 
@@ -93,11 +105,14 @@ public class CompanyApiControllerTest {
     // given
     Integer companyId = 1;
     // when
-    ResultActions resultActions = mvc
-        .perform(get("/cs/co/companyIntroDetail/" + companyId).accept(APPLICATION_JSON));
+    ResultActions resultActions = mvc.perform(
+      get("/cs/co/intro/detail/" + companyId).accept(APPLICATION_JSON)
+    );
     // then
     MvcResult mvcResult = resultActions.andReturn();
-    System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.data.companyId").value(1));
   }
@@ -106,7 +121,9 @@ public class CompanyApiControllerTest {
   @Test
   public void updateIntro_test() throws Exception {
     // given
-    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute(
+      "companySessionUser"
+    );
     Integer introId = 1;
     Intro introPS = introDao.findByIntroId(introId);
     IntroUpdateReqDto introUpdateReqDto = new IntroUpdateReqDto();
@@ -119,15 +136,19 @@ public class CompanyApiControllerTest {
     String body = om.writeValueAsString(introUpdateReqDto);
 
     // when
-    ResultActions resultActions = mvc
-        .perform(put("/cs/co/intro/update/" + introId).content(body)
-            .contentType(APPLICATION_JSON)
-            .accept(APPLICATION_JSON)
-            .session(session));
+    ResultActions resultActions = mvc.perform(
+      put("/cs/co/intro/update/" + introId)
+        .content(body)
+        .contentType(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
     // then
 
     MvcResult mvcResult = resultActions.andReturn();
-    System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
     resultActions.andExpect(jsonPath("$.code").value(1));
   }
 
@@ -162,24 +183,33 @@ public class CompanyApiControllerTest {
   public void findByCompanyIdToCompanyDetail_test() throws Exception {
     // givenc:\Users\GGG\AppData\Local\Programs\Microsoft VS
     // Code\resources\app\out\vs\code\electron-sandbox\workbench\workbench.html
-    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute(
+      "companySessionUser"
+    );
     // when
-    ResultActions resultActions = mvc
-        .perform(get("/cs/co/company/detail/" + companySessionUser.getCompanyId())
-            .accept(APPLICATION_JSON)
-            .session(session));
+    ResultActions resultActions = mvc.perform(
+      get("/cs/co/company/detail/" + companySessionUser.getCompanyId())
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
     // then
     MvcResult mvcResult = resultActions.andReturn();
-    System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
     resultActions.andExpect(status().isOk());
-    resultActions.andExpect(jsonPath("$.data.companyUsername").value("samsungman1234"));
+    resultActions.andExpect(
+      jsonPath("$.data.companyUsername").value("samsungman1234")
+    );
   }
 
   // 기업 수정
   @Test
   public void updateCompany_test() throws Exception {
     // given
-    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute(
+      "companySessionUser"
+    );
     CompanyUpdateReqDto companyUpdateReqDto = new CompanyUpdateReqDto();
     List<Integer> jobIds = new ArrayList<>();
     jobIds.add(1);
@@ -196,15 +226,19 @@ public class CompanyApiControllerTest {
     String body = om.writeValueAsString(companyUpdateReqDto);
 
     // when
-    ResultActions resultActions = mvc
-        .perform(put("/cs/co/company/update/" + companySessionUser.getCompanyId()).content(body)
-            .contentType(APPLICATION_JSON)
-            .accept(APPLICATION_JSON)
-            .session(session));
+    ResultActions resultActions = mvc.perform(
+      put("/cs/co/company/update/" + companySessionUser.getCompanyId())
+        .content(body)
+        .contentType(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
     // then
 
     MvcResult mvcResult = resultActions.andReturn();
-    System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
     resultActions.andExpect(jsonPath("$.code").value(1));
   }
 
@@ -212,20 +246,24 @@ public class CompanyApiControllerTest {
   @Test
   public void deleteById_test() throws Exception {
     // given
-    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute("companySessionUser");
+    CompanySessionUser companySessionUser = (CompanySessionUser) session.getAttribute(
+      "companySessionUser"
+    );
 
     // when
-    ResultActions resultActions = mvc
-        .perform(delete("/cs/co/company/delete/" + companySessionUser.getCompanyId())
-            .accept(APPLICATION_JSON)
-            .session(session));
+    ResultActions resultActions = mvc.perform(
+      delete("/cs/co/company/delete/" + companySessionUser.getCompanyId())
+        .accept(APPLICATION_JSON)
+        .session(session)
+    );
 
     // then
     MvcResult mvcResult = resultActions.andReturn();
-    System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.code").value(1));
-
   }
 
   // 로그아웃
@@ -234,14 +272,15 @@ public class CompanyApiControllerTest {
     // given
 
     // when
-    ResultActions resultActions = mvc
-        .perform(get("/co/logout")
-            .accept(APPLICATION_JSON));
+    ResultActions resultActions = mvc.perform(
+      get("/co/logout").accept(APPLICATION_JSON)
+    );
 
     // then
     MvcResult mvcResult = resultActions.andReturn();
-    System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+    System.out.println(
+      "디버그 : " + mvcResult.getResponse().getContentAsString()
+    );
     resultActions.andExpect(jsonPath("$.code").value(1));
   }
-
 }
