@@ -1,3 +1,30 @@
+# 프로젝트 4조 이력관리 사이트 Resp Api 서버구축
+
+### 1. 프로젝트 기간
+```
+2022.10.26 ~ 2022.11.07
+```
+
+### 2. 사용언어 및 개발환경
+
+- ![VS Code Insiders](https://img.shields.io/badge/VS%20Code%20Insiders-35b393.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) 
+- ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) 	![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
+- ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) 	![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) 	![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white) 
+-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) 
+
+### 3. 프로젝트 목표
+```
+- 기존의 프로젝트 4조 이력관리 사이트를 Rest Api 서버를 구축하는 것을 목표
+- 서버 구축 후 AWS를 통해 무중단배포(블루그린)하는 것을 목표
+- Junit 테스트를 통해 설계한 코드를 간단하게 테스트해볼 수 있음
+- 컨트롤러, 서비스, Dto 등 무분별하게 사용하던 코드들을 컨밴션에 맞춰서 사용하기로 함
+  (Dto의 경우 내부클래스 사용, 컨트롤러/서비스의 경우 어디서 권한처리, 트랜잭션 관리를 할 것인지)
+```
+
+### 4. 프로젝트 시연영상
+https://www.notion.so/getinthere/202a0709742c454da337234902cc09ee
+
+
 # 이력관리 프로그램
 
 ### 사용DB 변경 후 권한부여
